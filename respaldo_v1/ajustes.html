@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dosis Vital - Ajustes</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#137fec" },
+                    fontFamily: { "display": ["Lexend", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            min-height: 100dvh;
+        }
+    </style>
+</head>
+
+<body class="bg-[#f6f7f8] dark:bg-[#101922] text-[#111418] dark:text-white">
+    <div class="max-w-md mx-auto min-h-screen flex flex-col bg-white dark:bg-[#101922] shadow-2xl pb-24">
+
+        <header class="p-6">
+            <h1 class="text-3xl font-black italic tracking-tighter">PERFIL</h1>
+        </header>
+
+        <main class="p-4 space-y-6">
+            <!-- Main Profile Card -->
+            <div
+                class="bg-gray-50 dark:bg-gray-900 p-6 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 flex items-center gap-6">
+                <img id="adj-profile-img" src="" class="size-24 rounded-full border-4 border-primary object-cover">
+                <div>
+                    <h2 id="adj-profile-name" class="text-2xl font-black">Juan</h2>
+                    <p class="text-xs text-primary font-bold">PACIENTE ACTIVO</p>
+                    <button class="mt-2 text-xs font-bold text-gray-500 underline">Editar Datos</button>
+                </div>
+            </div>
+
+            <!-- Settings List -->
+            <div class="space-y-2">
+                <button
+                    class="w-full flex items-center justify-between p-5 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800">
+                    <div class="flex items-center gap-4">
+                        <span class="material-symbols-outlined text-primary">notifications_active</span>
+                        <span class="font-bold">Recordatorios de Toma</span>
+                    </div>
+                    <span class="material-symbols-outlined text-gray-400">chevron_right</span>
+                </button>
+                <button
+                    class="w-full flex items-center justify-between p-5 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800">
+                    <div class="flex items-center gap-4">
+                        <span class="material-symbols-outlined text-primary">diversity_1</span>
+                        <span class="font-bold">Gestionar Perfiles (Multi)</span>
+                    </div>
+                    <span class="material-symbols-outlined text-gray-400">chevron_right</span>
+                </button>
+                <button
+                    class="w-full flex items-center justify-between p-5 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800">
+                    <div class="flex items-center gap-4">
+                        <span class="material-symbols-outlined text-primary">cloud_sync</span>
+                        <span class="font-bold">Sincronización en Nube</span>
+                    </div>
+                    <span class="material-symbols-outlined text-gray-400">chevron_right</span>
+                </button>
+                <button
+                    class="w-full flex items-center justify-between p-5 rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800">
+                    <div class="flex items-center gap-4">
+                        <span class="material-symbols-outlined text-primary">verified_user</span>
+                        <span class="font-bold">Privacidad y Seguridad</span>
+                    </div>
+                    <span class="material-symbols-outlined text-gray-400">chevron_right</span>
+                </button>
+            </div>
+
+            <!-- Version Info -->
+            <div class="text-center py-6">
+                <p class="text-[10px] font-black uppercase text-gray-300">Dosis Vital v1.0.4 PRO-BUILD</p>
+            </div>
+        </main>
+
+        <!-- Navigation -->
+        <nav
+            class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 dark:bg-background-dark/95 backdrop-blur-xl border-t border-gray-100 dark:border-gray-800 flex justify-around p-4 pb-8 z-50">
+            <button onclick="window.location.href='index.html'" class="flex flex-col items-center gap-1 text-gray-400">
+                <span class="material-symbols-outlined">home</span>
+                <span class="text-[10px] font-bold uppercase">Inicio</span>
+            </button>
+            <button onclick="window.location.href='historial.html'"
+                class="flex flex-col items-center gap-1 text-gray-400">
+                <span class="material-symbols-outlined">calendar_month</span>
+                <span class="text-[10px] font-bold uppercase">Historial</span>
+            </button>
+            <button onclick="window.location.href='graficos.html'"
+                class="flex flex-col items-center gap-1 text-gray-400">
+                <span class="material-symbols-outlined">insights</span>
+                <span class="text-[10px] font-bold uppercase">Tendencias</span>
+            </button>
+            <button onclick="window.location.href='ajustes.html'" class="flex flex-col items-center gap-1 text-primary">
+                <span class="material-symbols-outlined">person</span>
+                <span class="text-[10px] font-bold uppercase">Perfil</span>
+            </button>
+        </nav>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const profile = DosisVital.getActiveProfile();
+            document.getElementById('adj-profile-name').innerText = profile.name;
+            document.getElementById('adj-profile-img').src = profile.avatar;
+        });
+    </script>
+</body>
+
+</html>

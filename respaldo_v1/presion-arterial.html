@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dosis Vital - Presión Arterial</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: { "display": ["Lexend", "sans-serif"] },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 100dvh;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .input-focus-ring:focus-within {
+            border-color: #137fec;
+            box-shadow: 0 0 0 4px rgba(19, 127, 236, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white">
+    <div
+        class="relative flex h-full min-h-screen w-full flex-col max-w-[480px] mx-auto bg-white dark:bg-background-dark shadow-xl pb-32">
+        <!-- TopAppBar -->
+        <header
+            class="flex items-center bg-white dark:bg-background-dark p-4 pb-2 justify-between sticky top-0 z-10 border-b border-gray-100 dark:border-gray-800">
+            <button onclick="window.location.href='index.html'"
+                class="flex size-12 items-center justify-center rounded-full active:bg-gray-100 dark:active:bg-white/10">
+                <span class="material-symbols-outlined text-3xl">chevron_left</span>
+            </button>
+            <h2 class="text-xl font-bold tracking-tight flex-1 text-center pr-12">Añadir Medida</h2>
+        </header>
+
+        <main class="flex flex-col flex-1 overflow-y-auto p-6">
+            <div class="mb-6">
+                <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">Registro para: <span
+                        class="text-primary font-bold">Hoy, 10:30 AM</span></p>
+                <h3 class="text-3xl font-extrabold mt-1">Presión Arterial</h3>
+            </div>
+
+            <!-- Visual Status -->
+            <div
+                class="bg-primary/10 dark:bg-primary/20 border-2 border-primary/30 rounded-3xl p-6 mb-8 flex items-center gap-4">
+                <div class="bg-primary text-white p-3 rounded-2xl">
+                    <span class="material-symbols-outlined text-2xl">check_circle</span>
+                </div>
+                <div>
+                    <p class="text-primary font-bold text-lg leading-none">Estado Normal</p>
+                    <p class="text-primary/70 text-sm mt-1">Tus medidas están en el rango saludable.</p>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="space-y-6">
+                <div class="flex flex-col gap-2">
+                    <label class="px-2 text-lg font-bold">Sistólica (Alta)</label>
+                    <div
+                        class="flex items-stretch rounded-2xl border-2 border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 input-focus-ring transition-all">
+                        <input id="systolic"
+                            class="flex-1 bg-transparent border-none h-20 text-4xl font-black px-6 focus:ring-0"
+                            placeholder="120" type="number" inputmode="numeric" />
+                        <div class="flex items-center pr-6 text-gray-400 font-bold">mmHg</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label class="px-2 text-lg font-bold">Diastólica (Baja)</label>
+                    <div
+                        class="flex items-stretch rounded-2xl border-2 border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 input-focus-ring transition-all">
+                        <input id="diastolic"
+                            class="flex-1 bg-transparent border-none h-20 text-4xl font-black px-6 focus:ring-0"
+                            placeholder="80" type="number" inputmode="numeric" />
+                        <div class="flex items-center pr-6 text-gray-400 font-bold">mmHg</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label class="px-2 text-lg font-bold">Pulso</label>
+                    <div
+                        class="flex items-stretch rounded-2xl border-2 border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 input-focus-ring transition-all">
+                        <div class="flex items-center pl-6 text-primary">
+                            <span class="material-symbols-outlined text-3xl">favorite</span>
+                        </div>
+                        <input id="pulse"
+                            class="flex-1 bg-transparent border-none h-20 text-4xl font-black px-4 focus:ring-0"
+                            placeholder="72" type="number" inputmode="numeric" />
+                        <div class="flex items-center pr-6 text-gray-400 font-bold">BPM</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 opacity-60 flex gap-2 items-start">
+                <span class="material-symbols-outlined !text-xl">info</span>
+                <p class="text-xs">Nota: Esta app es informativa y no sustituye el consejo médico profesional.</p>
+            </div>
+        </main>
+
+        <!-- Fixed Button -->
+        <footer
+            class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto p-6 bg-white/80 dark:bg-background-dark/80 backdrop-blur-lg">
+            <button onclick="save()"
+                class="w-full h-20 bg-primary text-white text-2xl font-black rounded-full shadow-xl shadow-primary/20 active:scale-95 transition-all uppercase tracking-widest">
+                Guardar
+            </button>
+        </footer>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>
+        function save() {
+            const sys = document.getElementById('systolic').value;
+            const dia = document.getElementById('diastolic').value;
+            const pulse = document.getElementById('pulse').value;
+
+            if (!sys || !dia || !pulse) {
+                DosisVital.showToast("⚠️ Completa los campos");
+                return;
+            }
+
+            DosisVital.saveReading('pressure', { systolic: sys, diastolic: dia, pulse: pulse });
+        }
+    </script>
+</body>
+
+</html>

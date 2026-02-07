@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Registro Vital - Escala de Bristol</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .bristol-radio:checked+.card-content {
+            border-color: #137fec;
+            background-color: rgba(19, 127, 236, 0.05);
+        }
+
+        body {
+            font-family: 'Lexend', sans-serif;
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col">
+    <!-- TopAppBar -->
+    <header class="sticky top-0 z-10 bg-white dark:bg-background-dark border-b border-gray-100 dark:border-gray-800">
+        <div class="flex items-center p-4 justify-between max-w-xl mx-auto w-full">
+            <div onclick="window.location.href='index.html'"
+                class="text-[#111418] dark:text-white flex size-12 shrink-0 items-center justify-center cursor-pointer">
+                <span class="material-symbols-outlined text-3xl">arrow_back</span>
+            </div>
+            <h2
+                class="text-[#111418] dark:text-white text-xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">
+                Salud Intestinal</h2>
+        </div>
+    </header>
+    <main class="flex-1 max-w-xl mx-auto w-full pb-32">
+        <!-- HeadlineText -->
+        <div class="px-4 pt-8 pb-2">
+            <h3 class="text-[#111418] dark:text-white tracking-tight text-3xl font-bold leading-tight text-center">
+                Registro Vital</h3>
+        </div>
+        <!-- BodyText -->
+        <div class="px-6 pb-6 pt-1">
+            <p class="text-[#4b5563] dark:text-gray-400 text-lg font-normal leading-normal text-center">Seleccione el
+                tipo que mejor describa su deposición de hoy según la Escala de Bristol.</p>
+        </div>
+        <!-- Bristol Scale List -->
+        <div class="flex flex-col gap-4 px-4">
+            <!-- Type 1 -->
+            <label class="relative cursor-pointer">
+                <input checked="" class="peer sr-only bristol-radio" name="bristol_type" type="radio" />
+                <div
+                    class="card-content flex items-center gap-4 rounded-xl border-2 border-solid border-gray-200 dark:border-gray-800 p-5 bg-white dark:bg-gray-900 transition-all peer-checked:border-primary peer-checked:bg-primary/5">
+                    <div
+                        class="flex size-14 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-primary font-bold text-2xl">
+                        1</div>
+                    <div class="flex grow flex-col">
+                        <p class="text-[#111418] dark:text-white text-lg font-bold">Tipo 1: Terrones duros</p>
+                        <p class="text-[#617589] dark:text-gray-400 text-base font-normal">Como nueces, difíciles de
+                            pasar.</p>
+                    </div>
+                </div>
+            </label>
+            <!-- Type 4 -->
+            <label class="relative cursor-pointer">
+                <input class="peer sr-only bristol-radio" name="bristol_type" type="radio" />
+                <div
+                    class="card-content flex items-center gap-4 rounded-xl border-2 border-solid border-gray-200 dark:border-gray-800 p-5 bg-white dark:bg-gray-900 transition-all peer-checked:border-primary peer-checked:bg-primary/5">
+                    <div
+                        class="flex size-14 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-primary font-bold text-2xl">
+                        4</div>
+                    <div class="flex grow flex-col">
+                        <p class="text-[#111418] dark:text-white text-lg font-bold">Tipo 4: Lisa y blanda</p>
+                        <p class="text-[#617589] dark:text-gray-400 text-base font-normal">Forma de serpiente, fácil de
+                            pasar.</p>
+                    </div>
+                </div>
+            </label>
+            <!-- Type 7 -->
+            <label class="relative cursor-pointer">
+                <input class="peer sr-only bristol-radio" name="bristol_type" type="radio" />
+                <div
+                    class="card-content flex items-center gap-4 rounded-xl border-2 border-solid border-gray-200 dark:border-gray-800 p-5 bg-white dark:bg-gray-900 transition-all peer-checked:border-primary peer-checked:bg-primary/5">
+                    <div
+                        class="flex size-14 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-primary font-bold text-2xl">
+                        7</div>
+                    <div class="flex grow flex-col">
+                        <p class="text-[#111418] dark:text-white text-lg font-bold">Tipo 7: Acuosa</p>
+                        <p class="text-[#617589] dark:text-gray-400 text-base font-normal">Totalmente líquida, sin
+                            piezas sólidas.</p>
+                    </div>
+                </div>
+            </label>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-t border-gray-100 dark:border-gray-800 px-4 py-6 z-20">
+        <div class="max-w-xl mx-auto">
+            <button onclick="window.location.href='index.html'"
+                class="flex min-w-[84px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-16 px-5 bg-primary text-white text-xl font-bold leading-normal tracking-[0.015em] shadow-lg active:scale-95 transition-transform">
+                <span class="truncate">Confirmar Registro</span>
+            </button>
+        </div>
+    </footer>
+</body>
+
+</html>

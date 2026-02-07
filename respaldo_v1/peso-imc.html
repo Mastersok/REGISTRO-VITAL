@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dosis Vital - Peso e IMC</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#43a047",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#112116",
+                    },
+                    fontFamily: { "display": ["Lexend", "sans-serif"] },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Lexend', sans-serif;
+            min-height: 100dvh;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-[#111813] dark:text-white">
+    <div
+        class="relative flex h-full min-h-screen w-full max-w-[480px] mx-auto flex-col bg-white dark:bg-background-dark shadow-xl pb-32">
+
+        <header class="flex items-center p-6 border-b border-gray-100 dark:border-gray-800">
+            <button onclick="window.location.href='index.html'"
+                class="size-12 flex items-center justify-center rounded-full active:bg-gray-100">
+                <span class="material-symbols-outlined text-3xl text-primary">arrow_back</span>
+            </button>
+            <h2 class="text-2xl font-black flex-1 text-center pr-12 text-primary">Peso e IMC</h2>
+        </header>
+
+        <main class="p-6 space-y-8">
+            <div class="grid grid-cols-1 gap-6">
+                <div class="flex flex-col gap-3">
+                    <p class="text-lg font-bold px-2">Peso actual (kg)</p>
+                    <div
+                        class="flex items-stretch rounded-3xl border-4 border-primary/10 focus-within:border-primary transition-all overflow-hidden">
+                        <input id="weight-val" value="72.5"
+                            class="flex-1 bg-transparent border-none h-20 text-4xl font-black px-6 focus:ring-0"
+                            placeholder="0.0" type="number" inputmode="decimal" oninput="calcBMI()" />
+                        <div class="flex items-center pr-6 bg-white dark:bg-gray-900">
+                            <span class="material-symbols-outlined text-3xl text-primary">scale</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <p class="text-lg font-bold px-2">Estatura (cm)</p>
+                    <div
+                        class="flex items-stretch rounded-3xl border-4 border-primary/10 focus-within:border-primary transition-all overflow-hidden">
+                        <input id="height-val" value="178"
+                            class="flex-1 bg-transparent border-none h-20 text-4xl font-black px-6 focus:ring-0"
+                            placeholder="0" type="number" inputmode="numeric" oninput="calcBMI()" />
+                        <div class="flex items-center pr-6 bg-white dark:bg-gray-900">
+                            <span class="material-symbols-outlined text-3xl text-primary">straighten</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BMI Result -->
+            <div class="bg-gray-50 dark:bg-gray-900 rounded-[2.5rem] p-8 text-center border-2 border-primary/5">
+                <p class="text-sm font-bold uppercase tracking-widest text-primary mb-2">Tu IMC Resultante</p>
+                <h3 id="bmi-val" class="text-7xl font-black text-primary">22.9</h3>
+                <div id="bmi-badge"
+                    class="inline-flex items-center gap-2 mt-6 px-6 py-2 rounded-full bg-primary text-white font-bold text-lg">
+                    <span class="material-symbols-outlined !fill-white">check_circle</span>
+                    <span id="bmi-status">Peso Normal</span>
+                </div>
+            </div>
+        </main>
+
+        <footer
+            class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto p-6 bg-white/80 dark:bg-background-dark/80 backdrop-blur-xl">
+            <button onclick="save()"
+                class="w-full h-20 bg-primary text-white text-2xl font-black rounded-full shadow-2xl shadow-primary/30 active:scale-95 transition-all">
+                Guardar
+            </button>
+        </footer>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>
+        function calcBMI() {
+            const w = document.getElementById('weight-val').value;
+            const h = document.getElementById('height-val').value / 100;
+            if (w && h > 0) {
+                const bmi = (w / (h * h)).toFixed(1);
+                document.getElementById('bmi-val').innerText = bmi;
+
+                let status = "Peso Normal";
+                if (bmi < 18.5) status = "Bajo Peso";
+                else if (bmi >= 25 && bmi < 30) status = "Sobrepeso";
+                else if (bmi >= 30) status = "Obesidad";
+
+                document.getElementById('bmi-status').innerText = status;
+            }
+        }
+
+        function save() {
+            const weight = document.getElementById('weight-val').value;
+            const height = document.getElementById('height-val').value;
+            const bmi = document.getElementById('bmi-val').innerText;
+
+            if (!weight || !height) {
+                DosisVital.showToast("⚠️ Ingresa los datos");
+                return;
+            }
+
+            DosisVital.saveReading('weight', { weight, height, bmi });
+        }
+
+        // Initial call
+        calcBMI();
+    </script>
+</body>
+
+</html>

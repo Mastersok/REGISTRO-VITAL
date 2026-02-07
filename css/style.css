@@ -1,0 +1,106 @@
+:root {
+    --primary: #137fec;
+    --primary-dark: #0d63ba;
+    --background: #f6f7f8;
+    --surface: #ffffff;
+    --text-main: #111418;
+    --text-muted: #6b7280;
+
+    /* Semantic Colors */
+    --status-normal: #34c759;
+    --status-caution: #ffcc00;
+    --status-alert: #ff3b30;
+
+    /* Modules */
+    --color-pressure: #e53935;
+    --color-glucose: #fb8c00;
+    --color-oxygen: #039be5;
+    --color-weight: #43a047;
+}
+
+[data-theme="dark"] {
+    --background: #0f172a;
+    /* Slate 900: Fondo profundo y elegante */
+    --surface: #1e293b;
+    /* Slate 800: Superficie elevada para tarjetas */
+    --text-main: #f8fafc;
+    /* Slate 50: Blanco suave para lectura clara */
+    --text-muted: #94a3b8;
+    /* Slate 400: Gris medio para info secundaria */
+}
+
+body {
+    font-family: 'Lexend', sans-serif;
+    background-color: var(--background);
+    color: var(--text-main);
+    transition: background-color 0.3s ease;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Accessibility: Large hit areas for seniors */
+button,
+.clickable {
+    min-height: 60px;
+    min-width: 60px;
+    cursor: pointer;
+    transition: transform 0.1s active;
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+/* Premium Visuals */
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] .glass {
+    background: rgba(26, 36, 45, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.shadow-premium {
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom Scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Animations */
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-up {
+    animation: slideUp 0.4s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.tabular-nums {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.05em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    display: block;
+}
