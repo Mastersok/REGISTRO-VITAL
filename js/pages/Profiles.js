@@ -64,10 +64,17 @@ window.Pages.ProfilesView = (router) => {
                 <div class="pt-8 border-t border-gray-200 dark:border-slate-800 space-y-6">
                     <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Añadir Nuevo Paciente</p>
                     <div class="bg-white dark:bg-slate-800 p-6 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 space-y-6">
-                        <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Nombre Completo</label>
-                            <input type="text" id="new-profile-name" placeholder="Ej: María García"
-                                class="w-full h-16 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-2xl px-6 text-xl font-black text-gray-800 dark:text-slate-50 focus:border-primary outline-none transition-all">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-4">
+                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Nombre Completo</label>
+                                <input type="text" id="new-profile-name" placeholder="Ej: María García"
+                                    class="w-full h-16 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-2xl px-6 text-xl font-black text-gray-800 dark:text-slate-50 focus:border-primary outline-none transition-all">
+                            </div>
+                            <div class="space-y-4">
+                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Altura (m)</label>
+                                <input type="number" id="new-profile-height" placeholder="1.70" step="0.01"
+                                    class="w-full h-16 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-2xl px-6 text-xl font-black text-gray-800 dark:text-slate-50 focus:border-primary outline-none transition-all">
+                            </div>
                         </div>
 
                         <div class="space-y-4">
@@ -119,14 +126,19 @@ window.Pages.ProfilesView = (router) => {
 
         el.querySelector('#btn-add-profile').onclick = () => {
             const nameInput = el.querySelector('#new-profile-name');
+            const heightInput = el.querySelector('#new-profile-height');
             const name = nameInput.value.trim();
+            const height = parseFloat(heightInput.value);
+
             if (!name) { router.showToast('Ingresa un nombre'); return; }
+            if (!height || height < 0.5 || height > 2.5) { router.showToast('Altura no válida (0.5m - 2.5m)'); return; }
 
             const color = window.selectedNewColorHex || medicalColors[0].hex;
-            window.DosisStore.addProfile(name, color);
+            window.DosisStore.addProfile(name, color, height);
 
             router.showToast(`Perfil de ${name} creado`);
             nameInput.value = '';
+            heightInput.value = '';
             render();
         };
     };
@@ -149,17 +161,18 @@ window.Pages.ProfilesView = (router) => {
     window.selectedNewColorHex = medicalColors[0].hex;
     window.selectNewColor = (hex) => {
         const nameInput = el.querySelector('#new-profile-name');
-        if (nameInput) {
-            window.tempNewProfileName = nameInput.value;
-        }
+        const heightInput = el.querySelector('#new-profile-height');
+        if (nameInput) window.tempNewProfileName = nameInput.value;
+        if (heightInput) window.tempNewProfileHeight = heightInput.value;
+
         window.selectedNewColorHex = hex;
         render();
 
-        // Restore name after render
+        // Restore values after render
         const newNameInput = el.querySelector('#new-profile-name');
-        if (newNameInput && window.tempNewProfileName) {
-            newNameInput.value = window.tempNewProfileName;
-        }
+        const newHeightInput = el.querySelector('#new-profile-height');
+        if (newNameInput && window.tempNewProfileName) newNameInput.value = window.tempNewProfileName;
+        if (newHeightInput && window.tempNewProfileHeight) newHeightInput.value = window.tempNewProfileHeight;
     };
 
     render();

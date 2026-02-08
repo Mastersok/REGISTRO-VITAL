@@ -25,6 +25,11 @@ window.Pages.WeightForm = (router) => {
                 <p class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-slate-500 text-center">Peso Actual (kg)</p>
                 <input type="number" id="weight" step="0.1" placeholder="70.5" value="${existingReading ? existingReading.values.weight : ''}"
                     class="w-full h-32 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl text-center text-6xl font-black text-gray-800 dark:text-slate-50 focus:border-green-500 outline-none transition-all tabular-nums">
+                
+                <div class="flex items-center justify-center gap-2 mt-2">
+                    <p class="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase">Altura actual: <span id="current-height-display">0.00</span>m</p>
+                    <button id="btn-edit-height" class="text-[10px] font-black text-primary uppercase underline underline-offset-2">Cambiar</button>
+                </div>
             </div>
 
             <div id="imc-display" class="hidden animate-up">
@@ -56,8 +61,12 @@ window.Pages.WeightForm = (router) => {
 
     const updateIMC = () => {
         const weight = parseFloat(weightInput.value);
+        const profile = window.DosisStore.getActiveProfile();
+        const height = profile.height || 1.70;
+
+        el.querySelector('#current-height-display').innerText = height.toFixed(2);
+
         if (weight > 20) {
-            const height = 1.70; // Hardcoded for POC
             const imc = (weight / (height * height)).toFixed(1);
             imcValEl.innerText = imc;
             imcDisplay.classList.remove('hidden');
@@ -73,12 +82,16 @@ window.Pages.WeightForm = (router) => {
         window.editingReadingId = null;
         router.navigateTo(editingId ? 'history' : 'dashboard');
     };
+    el.querySelector('#btn-edit-height').onclick = (e) => {
+        e.preventDefault();
+        router.navigateTo('profile');
+    };
     el.querySelector('#btn-save').onclick = () => {
         const weight = parseFloat(weightInput.value);
         const notes = el.querySelector('#notes').value.trim();
         if (!weight) { router.showToast('Ingresa tu peso'); return; }
 
-        const height = 1.70;
+        const height = window.DosisStore.getActiveProfile().height || 1.70;
         const imc = (weight / (height * height)).toFixed(2);
 
         if (editingId) {

@@ -27,7 +27,7 @@ class Store {
         }
         if (!localStorage.getItem(this.profilesKey)) {
             const defaultProfiles = [
-                { id: 'p1', name: 'Usuario', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Usuario&backgroundColor=0ea5e9&fontWeight=800', color: '#0ea5e9' }
+                { id: 'p1', name: 'Usuario', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Usuario&backgroundColor=0ea5e9&fontWeight=800', color: '#0ea5e9', height: 1.70 }
             ];
             localStorage.setItem(this.profilesKey, JSON.stringify(defaultProfiles));
         }
@@ -127,10 +127,10 @@ class Store {
         }
     }
 
-    addProfile(name, color = '#0ea5e9') {
+    addProfile(name, color = '#0ea5e9', height = 1.70) {
         const id = 'p' + Date.now();
         const avatar = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=${color.replace('#', '')}&fontWeight=800&chars=2`;
-        const newProfile = { id, name, avatar, color };
+        const newProfile = { id, name, avatar, color, height: parseFloat(height) || 1.70 };
 
         this.state.profiles.push(newProfile);
         localStorage.setItem(this.profilesKey, JSON.stringify(this.state.profiles));

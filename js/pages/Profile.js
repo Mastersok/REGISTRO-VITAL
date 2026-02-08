@@ -47,10 +47,17 @@ window.Pages.ProfileView = (router) => {
 
                 <!-- Form Section -->
                 <div class="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 space-y-6">
-                    <div class="space-y-4">
-                        <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Nombre del Paciente</label>
-                        <input type="text" id="profile-name" value="${profile.name}" placeholder="Ej: Juan Pérez"
-                            class="w-full h-16 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-2xl px-6 text-xl font-black text-gray-800 dark:text-slate-50 focus:border-primary outline-none transition-all">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-4">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Nombre del Paciente</label>
+                            <input type="text" id="profile-name" value="${profile.name}" placeholder="Ej: Juan Pérez"
+                                class="w-full h-16 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-2xl px-6 text-xl font-black text-gray-800 dark:text-slate-50 focus:border-primary outline-none transition-all">
+                        </div>
+                        <div class="space-y-4">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Altura (m)</label>
+                            <input type="number" id="profile-height" value="${profile.height || '1.70'}" step="0.01" placeholder="1.70"
+                                class="w-full h-16 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-2xl px-6 text-xl font-black text-gray-800 dark:text-slate-50 focus:border-primary outline-none transition-all">
+                        </div>
                     </div>
 
                     <div class="p-5 bg-gray-50 dark:bg-slate-900/50 rounded-2xl border border-gray-100 dark:border-slate-700 flex items-start gap-4">
@@ -123,12 +130,19 @@ window.Pages.ProfileView = (router) => {
 
         el.querySelector('#btn-save-profile').onclick = () => {
             const newName = nameInput.value.trim();
+            const newHeight = parseFloat(el.querySelector('#profile-height').value);
+
             if (!newName) { router.showToast('Ingresa un nombre'); return; }
+            if (!newHeight || newHeight < 0.5 || newHeight > 2.5) { router.showToast('Altura no válida (0.5m - 2.5m)'); return; }
 
             // Generate final avatar for this name
             profile.avatar = getProfessionalAvatar(newName, colorIndex);
 
-            window.DosisStore.updateProfile({ name: newName, avatar: profile.avatar });
+            window.DosisStore.updateProfile({
+                name: newName,
+                avatar: profile.avatar,
+                height: newHeight
+            });
             router.showToast('Perfil actualizado correctamente');
             router.navigateTo('dashboard');
         };
