@@ -34,4 +34,4 @@ Estado actual del desarrollo de la versión 2.0. 😊
 - [ ] **Exportación de Datos**: Copias de seguridad en archivos JSON.
 - [ ] **Metas de Salud**: Establecer objetivos (ej: "Bajar a 75kg") y ver progreso.
 - [ ] **Recordatorios**: Alarmas locales para mediciones programadas.
-- [ ] **Multi-Paciente**: Soporte para gestionar varios perfiles desde un mismo dispositivo.
+- [x] **Multi-Paciente**: Soporte para gestionar varios perfiles desde un mismo dispositivo.

@@ -16,13 +16,16 @@ window.Pages.Dashboard = (router) => {
     el.innerHTML = `
         <!-- Header -->
         <header class="flex items-center justify-between mb-8">
-            <div class="flex items-center gap-4">
-                <div class="size-16 rounded-full border-4 border-primary p-1 shadow-premium">
+            <div id="btn-profiles" class="flex items-center gap-4 cursor-pointer active:scale-95 transition-all group">
+                <div class="size-16 rounded-full border-4 border-primary p-1 shadow-premium group-hover:border-blue-400 transition-colors">
                     <img src="${profile.avatar}" class="size-full rounded-full object-cover">
                 </div>
                 <div>
                     <h2 class="text-2xl font-black tracking-tight text-gray-900 dark:text-white transition-colors">Hola, ${profile.name}</h2>
-                    <p class="text-[10px] font-black text-primary uppercase tracking-widest">Paciente Activo</p>
+                    <p class="text-[10px] font-black text-primary uppercase tracking-widest flex items-center gap-1">
+                        Paciente Activo
+                        <span class="material-symbols-outlined !text-[12px]">swap_horiz</span>
+                    </p>
                 </div>
             </div>
             <button id="btn-theme" class="size-14 bg-white dark:bg-white/10 shadow-premium rounded-2xl flex items-center justify-center transition-all active:scale-90 border border-transparent dark:border-white/5">
@@ -145,6 +148,7 @@ window.Pages.Dashboard = (router) => {
         window.DosisStore.toggleTheme();
         router.navigateTo('dashboard');
     };
+    el.querySelector('#btn-profiles').onclick = () => router.navigateTo('profiles');
     el.querySelector('#btn-pressure').onclick = () => router.navigateTo('form-pressure');
     el.querySelector('#btn-glucose').onclick = () => router.navigateTo('form-glucose');
     el.querySelector('#btn-oxygen').onclick = () => router.navigateTo('form-oxygen');

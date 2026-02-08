@@ -115,6 +115,34 @@ class Store {
         }
     }
 
+    addProfile(name, color = '#0ea5e9') {
+        const id = 'p' + Date.now();
+        const avatar = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}&backgroundColor=${color.replace('#', '')}&fontWeight=800&chars=2`;
+        const newProfile = { id, name, avatar, color };
+
+        this.state.profiles.push(newProfile);
+        localStorage.setItem(this.profilesKey, JSON.stringify(this.state.profiles));
+        this.notify();
+        return newProfile;
+    }
+
+    deleteProfile(id) {
+        if (this.state.profiles.length <= 1) return; // Prevent deleting the last profile
+
+        this.state.profiles = this.state.profiles.filter(p => p.id !== id);
+
+        // If we deleted the active profile, switch to the first available one
+        if (this.state.activeProfileId === id) {
+            this.setActiveProfile(this.state.profiles[0].id);
+        }
+
+        // Optional: delete all readings associated with this profile? 
+        // For now, let's keep them in storage but they won't be accessible
+
+        localStorage.setItem(this.profilesKey, JSON.stringify(this.state.profiles));
+        this.notify();
+    }
+
     getReadings() {
         // Ensure state is loaded
         if (!this.state.readings) this.state.readings = JSON.parse(localStorage.getItem(this.storageKey)) || [];

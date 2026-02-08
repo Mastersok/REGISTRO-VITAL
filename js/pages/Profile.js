@@ -65,6 +65,11 @@ window.Pages.ProfileView = (router) => {
                         </div>
                     </div>
 
+                    <button id="btn-manage-profiles" class="w-full h-16 bg-gray-100 dark:bg-slate-900 text-gray-800 dark:text-slate-200 text-xs font-black rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-all border border-gray-200 dark:border-slate-700">
+                        <span class="material-symbols-outlined !text-xl">group</span>
+                        GESTIONAR PACIENTES
+                    </button>
+
                     <button id="btn-save-profile" class="w-full h-20 bg-primary text-white text-lg font-black rounded-full shadow-2xl shadow-primary/40 flex items-center justify-center gap-4 active:scale-95 transition-all mt-4">
                         <span class="material-symbols-outlined !text-2xl">save</span>
                         GUARDAR CAMBIOS
@@ -97,6 +102,7 @@ window.Pages.ProfileView = (router) => {
         el.querySelector('#nav-home').onclick = () => router.navigateTo('dashboard');
         el.querySelector('#nav-history').onclick = () => router.navigateTo('history');
         el.querySelector('#nav-trends').onclick = () => router.navigateTo('trends');
+        el.querySelector('#btn-manage-profiles').onclick = () => router.navigateTo('profiles');
 
         const nameInput = el.querySelector('#profile-name');
         const avatarPreview = el.querySelector('#profile-avatar-preview');
