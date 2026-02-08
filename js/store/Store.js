@@ -224,12 +224,13 @@ class Store {
             case 'pressure':
                 const sys = parseInt(values.systolic);
                 const dia = parseInt(values.diastolic);
-                if (sys >= 140 || dia >= 90) {
+
+                if (sys >= 140 || dia >= 90 || (sys > 0 && sys < 90) || (dia > 0 && dia < 60)) {
                     status = 'danger';
-                    message = 'Hipertensión';
-                } else if (sys >= 120 || dia >= 80) {
+                    message = (sys < 90 || dia < 60) ? 'Hipotensión' : 'Hipertensión';
+                } else if (sys >= 120 || dia >= 80 || (sys > 0 && sys < 100) || (dia > 0 && dia < 65)) {
                     status = 'warning';
-                    message = 'Elevada';
+                    message = (sys < 100 || dia < 65) ? 'Presión Baja' : 'Elevada';
                 } else {
                     status = 'normal';
                     message = 'Óptima';
@@ -241,23 +242,23 @@ class Store {
                 const isFasting = timing && (timing.toLowerCase().includes('ayunas') || timing.toLowerCase().includes('fasting'));
 
                 if (isFasting) {
-                    if (glu >= 126 || glu < 70) {
+                    if (glu >= 126 || (glu > 0 && glu < 70)) {
                         status = 'danger';
                         message = glu < 70 ? 'Hipoglicemia' : 'Diabetes';
-                    } else if (glu >= 100) {
+                    } else if (glu >= 100 || (glu > 0 && glu < 80)) {
                         status = 'warning';
-                        message = 'Prediabetes';
+                        message = glu < 80 ? 'Glucosa Baja' : 'Prediabetes';
                     } else {
                         status = 'normal';
                         message = 'Normal';
                     }
                 } else { // post-prandial
-                    if (glu >= 200 || glu < 70) {
+                    if (glu >= 200 || (glu > 0 && glu < 70)) {
                         status = 'danger';
                         message = glu < 70 ? 'Hipoglicemia' : 'Diabetes';
-                    } else if (glu >= 140) {
+                    } else if (glu >= 140 || (glu > 0 && glu < 90)) {
                         status = 'warning';
-                        message = 'Prediabetes';
+                        message = glu < 90 ? 'Glucosa Baja' : 'Prediabetes';
                     } else {
                         status = 'normal';
                         message = 'Normal';

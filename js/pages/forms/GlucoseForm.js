@@ -110,7 +110,7 @@ window.Pages.GlucoseForm = (router) => {
             } else {
                 badgeContainer.className = 'flex items-center gap-4 p-5 bg-orange-500/10 rounded-2xl';
                 badgeText.className = 'text-[11px] font-bold text-orange-700 dark:text-orange-300 uppercase leading-relaxed tracking-wide';
-                badgeText.innerText = timing === 'AYUNAS' ? 'Guía ADA: Normal 70 - 100 mg/dL' : 'Guía ADA: Normal < 140 mg/dL';
+                badgeText.innerText = timing === 'AYUNAS' ? 'Guía ADA: Normal 70 - 100 mg/dL' : 'Guía ADA: Normal 90 - 140 mg/dL';
             }
         };
 

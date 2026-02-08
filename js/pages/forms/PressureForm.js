@@ -91,7 +91,7 @@ window.Pages.PressureForm = (router) => {
         } else {
             badgeContainer.className = 'flex items-center gap-4 p-4 bg-red-500/10 rounded-2xl';
             badgeText.className = 'text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-widest';
-            badgeText.innerText = 'Guía OMS/ESC: Normal < 120/70';
+            badgeText.innerText = 'Guía OMS/ESC: Normal 90/60 a 120/70';
         }
     };
 
