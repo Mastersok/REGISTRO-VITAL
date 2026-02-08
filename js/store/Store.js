@@ -224,13 +224,40 @@ class Store {
             case 'pressure':
                 const sys = parseInt(values.systolic);
                 const dia = parseInt(values.diastolic);
+                const pulse = parseInt(values.pulse);
 
+                let bpStatus = 'normal';
+                let bpMsg = 'Óptima';
+
+                // Evaluate BP
                 if (sys >= 140 || dia >= 90 || (sys > 0 && sys < 90) || (dia > 0 && dia < 60)) {
-                    status = 'danger';
-                    message = (sys < 90 || dia < 60) ? 'Hipotensión' : 'Hipertensión';
+                    bpStatus = 'danger';
+                    bpMsg = (sys < 90 || dia < 60) ? 'Hipotensión' : 'Hipertensión';
                 } else if (sys >= 120 || dia >= 80 || (sys > 0 && sys < 100) || (dia > 0 && dia < 65)) {
+                    bpStatus = 'warning';
+                    bpMsg = (sys < 100 || dia < 65) ? 'Presión Baja' : 'Elevada';
+                }
+
+                // Evaluate Pulse (BPM)
+                let pulseStatus = 'normal';
+                let pulseMsg = 'Normal';
+                if (pulse > 0) {
+                    if (pulse > 120 || pulse < 50) {
+                        pulseStatus = 'danger';
+                        pulseMsg = pulse < 50 ? 'Bradicardia' : 'Taquicardia';
+                    } else if (pulse > 100 || pulse < 60) {
+                        pulseStatus = 'warning';
+                        pulseMsg = pulse < 60 ? 'Pulso Bajo' : 'Pulso Elevado';
+                    }
+                }
+
+                // Severity Priority
+                if (bpStatus === 'danger' || pulseStatus === 'danger') {
+                    status = 'danger';
+                    message = bpStatus === 'danger' ? bpMsg : pulseMsg;
+                } else if (bpStatus === 'warning' || pulseStatus === 'warning') {
                     status = 'warning';
-                    message = (sys < 100 || dia < 65) ? 'Presión Baja' : 'Elevada';
+                    message = bpStatus === 'warning' ? bpMsg : pulseMsg;
                 } else {
                     status = 'normal';
                     message = 'Óptima';
@@ -305,16 +332,30 @@ class Store {
 
             case 'pain':
                 const pain = parseInt(values.value);
-                if (pain >= 7) status = 'danger';
-                else if (pain >= 4) status = 'warning';
-                message = pain >= 7 ? 'Dolor Fuerte' : pain >= 4 ? 'Dolor Moderado' : 'Leve';
+                if (pain >= 7) {
+                    status = 'danger';
+                    message = 'Dolor Fuerte';
+                } else if (pain > 0) {
+                    status = 'warning';
+                    message = pain >= 4 ? 'Dolor Moderado' : 'Dolor Leve';
+                } else {
+                    status = 'normal';
+                    message = 'Sin Dolor';
+                }
                 break;
 
             case 'bristol':
                 const typeB = parseInt(values.value);
-                if (typeB === 1 || typeB === 2 || typeB === 7) status = 'danger';
-                else if (typeB === 3 || typeB === 6) status = 'warning';
-                message = (typeB >= 3 && typeB <= 5) ? 'Ideal' : 'Atención';
+                if (typeB === 1 || typeB === 2 || typeB === 7) {
+                    status = 'danger';
+                    message = 'Atención';
+                } else if (typeB === 6) {
+                    status = 'warning';
+                    message = 'Revisión';
+                } else {
+                    status = 'normal';
+                    message = 'Ideal';
+                }
                 break;
         }
 

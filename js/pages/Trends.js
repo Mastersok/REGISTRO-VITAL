@@ -41,6 +41,17 @@ window.Pages.TrendsView = (router) => {
                     <div class="relative h-64 w-full"><canvas id="chart-glucose"></canvas></div>
                 </div>
 
+                <!-- 3. Pulse Chart -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="size-10 bg-rose-500/10 rounded-xl flex items-center justify-center text-rose-500">
+                            <span class="material-symbols-outlined">ecg</span>
+                        </div>
+                        <h3 class="font-black text-gray-800 dark:text-slate-100">Frecuencia Cardiaca</h3>
+                    </div>
+                    <div class="relative h-64 w-full"><canvas id="chart-pulse"></canvas></div>
+                </div>
+
                 <!-- 3. Oxygen SpO2 -->
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700">
                     <div class="flex items-center gap-3 mb-6">
@@ -176,7 +187,10 @@ window.Pages.TrendsView = (router) => {
         // 2. Glucose
         drawChart('chart-glucose', readings.filter(r => r.type === 'glucose'), 'Glucosa', 'value', '#f97316');
 
-        // 3. Oxygen (SpO2)
+        // 3. Pulse
+        drawChart('chart-pulse', readings.filter(r => r.type === 'pressure'), 'Pulso', 'pulse', '#f43f5e');
+
+        // 4. Oxygen (SpO2)
         drawChart('chart-oxygen', readings.filter(r => r.type === 'oxygen_temp'), 'SpO2', 'spo2', '#3b82f6');
 
         // 4. Temp

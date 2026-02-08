@@ -61,6 +61,7 @@ window.Pages.PressureForm = (router) => {
     // Live Evaluation
     const sysInput = el.querySelector('#systolic');
     const diaInput = el.querySelector('#diastolic');
+    const pulseInput = el.querySelector('#pulse');
     const badgeContainer = el.querySelector('.p-4.bg-red-500\\/10');
     const badgeText = badgeContainer.querySelector('p');
     const badgeIcon = badgeContainer.querySelector('span');
@@ -68,9 +69,10 @@ window.Pages.PressureForm = (router) => {
     const updateEvaluation = () => {
         const sys = parseInt(sysInput.value);
         const dia = parseInt(diaInput.value);
+        const pulse = parseInt(pulseInput.value);
 
         if (sys && dia) {
-            const evalResult = window.DosisStore.evaluateReading('pressure', { systolic: sys, diastolic: dia });
+            const evalResult = window.DosisStore.evaluateReading('pressure', { systolic: sys, diastolic: dia, pulse: pulse || 0 });
 
             // Perfil de colores
             badgeContainer.className = 'flex items-center gap-4 p-4 rounded-2xl transition-all duration-500';
@@ -98,7 +100,7 @@ window.Pages.PressureForm = (router) => {
     el.querySelectorAll('input').forEach(input => {
         input.oninput = (e) => {
             e.target.value = e.target.value.replace(/[^0-9]/g, '');
-            if (e.target.id === 'systolic' || e.target.id === 'diastolic') updateEvaluation();
+            if (['systolic', 'diastolic', 'pulse'].includes(e.target.id)) updateEvaluation();
         };
     });
 
