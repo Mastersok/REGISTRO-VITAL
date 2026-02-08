@@ -148,8 +148,18 @@ window.Pages.ProfilesView = (router) => {
 
     window.selectedNewColorHex = medicalColors[0].hex;
     window.selectNewColor = (hex) => {
+        const nameInput = el.querySelector('#new-profile-name');
+        if (nameInput) {
+            window.tempNewProfileName = nameInput.value;
+        }
         window.selectedNewColorHex = hex;
         render();
+
+        // Restore name after render
+        const newNameInput = el.querySelector('#new-profile-name');
+        if (newNameInput && window.tempNewProfileName) {
+            newNameInput.value = window.tempNewProfileName;
+        }
     };
 
     render();

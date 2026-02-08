@@ -9,11 +9,22 @@ class Store {
         this.profilesKey = 'dosis_vital_v2_profiles';
         this.activeProfileKey = 'dosis_vital_v2_active';
         this.themeKey = 'dosis_vital_v2_theme';
+        this.settingsKey = 'dosis_vital_v2_settings';
 
         this.init();
     }
 
     init() {
+        if (!localStorage.getItem(this.settingsKey)) {
+            const defaultSettings = {
+                language: 'es',
+                units: 'metric', // metric or imperial
+                timeFormat: '24h',
+                pin: null, // null means no PIN
+                autoTheme: false
+            };
+            localStorage.setItem(this.settingsKey, JSON.stringify(defaultSettings));
+        }
         if (!localStorage.getItem(this.profilesKey)) {
             const defaultProfiles = [
                 { id: 'p1', name: 'Usuario', avatar: 'https://api.dicebear.com/7.x/initials/svg?seed=Usuario&backgroundColor=0ea5e9&fontWeight=800', color: '#0ea5e9' }
@@ -37,7 +48,8 @@ class Store {
             profiles: JSON.parse(localStorage.getItem(this.profilesKey)),
             activeProfileId: localStorage.getItem(this.activeProfileKey),
             readings: JSON.parse(localStorage.getItem(this.storageKey)),
-            theme: localStorage.getItem(this.themeKey)
+            theme: localStorage.getItem(this.themeKey),
+            settings: JSON.parse(localStorage.getItem(this.settingsKey))
         };
 
         this.applyTheme();
@@ -186,6 +198,52 @@ class Store {
         }
 
         return 'normal';
+    }
+
+    updateSettings(newSettings) {
+        this.state.settings = { ...this.state.settings, ...newSettings };
+        localStorage.setItem(this.settingsKey, JSON.stringify(this.state.settings));
+        this.notify();
+    }
+
+    setPIN(pin) {
+        this.updateSettings({ pin });
+    }
+
+    verifyPIN(pin) {
+        return this.state.settings.pin === pin;
+    }
+
+    exportData() {
+        const data = {
+            version: '2.0',
+            profiles: this.state.profiles,
+            readings: this.state.readings,
+            settings: this.state.settings,
+            exportedAt: new Date().toISOString()
+        };
+        return JSON.stringify(data, null, 2);
+    }
+
+    importData(jsonString) {
+        try {
+            const data = JSON.parse(jsonString);
+            if (!data.profiles || !data.readings) throw new Error('Formato inválido');
+
+            this.state.profiles = data.profiles;
+            this.state.readings = data.readings;
+            if (data.settings) this.state.settings = { ...this.state.settings, ...data.settings };
+
+            localStorage.setItem(this.profilesKey, JSON.stringify(this.state.profiles));
+            localStorage.setItem(this.storageKey, JSON.stringify(this.state.readings));
+            localStorage.setItem(this.settingsKey, JSON.stringify(this.state.settings));
+
+            this.notify();
+            return true;
+        } catch (e) {
+            console.error('Error importando datos:', e);
+            return false;
+        }
     }
 
     listeners = [];

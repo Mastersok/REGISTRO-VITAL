@@ -31,7 +31,8 @@ Estado actual del desarrollo de la versión 2.0. 😊
 - [x] **Flexibilidad Biométrica**: Registro independiente de Oxígeno o Temperatura.
 
 ## 🚧 Fase 6: Expansión (Próximas Mejoras)
-- [ ] **Exportación de Datos**: Copias de seguridad en archivos JSON.
+- [x] **Gestión de Datos**: Exportación e Importación de copias de seguridad (JSON).
+- [x] **Configuración Avanzada**: Idioma, Unidades y Seguridad por PIN.
 - [ ] **Metas de Salud**: Establecer objetivos (ej: "Bajar a 75kg") y ver progreso.
 - [ ] **Recordatorios**: Alarmas locales para mediciones programadas.
 - [x] **Multi-Paciente**: Soporte para gestionar varios perfiles desde un mismo dispositivo.

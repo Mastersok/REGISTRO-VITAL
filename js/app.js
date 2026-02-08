@@ -56,6 +56,9 @@ class App {
             case '#profiles':
                 view = Pages.ProfilesView(this);
                 break;
+            case '#settings':
+                view = Pages.SettingsView(this);
+                break;
             default:
                 view = Pages.Dashboard(this);
         }
