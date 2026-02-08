@@ -14,6 +14,11 @@ class Store {
         this.init();
     }
 
+    t(key) {
+        const lang = this.state?.settings?.language || 'es';
+        return window.DosisTranslations[lang][key] || key;
+    }
+
     init() {
         if (!localStorage.getItem(this.settingsKey)) {
             const defaultSettings = {
@@ -227,27 +232,27 @@ class Store {
                 const pulse = parseInt(values.pulse);
 
                 let bpStatus = 'normal';
-                let bpMsg = 'Óptima';
+                let bpMsg = this.t('status_optimal');
 
                 // Evaluate BP
                 if (sys >= 140 || dia >= 90 || (sys > 0 && sys < 90) || (dia > 0 && dia < 60)) {
                     bpStatus = 'danger';
-                    bpMsg = (sys < 90 || dia < 60) ? 'Hipotensión' : 'Hipertensión';
+                    bpMsg = (sys < 90 || dia < 60) ? this.t('status_hypotension') : this.t('status_hypertension');
                 } else if (sys >= 120 || dia >= 80 || (sys > 0 && sys < 100) || (dia > 0 && dia < 65)) {
                     bpStatus = 'warning';
-                    bpMsg = (sys < 100 || dia < 65) ? 'Presión Baja' : 'Elevada';
+                    bpMsg = (sys < 100 || dia < 65) ? this.t('status_low') : this.t('status_elevated');
                 }
 
                 // Evaluate Pulse (BPM)
                 let pulseStatus = 'normal';
-                let pulseMsg = 'Normal';
+                let pulseMsg = this.t('status_normal');
                 if (pulse > 0) {
                     if (pulse > 120 || pulse < 50) {
                         pulseStatus = 'danger';
-                        pulseMsg = pulse < 50 ? 'Bradicardia' : 'Taquicardia';
+                        pulseMsg = pulse < 50 ? this.t('status_bradycardia') : this.t('status_tachycardia');
                     } else if (pulse > 100 || pulse < 60) {
                         pulseStatus = 'warning';
-                        pulseMsg = pulse < 60 ? 'Pulso Bajo' : 'Pulso Elevado';
+                        pulseMsg = pulse < 60 ? this.t('status_low') : this.t('status_elevated');
                     }
                 }
 
@@ -260,7 +265,7 @@ class Store {
                     message = bpStatus === 'warning' ? bpMsg : pulseMsg;
                 } else {
                     status = 'normal';
-                    message = 'Óptima';
+                    message = this.t('status_optimal');
                 }
                 break;
 
@@ -271,24 +276,24 @@ class Store {
                 if (isFasting) {
                     if (glu >= 126 || (glu > 0 && glu < 70)) {
                         status = 'danger';
-                        message = glu < 70 ? 'Hipoglicemia' : 'Diabetes';
+                        message = glu < 70 ? this.t('status_hypoglycemia') : this.t('status_diabetes');
                     } else if (glu >= 100 || (glu > 0 && glu < 80)) {
                         status = 'warning';
-                        message = glu < 80 ? 'Glucosa Baja' : 'Prediabetes';
+                        message = glu < 80 ? this.t('status_low') : this.t('status_prediabetes');
                     } else {
                         status = 'normal';
-                        message = 'Normal';
+                        message = this.t('status_normal');
                     }
                 } else { // post-prandial
                     if (glu >= 200 || (glu > 0 && glu < 70)) {
                         status = 'danger';
-                        message = glu < 70 ? 'Hipoglicemia' : 'Diabetes';
+                        message = glu < 70 ? this.t('status_hypoglycemia') : this.t('status_diabetes');
                     } else if (glu >= 140 || (glu > 0 && glu < 90)) {
                         status = 'warning';
-                        message = glu < 90 ? 'Glucosa Baja' : 'Prediabetes';
+                        message = glu < 90 ? this.t('status_low') : this.t('status_prediabetes');
                     } else {
                         status = 'normal';
-                        message = 'Normal';
+                        message = this.t('status_normal');
                     }
                 }
                 break;
@@ -313,20 +318,20 @@ class Store {
                 if (spo2Status === 'danger' || tempStatus === 'danger') status = 'danger';
                 else if (spo2Status === 'warning' || tempStatus === 'warning') status = 'warning';
 
-                message = status === 'danger' ? 'Alerta' : status === 'warning' ? 'Revisión' : 'Normal';
+                message = status === 'danger' ? this.t('status_alert') : status === 'warning' ? this.t('status_review') : this.t('status_normal');
                 break;
 
             case 'weight':
                 const bmi = parseFloat(values.bmi);
                 if (bmi >= 30 || bmi < 16) {
                     status = 'danger';
-                    message = bmi < 16 ? 'Delgadez Severa' : 'Obesidad';
+                    message = bmi < 16 ? this.t('status_low') : this.t('status_high');
                 } else if (bmi >= 25 || bmi < 18.5) {
                     status = 'warning';
-                    message = bmi < 18.5 ? 'Bajo Peso' : 'Sobrepeso';
+                    message = bmi < 18.5 ? this.t('status_low') : this.t('status_elevated');
                 } else {
                     status = 'normal';
-                    message = 'Peso Saludable';
+                    message = this.t('status_normal');
                 }
                 break;
 
@@ -334,13 +339,13 @@ class Store {
                 const pain = parseInt(values.value);
                 if (pain >= 7) {
                     status = 'danger';
-                    message = 'Dolor Fuerte';
+                    message = this.t('status_severe_pain');
                 } else if (pain > 0) {
                     status = 'warning';
-                    message = pain >= 4 ? 'Dolor Moderado' : 'Dolor Leve';
+                    message = pain >= 4 ? this.t('status_moderate_pain') : this.t('status_mild_pain');
                 } else {
                     status = 'normal';
-                    message = 'Sin Dolor';
+                    message = this.t('status_no_pain');
                 }
                 break;
 
@@ -348,13 +353,13 @@ class Store {
                 const typeB = parseInt(values.value);
                 if (typeB === 1 || typeB === 2 || typeB === 7) {
                     status = 'danger';
-                    message = 'Atención';
+                    message = this.t('status_attention');
                 } else if (typeB === 6) {
                     status = 'warning';
-                    message = 'Revisión';
+                    message = this.t('status_review');
                 } else {
                     status = 'normal';
-                    message = 'Ideal';
+                    message = this.t('status_ideal');
                 }
                 break;
         }

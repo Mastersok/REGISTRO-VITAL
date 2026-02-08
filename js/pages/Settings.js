@@ -7,6 +7,8 @@ window.Pages.SettingsView = (router) => {
     const el = document.createElement('div');
     el.className = 'flex flex-col min-h-screen bg-gray-50 dark:bg-slate-900 animate-up pb-32 transition-colors duration-300';
 
+    const t = (key) => window.DosisStore.t(key);
+
     const render = () => {
         const settings = window.DosisStore.state.settings;
 
@@ -16,14 +18,14 @@ window.Pages.SettingsView = (router) => {
                     <button id="btn-back" class="size-12 bg-white dark:bg-slate-800 shadow-premium rounded-xl flex items-center justify-center active:scale-95 transition-all text-gray-800 dark:text-slate-200 border border-gray-100 dark:border-slate-700">
                         <span class="material-symbols-outlined">arrow_back</span>
                     </button>
-                    <h2 class="text-2xl font-black text-gray-800 dark:text-slate-50 uppercase italic tracking-tighter">Configuración</h2>
+                    <h2 class="text-2xl font-black text-gray-800 dark:text-slate-50 uppercase italic tracking-tighter">${t('settings')}</h2>
                 </div>
             </header>
 
             <main class="flex-1 px-6 space-y-8">
                 <!-- Section: Personalización -->
                 <section class="space-y-4">
-                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Preferencias del Sistema</p>
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">${t('system_prefs')}</p>
                     <div class="bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 overflow-hidden">
                         <!-- Idioma -->
                         <div class="p-6 flex items-center justify-between border-b border-gray-50 dark:border-slate-700/50">
@@ -31,7 +33,7 @@ window.Pages.SettingsView = (router) => {
                                 <div class="size-10 bg-blue-500/10 rounded-xl flex items-center justify-center">
                                     <span class="material-symbols-outlined text-blue-500">language</span>
                                 </div>
-                                <p class="font-bold text-gray-700 dark:text-slate-200">Idioma</p>
+                                <p class="font-bold text-gray-700 dark:text-slate-200">${t('language')}</p>
                             </div>
                             <select id="set-lang" class="bg-gray-50 dark:bg-slate-900 border-none rounded-lg px-3 py-2 text-sm font-bold text-primary outline-none">
                                 <option value="es" ${settings.language === 'es' ? 'selected' : ''}>Español</option>
@@ -45,7 +47,7 @@ window.Pages.SettingsView = (router) => {
                                 <div class="size-10 bg-green-500/10 rounded-xl flex items-center justify-center">
                                     <span class="material-symbols-outlined text-green-500">straighten</span>
                                 </div>
-                                <p class="font-bold text-gray-700 dark:text-slate-200">Sistema</p>
+                                <p class="font-bold text-gray-700 dark:text-slate-200">${t('units')}</p>
                             </div>
                             <select id="set-units" class="bg-gray-50 dark:bg-slate-900 border-none rounded-lg px-3 py-2 text-sm font-bold text-primary outline-none">
                                 <option value="metric" ${settings.units === 'metric' ? 'selected' : ''}>Métrico (kg, °C)</option>
@@ -57,7 +59,7 @@ window.Pages.SettingsView = (router) => {
 
                 <!-- Section: Seguridad -->
                 <section class="space-y-4">
-                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Seguridad y Privacidad</p>
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">${t('security_privacy')}</p>
                     <div class="bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 overflow-hidden">
                         <div class="p-6 flex items-center justify-between">
                             <div class="flex items-center gap-4">
@@ -65,12 +67,12 @@ window.Pages.SettingsView = (router) => {
                                     <span class="material-symbols-outlined text-red-500">lock</span>
                                 </div>
                                 <div>
-                                    <p class="font-bold text-gray-700 dark:text-slate-200">PIN de Acceso</p>
-                                    <p class="text-[10px] text-gray-400 font-medium">Protege tus datos localmente</p>
+                                    <p class="font-bold text-gray-700 dark:text-slate-200">${t('access_pin')}</p>
+                                    <p class="text-[10px] text-gray-400 font-medium">${t('protect_data')}</p>
                                 </div>
                             </div>
                             <button id="btn-set-pin" class="px-4 py-2 bg-primary text-white text-[10px] font-black uppercase rounded-full shadow-lg shadow-primary/30">
-                                ${settings.pin ? 'Cambiar PIN' : 'Activar'}
+                                ${settings.pin ? t('change_pin') : t('activate')}
                             </button>
                         </div>
                     </div>
@@ -78,22 +80,22 @@ window.Pages.SettingsView = (router) => {
 
                 <!-- Section: Datos -->
                 <section class="space-y-4">
-                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Manejo de Datos</p>
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">${t('data_management')}</p>
                     <div class="grid grid-cols-2 gap-4">
                         <button id="btn-export" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border-2 border-gray-100 dark:border-slate-700 flex flex-col items-center gap-3 active:scale-95 transition-all shadow-sm">
-                            <span class="material-symbols-outlined text-primary !text-3xl">download</span>
-                            <span class="text-[10px] font-black uppercase tracking-wider text-gray-700 dark:text-slate-200">Exportar</span>
+                            <span class="material-symbols-outlined text-primary !text-3xl">upload</span>
+                            <span class="text-[10px] font-black uppercase tracking-wider text-gray-700 dark:text-slate-200">${t('export')}</span>
                         </button>
                         <button id="btn-import-trigger" class="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border-2 border-gray-100 dark:border-slate-700 flex flex-col items-center gap-3 active:scale-95 transition-all shadow-sm">
-                            <span class="material-symbols-outlined text-orange-500 !text-3xl">upload</span>
-                            <span class="text-[10px] font-black uppercase tracking-wider text-gray-700 dark:text-slate-200">Importar</span>
+                            <span class="material-symbols-outlined text-orange-500 !text-3xl">download</span>
+                            <span class="text-[10px] font-black uppercase tracking-wider text-gray-700 dark:text-slate-200">${t('import')}</span>
                         </button>
                     </div>
                     <input type="file" id="file-import" class="hidden" accept=".json">
                     
                     <button id="btn-wipe" class="w-full p-6 bg-red-500/5 text-red-500 border-2 border-red-500/10 rounded-[2rem] flex items-center justify-center gap-3 active:scale-95 transition-all font-black text-xs uppercase tracking-widest">
                         <span class="material-symbols-outlined">delete_forever</span>
-                        Borrar Todos los Datos
+                        ${t('wipe_data')}
                     </button>
                 </section>
 
@@ -108,19 +110,19 @@ window.Pages.SettingsView = (router) => {
             <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto h-24 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-gray-100 dark:border-slate-800 px-8 flex justify-between items-center z-50">
                 <button id="nav-home" class="flex flex-col items-center gap-1 text-gray-400 dark:text-slate-500 transition-colors">
                     <span class="material-symbols-outlined !text-3xl">home</span>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Inicio</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${t('home')}</span>
                 </button>
                 <button id="nav-history" class="flex flex-col items-center gap-1 text-gray-400 dark:text-slate-500 transition-colors">
                     <span class="material-symbols-outlined !text-3xl">calendar_month</span>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Historial</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${t('history')}</span>
                 </button>
                 <button id="nav-trends" class="flex flex-col items-center gap-1 text-gray-400 dark:text-slate-500 transition-colors">
                     <span class="material-symbols-outlined !text-3xl">insights</span>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Gráficas</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${t('trends')}</span>
                 </button>
                 <button id="nav-profile" class="flex flex-col items-center gap-1 text-primary">
                     <span class="material-symbols-outlined !text-3xl">person</span>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Perfil</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${t('profile')}</span>
                 </button>
             </nav>
         `;
@@ -135,7 +137,8 @@ window.Pages.SettingsView = (router) => {
         // Settings updates
         el.querySelector('#set-lang').onchange = (e) => {
             window.DosisStore.updateSettings({ language: e.target.value });
-            router.showToast('Idioma actualizado');
+            router.showToast(t('language') + ' ' + t('status_normal').toLowerCase());
+            render();
         };
         el.querySelector('#set-units').onchange = (e) => {
             window.DosisStore.updateSettings({ units: e.target.value });

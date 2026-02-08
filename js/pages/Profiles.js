@@ -16,6 +16,8 @@ window.Pages.ProfilesView = (router) => {
         { name: 'Noche', hex: '#0f172a' }
     ];
 
+    const t = (key) => window.DosisStore.t(key);
+
     const render = () => {
         const profiles = window.DosisStore.state.profiles;
         const activeId = window.DosisStore.state.activeProfileId;
@@ -26,14 +28,14 @@ window.Pages.ProfilesView = (router) => {
                     <button id="btn-back" class="size-12 bg-white dark:bg-slate-800 shadow-premium rounded-xl flex items-center justify-center active:scale-95 transition-all text-gray-800 dark:text-slate-200 border border-gray-100 dark:border-slate-700">
                         <span class="material-symbols-outlined">arrow_back</span>
                     </button>
-                    <h2 class="text-2xl font-black text-gray-800 dark:text-slate-50 uppercase italic tracking-tighter">Pacientes</h2>
+                    <h2 class="text-2xl font-black text-gray-800 dark:text-slate-50 uppercase italic tracking-tighter">${t('patients')}</h2>
                 </div>
             </header>
 
             <main class="flex-1 px-6 space-y-6">
                 <!-- Profile List -->
                 <div class="space-y-4">
-                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Seleccionar Paciente</p>
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">${t('select_patient')}</p>
                     ${profiles.map(p => `
                         <div class="relative group">
                             <button onclick="window.selectProfile('${p.id}')" 
@@ -45,7 +47,7 @@ window.Pages.ProfilesView = (router) => {
                                 <div class="flex-1 text-left">
                                     <p class="font-black text-lg ${p.id === activeId ? 'text-primary' : 'text-gray-800 dark:text-slate-50'}">${p.name}</p>
                                     <p class="text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-slate-500">
-                                        ${p.id === activeId ? 'Seleccionado actualmente' : 'Toca para cambiar'}
+                                        ${p.id === activeId ? t('selected_patient') : t('tap_to_change')}
                                     </p>
                                 </div>
                                 ${p.id === activeId ? '<span class="material-symbols-outlined text-primary">check_circle</span>' : ''}
@@ -62,23 +64,23 @@ window.Pages.ProfilesView = (router) => {
 
                 <!-- Add Profile Section -->
                 <div class="pt-8 border-t border-gray-200 dark:border-slate-800 space-y-6">
-                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Añadir Nuevo Paciente</p>
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">${t('add_new_patient')}</p>
                     <div class="bg-white dark:bg-slate-800 p-6 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 space-y-6">
                         <div class="grid grid-cols-2 gap-4">
                             <div class="space-y-4">
-                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Nombre Completo</label>
+                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('patient_name')}</label>
                                 <input type="text" id="new-profile-name" placeholder="Ej: María García"
                                     class="w-full h-16 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-2xl px-6 text-xl font-black text-gray-800 dark:text-slate-50 focus:border-primary outline-none transition-all">
                             </div>
                             <div class="space-y-4">
-                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Altura (m)</label>
+                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('height_m')}</label>
                                 <input type="number" id="new-profile-height" placeholder="1.70" step="0.01"
                                     class="w-full h-16 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-2xl px-6 text-xl font-black text-gray-800 dark:text-slate-50 focus:border-primary outline-none transition-all">
                             </div>
                         </div>
 
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Color Institucional</label>
+                            <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('institutional_color')}</label>
                             <div class="flex flex-wrap gap-3 justify-between px-2">
                                 ${medicalColors.map((c, i) => `
                                     <button onclick="window.selectNewColor('${c.hex}', ${i})" 
@@ -91,7 +93,7 @@ window.Pages.ProfilesView = (router) => {
 
                         <button id="btn-add-profile" class="w-full h-20 bg-primary/10 text-primary text-sm font-black rounded-full flex items-center justify-center gap-4 active:scale-95 transition-all mt-4 border-2 border-primary/20">
                             <span class="material-symbols-outlined !text-2xl">person_add</span>
-                            CREAR NUEVO PERFIL
+                            ${t('create_new_profile').toUpperCase()}
                         </button>
                     </div>
                 </div>
@@ -101,19 +103,19 @@ window.Pages.ProfilesView = (router) => {
             <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto h-24 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-gray-100 dark:border-slate-800 px-8 flex justify-between items-center z-50">
                 <button id="nav-home" class="flex flex-col items-center gap-1 text-gray-400 dark:text-slate-500 transition-colors">
                     <span class="material-symbols-outlined !text-3xl">home</span>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Inicio</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${t('home')}</span>
                 </button>
                 <button id="nav-history" class="flex flex-col items-center gap-1 text-gray-400 dark:text-slate-500 transition-colors">
                     <span class="material-symbols-outlined !text-3xl">calendar_month</span>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Historial</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${t('history')}</span>
                 </button>
                 <button id="nav-trends" class="flex flex-col items-center gap-1 text-gray-400 dark:text-slate-500 transition-colors">
                     <span class="material-symbols-outlined !text-3xl">insights</span>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Gráficas</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${t('charts')}</span>
                 </button>
                 <button id="nav-profile" class="flex flex-col items-center gap-1 text-primary">
                     <span class="material-symbols-outlined !text-3xl">person</span>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Perfil</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${t('profile')}</span>
                 </button>
             </nav>
         `;

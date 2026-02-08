@@ -28,6 +28,8 @@ window.Pages.BristolForm = (router) => {
         { id: 7, label: 'Tipo 7', desc: 'Acuosa, sin trozos sólidos', icon: '🌊' }
     ];
 
+    const t = (key) => window.DosisStore.t(key);
+
     const render = () => {
         const currentNotes = el.querySelector('#notes')?.value || notes;
         notes = currentNotes;
@@ -38,7 +40,7 @@ window.Pages.BristolForm = (router) => {
                     <span class="material-symbols-outlined">arrow_back</span>
                 </button>
                 <h2 class="text-2xl font-black text-gray-800 dark:text-slate-50 uppercase italic tracking-tighter">
-                    ${editingId ? 'Editar Intestinal' : 'Salud Intestinal'}
+                    ${editingId ? t('edit') + ' ' + t('bristol_short') : t('bristol_scale')}
                 </h2>
             </header>
 
@@ -56,15 +58,15 @@ window.Pages.BristolForm = (router) => {
             </div>
 
             <div class="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 space-y-4 mb-32">
-                <label class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Notas u Observaciones (Opcional)</label>
-                <textarea id="notes" placeholder="Ej: Episodio después de comer algo pesado..." 
+                <label class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('notes')}</label>
+                <textarea id="notes" placeholder="${t('notes_placeholder')}" 
                     class="w-full h-24 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl p-5 text-sm font-bold text-gray-700 dark:text-slate-300 focus:border-amber-500 outline-none transition-all resize-none">${notes}</textarea>
             </div>
 
             <footer class="fixed bottom-6 left-6 right-6 z-50">
                 <button id="btn-save" class="w-full h-20 active:scale-95 transition-all flex items-center justify-center gap-4 ${selectedType ? 'bg-amber-600 text-white shadow-2xl opacity-100' : 'bg-gray-200 text-gray-400 opacity-30 pointer-events-none'} text-xl font-black rounded-full">
                     <span class="material-symbols-outlined !text-3xl">${editingId ? 'save' : 'done_all'}</span>
-                    ${editingId ? 'GUARDAR CAMBIOS' : 'CONFIRMAR REGISTRO'}
+                    ${editingId ? t('save') : t('confirm')}
                 </button>
             </footer>
         `;

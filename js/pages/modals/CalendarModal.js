@@ -46,12 +46,14 @@ window.Pages.CalendarModal = (currentDate = new Date(), onSelect, onReset) => {
         render();
     };
 
+    const t = (key) => window.DosisStore.t(key);
+
     const render = () => {
         const year = viewDate.getFullYear();
         const month = viewDate.getMonth();
 
         // Month Header
-        const monthName = viewDate.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+        const monthName = viewDate.toLocaleDateString(window.DosisStore.state.settings.language === 'en' ? 'en-US' : 'es-ES', { month: 'long', year: 'numeric' });
 
         // Calendar Grid Logic
         const firstDay = new Date(year, month, 1);
@@ -108,6 +110,10 @@ window.Pages.CalendarModal = (currentDate = new Date(), onSelect, onReset) => {
             `;
         }
 
+        const weekdays = window.DosisStore.state.settings.language === 'en'
+            ? ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+            : ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+
         el.innerHTML = `
             <div class="bg-white dark:bg-[#1a242d] w-full max-w-sm rounded-[2.5rem] p-6 shadow-2xl relative overflow-hidden animate-in zoom-in-95 duration-200">
                 <!-- Header -->
@@ -123,7 +129,7 @@ window.Pages.CalendarModal = (currentDate = new Date(), onSelect, onReset) => {
 
                 <!-- Weekdays -->
                 <div class="grid grid-cols-7 mb-2 text-center">
-                    ${['L', 'M', 'M', 'J', 'V', 'S', 'D'].map(d => `<span class="text-xs font-bold text-gray-400 opacity-50">${d}</span>`).join('')}
+                    ${weekdays.map(d => `<span class="text-xs font-bold text-gray-400 opacity-50">${d}</span>`).join('')}
                 </div>
 
                 <!-- Days Grid -->
@@ -134,7 +140,7 @@ window.Pages.CalendarModal = (currentDate = new Date(), onSelect, onReset) => {
                 <!-- Actions -->
                 <div class="flex gap-3">
                     <button onclick="window.CalendarReset()" class="flex-1 h-12 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-gray-300 text-xs font-black tracking-widest rounded-xl active:scale-95 transition-all">
-                        MOSTRAR TODO
+                        ${t('show_all').toUpperCase()}
                     </button>
                     <button onclick="window.CalendarClose()" class="h-12 w-16 bg-gray-100 dark:bg-white/5 text-gray-400 rounded-xl flex items-center justify-center active:scale-95 transition-all">
                         <span class="material-symbols-outlined">close</span>

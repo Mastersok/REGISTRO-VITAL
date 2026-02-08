@@ -10,50 +10,52 @@ window.Pages.PressureForm = (router) => {
     const el = document.createElement('div');
     el.className = 'p-6 pb-32 animate-up min-h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-300';
 
+    const t = (key) => window.DosisStore.t(key);
+
     el.innerHTML = `
         <header class="flex items-center gap-4 mb-8">
             <button id="btn-back" class="size-12 bg-white dark:bg-slate-800 shadow-premium rounded-xl flex items-center justify-center active:scale-95 transition-all text-gray-800 dark:text-slate-200 border border-gray-100 dark:border-slate-700">
                 <span class="material-symbols-outlined">arrow_back</span>
             </button>
             <h2 class="text-2xl font-black text-gray-800 dark:text-slate-50 uppercase italic tracking-tighter">
-                ${editingId ? 'Editar Presión' : 'Presión Arterial'}
+                ${editingId ? t('edit') + ' ' + t('pressure_short') : t('pressure')}
             </h2>
         </header>
 
         <div class="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 space-y-8">
-            <div class="flex items-center gap-4 p-4 bg-red-500/10 rounded-2xl">
+            <div class="flex items-center gap-4 p-4 bg-red-500/10 rounded-2xl transition-all duration-500">
                 <span class="material-symbols-outlined text-red-500 !text-3xl">favorite</span>
-                <p class="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-widest">Guía AHA: Normal < 120/80</p>
+                <p class="text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-widest">Guía OMS/ESC: Normal 90/60 - 120/70</p>
             </div>
 
             <div class="grid grid-cols-2 gap-6">
                 <div class="space-y-2">
-                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Sistólica (MAX)</label>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('systolic')}</label>
                     <input type="number" id="systolic" placeholder="120" value="${existingReading ? existingReading.values.systolic : ''}"
                         class="w-full h-20 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl text-center text-3xl font-black text-gray-800 dark:text-slate-50 focus:border-red-500 outline-none transition-all">
                 </div>
                 <div class="space-y-2">
-                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Diastólica (MIN)</label>
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('diastolic')}</label>
                     <input type="number" id="diastolic" placeholder="80" value="${existingReading ? existingReading.values.diastolic : ''}"
                         class="w-full h-20 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl text-center text-3xl font-black text-gray-800 dark:text-slate-50 focus:border-red-500 outline-none transition-all">
                 </div>
             </div>
 
             <div class="space-y-2">
-                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Pulso (LPM)</label>
+                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('pulse')}</label>
                 <input type="number" id="pulse" placeholder="70" value="${existingReading ? existingReading.values.pulse : ''}"
                     class="w-full h-20 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl text-center text-3xl font-black text-gray-800 dark:text-slate-50 focus:border-red-500 outline-none transition-all">
             </div>
 
             <div class="space-y-2 pt-4 border-t border-gray-100 dark:border-slate-700">
-                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Notas u Observaciones (Opcional)</label>
-                <textarea id="notes" placeholder="Ej: Medición después de hacer ejercicio..." 
+                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('notes')}</label>
+                <textarea id="notes" placeholder="${t('notes_placeholder')}" 
                     class="w-full h-24 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl p-5 text-sm font-bold text-gray-700 dark:text-slate-300 focus:border-red-500 outline-none transition-all resize-none">${existingReading ? existingReading.values.notes || '' : ''}</textarea>
             </div>
 
             <button id="btn-save" class="w-full h-24 bg-red-500 text-white text-xl font-black rounded-full shadow-2xl shadow-red-500/40 flex items-center justify-center gap-4 active:scale-95 transition-all mt-4">
                 <span class="material-symbols-outlined !text-3xl">${editingId ? 'save' : 'check_circle'}</span>
-                ${editingId ? 'GUARDAR CAMBIOS' : 'REGISTRAR ESTADO'}
+                ${editingId ? t('save') : t('register')}
             </button>
         </div>
     `;

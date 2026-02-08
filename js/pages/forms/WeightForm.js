@@ -10,32 +10,34 @@ window.Pages.WeightForm = (router) => {
     const el = document.createElement('div');
     el.className = 'p-6 pb-32 animate-up min-h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-300';
 
+    const t = (key) => window.DosisStore.t(key);
+
     el.innerHTML = `
         <header class="flex items-center gap-4 mb-8">
             <button id="btn-back" class="size-12 bg-white dark:bg-slate-800 shadow-premium rounded-xl flex items-center justify-center active:scale-95 transition-all text-gray-800 dark:text-slate-200 border border-gray-100 dark:border-slate-700">
                 <span class="material-symbols-outlined">arrow_back</span>
             </button>
             <h2 class="text-2xl font-black text-gray-800 dark:text-slate-50 uppercase italic tracking-tighter">
-                ${editingId ? 'Editar Peso' : 'Peso e IMC'}
+                ${editingId ? t('edit') + ' ' + t('weight_short') : t('weight_imc')}
             </h2>
         </header>
 
         <div class="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 space-y-8">
             <div class="space-y-4">
-                <p class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-slate-500 text-center">Peso Actual (kg)</p>
+                <p class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-slate-500 text-center">${t('weight_kg')}</p>
                 <input type="number" id="weight" step="0.1" placeholder="70.5" value="${existingReading ? existingReading.values.weight : ''}"
                     class="w-full h-32 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl text-center text-6xl font-black text-gray-800 dark:text-slate-50 focus:border-green-500 outline-none transition-all tabular-nums">
                 
                 <div class="flex items-center justify-center gap-2 mt-2">
-                    <p class="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase">Altura actual: <span id="current-height-display">0.00</span>m</p>
-                    <button id="btn-edit-height" class="text-[10px] font-black text-primary uppercase underline underline-offset-2">Cambiar</button>
+                    <p class="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase">${t('height_m')}: <span id="current-height-display">0.00</span>m</p>
+                    <button id="btn-edit-height" class="text-[10px] font-black text-primary uppercase underline underline-offset-2">${t('change')}</button>
                 </div>
             </div>
 
             <div id="imc-display" class="hidden animate-up">
                 <div id="imc-container" class="p-6 rounded-3xl border-2 flex items-center justify-between transition-colors">
                     <div>
-                        <p class="text-[10px] font-black uppercase tracking-widest mb-1 opacity-70">Tu IMC estimado</p>
+                        <p class="text-[10px] font-black uppercase tracking-widest mb-1 opacity-70">${t('estimated_imc')}</p>
                         <p id="imc-val" class="text-3xl font-black">--</p>
                     </div>
                     <div id="imc-desc" class="px-4 py-2 text-white rounded-xl font-black text-xs uppercase shadow-sm">--</div>
@@ -43,14 +45,14 @@ window.Pages.WeightForm = (router) => {
             </div>
 
             <div class="space-y-4 pt-4 border-t border-gray-100 dark:border-slate-700">
-                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Notas u Observaciones (Opcional)</label>
-                <textarea id="notes" placeholder="Ej: Medición en ayunas, por la mañana..." 
+                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('notes')}</label>
+                <textarea id="notes" placeholder="${t('notes_placeholder')}" 
                     class="w-full h-24 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl p-5 text-sm font-bold text-gray-700 dark:text-slate-300 focus:border-green-500 outline-none transition-all resize-none">${existingReading ? existingReading.values.notes || '' : ''}</textarea>
             </div>
 
             <button id="btn-save" class="w-full h-24 bg-green-500 text-white text-xl font-black rounded-full shadow-2xl shadow-green-500/40 flex items-center justify-center gap-4 active:scale-95 transition-all mt-4">
                 <span class="material-symbols-outlined !text-3xl">${editingId ? 'save' : 'check_circle'}</span>
-                ${editingId ? 'GUARDAR CAMBIOS' : 'REGISTRAR ESTADO'}
+                ${editingId ? t('save') : t('register')}
             </button>
         </div>
     `;

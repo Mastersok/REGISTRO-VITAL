@@ -21,6 +21,8 @@ window.Pages.GlucoseForm = (router) => {
     const el = document.createElement('div');
     el.className = 'p-6 pb-32 animate-up min-h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-300';
 
+    const t = (key) => window.DosisStore.t(key);
+
     const render = () => {
         el.innerHTML = `
             <header class="flex items-center gap-4 mb-8">
@@ -28,38 +30,38 @@ window.Pages.GlucoseForm = (router) => {
                     <span class="material-symbols-outlined">arrow_back</span>
                 </button>
                 <h2 class="text-2xl font-black text-gray-800 dark:text-slate-50 uppercase italic tracking-tighter">
-                    ${editingId ? 'Editar Glucosa' : 'Nivel de Glucosa'}
+                    ${editingId ? t('edit') + ' ' + t('glucose') : t('glucose')}
                 </h2>
             </header>
 
             <div class="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 space-y-8">
                 <div class="flex p-1.5 bg-gray-100 dark:bg-slate-900 rounded-3xl">
-                    <button id="tab-fasting" class="flex-1 py-4 rounded-2xl font-black text-sm transition-all ${timing === 'AYUNAS' ? 'bg-orange-500 text-white shadow-lg' : 'text-gray-400 dark:text-slate-500'}">AYUNAS</button>
+                    <button id="tab-fasting" class="flex-1 py-4 rounded-2xl font-black text-sm transition-all ${timing === 'AYUNAS' ? 'bg-orange-500 text-white shadow-lg' : 'text-gray-400 dark:text-slate-500'}">${t('fasting').toUpperCase()}</button>
                     <button id="tab-post" class="flex-1 py-4 rounded-2xl font-black text-sm transition-all ${timing === 'POST-PRANDIAL' ? 'bg-orange-500 text-white shadow-lg' : 'text-gray-400 dark:text-slate-500'}">POST-PRANDIAL</button>
                 </div>
 
                 <div class="space-y-4">
-                    <label class="block text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-slate-500 text-center">Concentración (mg/dL)</label>
+                    <label class="block text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-slate-500 text-center">${t('concentration')}</label>
                     <input type="number" id="glucose-val" placeholder="90" value="${initialValue}"
                         class="w-full h-32 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl text-center text-6xl font-black text-gray-800 dark:text-slate-50 focus:border-orange-500 outline-none transition-all tabular-nums">
                 </div>
 
-                <div class="flex items-center gap-4 p-5 bg-orange-500/10 rounded-2xl">
+                <div class="flex items-center gap-4 p-5 bg-orange-500/10 rounded-2xl transition-all duration-500">
                     <span class="material-symbols-outlined text-orange-600 dark:text-orange-400 !text-3xl">info</span>
                     <p class="text-[11px] font-bold text-orange-700 dark:text-orange-300 uppercase leading-relaxed tracking-wide">
-                        ${timing === 'AYUNAS' ? 'Normal: 70 - 100 mg/dL' : 'Normal: < 140 mg/dL (2h después)'}
+                        ${timing === 'AYUNAS' ? 'Normal: 70 - 100 mg/dL' : 'Normal: 90 - 140 mg/dL'}
                     </p>
                 </div>
 
                 <div class="space-y-4 pt-4 border-t border-gray-100 dark:border-slate-700">
-                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">Notas u Observaciones (Opcional)</label>
-                    <textarea id="notes" placeholder="Ej: Dos horas después de almorzar pasta..." 
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('notes')}</label>
+                    <textarea id="notes" placeholder="${t('notes_placeholder')}" 
                         class="w-full h-24 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl p-5 text-sm font-bold text-gray-700 dark:text-slate-300 focus:border-orange-500 outline-none transition-all resize-none">${initialNotes}</textarea>
                 </div>
 
                 <button id="btn-save" class="w-full h-24 bg-orange-500 text-white text-xl font-black rounded-full shadow-2xl shadow-orange-500/40 flex items-center justify-center gap-4 active:scale-95 transition-all mt-4">
                     <span class="material-symbols-outlined !text-3xl">${editingId ? 'save' : 'check_circle'}</span>
-                    ${editingId ? 'GUARDAR CAMBIOS' : 'REGISTRAR ESTADO'}
+                    ${editingId ? t('save') : t('register')}
                 </button>
             </div>
         `;

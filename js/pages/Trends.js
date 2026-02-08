@@ -7,6 +7,8 @@ window.Pages.TrendsView = (router) => {
     const el = document.createElement('div');
     el.className = 'flex flex-col min-h-screen bg-gray-50 dark:bg-slate-900 animate-up pb-40 transition-colors duration-300';
 
+    const t = (key) => window.DosisStore.t(key);
+
     const render = () => {
         el.innerHTML = `
             <header class="p-6 pb-4 sticky top-0 bg-gray-50/90 dark:bg-slate-900/90 backdrop-blur-xl z-40 border-b border-gray-100 dark:border-slate-800">
@@ -14,7 +16,7 @@ window.Pages.TrendsView = (router) => {
                     <button id="btn-back" class="size-12 bg-white dark:bg-slate-800 shadow-premium rounded-xl flex items-center justify-center active:scale-95 transition-all text-gray-800 dark:text-slate-200 border border-gray-100 dark:border-slate-700">
                         <span class="material-symbols-outlined">arrow_back</span>
                     </button>
-                    <h2 class="text-2xl font-black text-gray-800 dark:text-slate-50 uppercase italic tracking-tighter">Tendencias</h2>
+                    <h2 class="text-2xl font-black text-gray-800 dark:text-slate-50 uppercase italic tracking-tighter">${t('charts_trends')}</h2>
                 </div>
             </header>
 
@@ -25,7 +27,7 @@ window.Pages.TrendsView = (router) => {
                         <div class="size-10 bg-red-500/10 rounded-xl flex items-center justify-center text-red-500">
                             <span class="material-symbols-outlined">favorite</span>
                         </div>
-                        <h3 class="font-black text-gray-800 dark:text-slate-100">Presión Arterial</h3>
+                        <h3 class="font-black text-gray-800 dark:text-slate-100">${t('pressure')}</h3>
                     </div>
                     <div class="relative h-64 w-full"><canvas id="chart-pressure"></canvas></div>
                 </div>
@@ -36,7 +38,7 @@ window.Pages.TrendsView = (router) => {
                         <div class="size-10 bg-orange-500/10 rounded-xl flex items-center justify-center text-orange-500">
                             <span class="material-symbols-outlined">water_drop</span>
                         </div>
-                        <h3 class="font-black text-gray-800 dark:text-slate-100">Glucosa</h3>
+                        <h3 class="font-black text-gray-800 dark:text-slate-100">${t('glucose')}</h3>
                     </div>
                     <div class="relative h-64 w-full"><canvas id="chart-glucose"></canvas></div>
                 </div>
@@ -47,7 +49,7 @@ window.Pages.TrendsView = (router) => {
                         <div class="size-10 bg-rose-500/10 rounded-xl flex items-center justify-center text-rose-500">
                             <span class="material-symbols-outlined">ecg</span>
                         </div>
-                        <h3 class="font-black text-gray-800 dark:text-slate-100">Frecuencia Cardiaca</h3>
+                        <h3 class="font-black text-gray-800 dark:text-slate-100">${t('pulse')}</h3>
                     </div>
                     <div class="relative h-64 w-full"><canvas id="chart-pulse"></canvas></div>
                 </div>
@@ -58,7 +60,7 @@ window.Pages.TrendsView = (router) => {
                         <div class="size-10 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-500">
                             <span class="material-symbols-outlined">air</span>
                         </div>
-                        <h3 class="font-black text-gray-800 dark:text-slate-100">Oxígeno (SpO2)</h3>
+                        <h3 class="font-black text-gray-800 dark:text-slate-100">${t('oxygen_spo2')}</h3>
                     </div>
                     <div class="relative h-64 w-full"><canvas id="chart-oxygen"></canvas></div>
                 </div>
@@ -69,7 +71,7 @@ window.Pages.TrendsView = (router) => {
                         <div class="size-10 bg-cyan-500/10 rounded-xl flex items-center justify-center text-cyan-500">
                             <span class="material-symbols-outlined">thermostat</span>
                         </div>
-                        <h3 class="font-black text-gray-800 dark:text-slate-100">Temperatura</h3>
+                        <h3 class="font-black text-gray-800 dark:text-slate-100">${t('body_temp')}</h3>
                     </div>
                     <div class="relative h-64 w-full"><canvas id="chart-temp"></canvas></div>
                 </div>
@@ -80,7 +82,7 @@ window.Pages.TrendsView = (router) => {
                         <div class="size-10 bg-green-500/10 rounded-xl flex items-center justify-center text-green-500">
                             <span class="material-symbols-outlined">scale</span>
                         </div>
-                        <h3 class="font-black text-gray-800 dark:text-slate-100">Peso</h3>
+                        <h3 class="font-black text-gray-800 dark:text-slate-100">${t('weight_short')}</h3>
                     </div>
                     <div class="relative h-64 w-full"><canvas id="chart-weight"></canvas></div>
                 </div>
@@ -91,7 +93,7 @@ window.Pages.TrendsView = (router) => {
                         <div class="size-10 bg-purple-500/10 rounded-xl flex items-center justify-center text-purple-500">
                             <span class="material-symbols-outlined">mood_bad</span>
                         </div>
-                        <h3 class="font-black text-gray-800 dark:text-slate-100">Nivel de Dolor</h3>
+                        <h3 class="font-black text-gray-800 dark:text-slate-100">${t('pain_scale')}</h3>
                     </div>
                     <div class="relative h-64 w-full"><canvas id="chart-pain"></canvas></div>
                 </div>
@@ -101,19 +103,19 @@ window.Pages.TrendsView = (router) => {
             <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto h-24 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-gray-100 dark:border-slate-800 px-8 flex justify-between items-center z-50">
                 <button id="nav-home" class="flex flex-col items-center gap-1 text-gray-400 dark:text-slate-500 transition-colors">
                     <span class="material-symbols-outlined !text-3xl">home</span>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Inicio</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${t('home')}</span>
                 </button>
                 <button id="nav-history" class="flex flex-col items-center gap-1 text-gray-400 dark:text-slate-500 transition-colors">
                     <span class="material-symbols-outlined !text-3xl">calendar_month</span>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Historial</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${t('history')}</span>
                 </button>
                 <button class="flex flex-col items-center gap-1 text-primary">
                     <span class="material-symbols-outlined !text-3xl">insights</span>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Gráficas</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${t('charts')}</span>
                 </button>
                 <button id="nav-profile" class="flex flex-col items-center gap-1 text-gray-400 dark:text-slate-500 transition-colors">
                     <span class="material-symbols-outlined !text-3xl">person</span>
-                    <span class="text-[9px] font-black uppercase tracking-widest">Perfil</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest">${t('profile')}</span>
                 </button>
             </nav>
         `;
