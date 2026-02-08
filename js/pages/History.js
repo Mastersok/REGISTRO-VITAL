@@ -13,9 +13,9 @@ window.Pages.HistoryView = (router) => {
     el.className = 'flex flex-col min-h-screen bg-gray-50 dark:bg-[#0f172a] animate-up pb-24 transition-colors duration-300';
 
     const colors = {
-        normal: 'bg-green-500 border-green-100',
-        caution: 'bg-yellow-500 border-yellow-100',
-        alert: 'bg-red-500 border-red-100'
+        normal: 'bg-green-500 border-green-100 shadow-green-500/20',
+        warning: 'bg-amber-500 border-amber-100 shadow-amber-500/20',
+        danger: 'bg-red-500 border-red-100 shadow-red-500/20'
     };
 
     const filterOptions = [
@@ -30,8 +30,8 @@ window.Pages.HistoryView = (router) => {
 
     const statusOptions = [
         { id: 'normal', label: 'Normal', icon: 'check_circle' },
-        { id: 'caution', label: 'Atención', icon: 'warning' },
-        { id: 'alert', label: 'Alerta', icon: 'emergency' }
+        { id: 'warning', label: 'Revisión', icon: 'warning' },
+        { id: 'danger', label: 'Alerta', icon: 'emergency' }
     ];
 
     // Global toggle helpers
@@ -88,8 +88,8 @@ window.Pages.HistoryView = (router) => {
             const isActive = selectedStatuses.has(opt.id);
             const statusColors = {
                 normal: 'bg-green-500 text-white shadow-green-500/30',
-                caution: 'bg-yellow-500 text-white shadow-yellow-500/30',
-                alert: 'bg-red-500 text-white shadow-red-500/30'
+                warning: 'bg-amber-500 text-white shadow-amber-500/30',
+                danger: 'bg-red-500 text-white shadow-red-500/30'
             };
             return `
                         <button onclick="window.toggleStatusFilter('${opt.id}')" 
@@ -139,8 +139,8 @@ window.Pages.HistoryView = (router) => {
         if (selectedCategories.size > 0) readings = readings.filter(r => selectedCategories.has(r.type));
         if (selectedStatuses.size > 0) {
             readings = readings.filter(r => {
-                const status = window.DosisStore.getSemaphore(r.type, r.values) || 'normal';
-                return selectedStatuses.has(status);
+                const evalResult = window.DosisStore.evaluateReading(r.type, r.values, r.timing);
+                return selectedStatuses.has(evalResult.status);
             });
         }
 
@@ -195,7 +195,8 @@ window.Pages.HistoryView = (router) => {
 
             const config = typeConfig[item.type] || { label: 'Medición', getVal: () => '?', unit: '', sub: () => '' };
             const valDisplay = config.getVal(item.values);
-            const semaphore = window.DosisStore.getSemaphore(item.type, item.values) || 'normal';
+            const evaluation = window.DosisStore.evaluateReading(item.type, item.values, item.timing);
+            const semaphore = evaluation.status;
 
             readingListHtml += `
                 <div class="relative mb-4 group touch-pan-y select-none" id="reading-${item.id}">

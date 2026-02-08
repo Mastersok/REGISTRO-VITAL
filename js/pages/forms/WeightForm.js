@@ -33,12 +33,12 @@ window.Pages.WeightForm = (router) => {
             </div>
 
             <div id="imc-display" class="hidden animate-up">
-                <div class="p-6 bg-green-500/10 dark:bg-green-500/20 rounded-3xl border-2 border-green-500/20 flex items-center justify-between">
+                <div id="imc-container" class="p-6 rounded-3xl border-2 flex items-center justify-between transition-colors">
                     <div>
-                        <p class="text-[10px] font-black text-green-600 dark:text-green-400 uppercase tracking-widest mb-1">Tu IMC estimado</p>
-                        <p id="imc-val" class="text-3xl font-black text-green-700 dark:text-green-300">--</p>
+                        <p class="text-[10px] font-black uppercase tracking-widest mb-1 opacity-70">Tu IMC estimado</p>
+                        <p id="imc-val" class="text-3xl font-black">--</p>
                     </div>
-                    <div id="imc-desc" class="px-4 py-2 bg-green-500 text-white rounded-xl font-black text-xs uppercase">Normal</div>
+                    <div id="imc-desc" class="px-4 py-2 text-white rounded-xl font-black text-xs uppercase shadow-sm">--</div>
                 </div>
             </div>
 
@@ -69,6 +69,27 @@ window.Pages.WeightForm = (router) => {
         if (weight > 20) {
             const imc = (weight / (height * height)).toFixed(1);
             imcValEl.innerText = imc;
+
+            const evaluation = window.DosisStore.evaluateReading('weight', { bmi: imc });
+            const container = el.querySelector('#imc-container');
+            const desc = el.querySelector('#imc-desc');
+
+            // Perfil de estilos dinámicos
+            container.className = 'p-6 rounded-3xl border-2 flex items-center justify-between transition-colors';
+            desc.className = 'px-4 py-2 text-white rounded-xl font-black text-xs uppercase shadow-sm';
+
+            if (evaluation.status === 'danger') {
+                container.classList.add('bg-red-500/10', 'border-red-500/20', 'text-red-700', 'dark:text-red-300');
+                desc.classList.add('bg-red-500');
+            } else if (evaluation.status === 'warning') {
+                container.classList.add('bg-amber-500/10', 'border-amber-500/20', 'text-amber-700', 'dark:text-amber-300');
+                desc.classList.add('bg-amber-500');
+            } else {
+                container.classList.add('bg-green-500/10', 'border-green-500/20', 'text-green-700', 'dark:text-green-300');
+                desc.classList.add('bg-green-500');
+            }
+
+            desc.innerText = evaluation.message;
             imcDisplay.classList.remove('hidden');
         } else {
             imcDisplay.classList.add('hidden');
@@ -106,5 +127,6 @@ window.Pages.WeightForm = (router) => {
         }
     };
 
+    updateIMC(); // Initialize height display
     return el;
 };

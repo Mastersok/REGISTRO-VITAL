@@ -169,36 +169,6 @@ class Store {
         this.notify();
     }
 
-    getSemaphore(type, values) {
-        // Safe checks if values are missing
-        if (!values) return 'normal';
-
-        const ranges = {
-            pressure: {
-                systolic: { normal: 120, caution: 140 },
-                diastolic: { normal: 80, caution: 90 }
-            },
-            glucose: {
-                fasting: { normal: 100, caution: 125 },
-                post: { normal: 140, caution: 199 }
-            }
-        };
-
-        if (type === 'pressure') {
-            if (values.systolic > ranges.pressure.systolic.caution || values.diastolic > ranges.pressure.diastolic.caution) return 'alert';
-            if (values.systolic > ranges.pressure.systolic.normal || values.diastolic > ranges.pressure.diastolic.normal) return 'caution';
-            return 'normal';
-        }
-
-        if (type === 'glucose') {
-            const limit = values.timing === 'Ayunas' ? ranges.glucose.fasting : ranges.glucose.post;
-            if (values.value > limit.caution) return 'alert';
-            if (values.value > limit.normal) return 'caution';
-            return 'normal';
-        }
-
-        return 'normal';
-    }
 
     updateSettings(newSettings) {
         this.state.settings = { ...this.state.settings, ...newSettings };
@@ -244,6 +214,110 @@ class Store {
             console.error('Error importando datos:', e);
             return false;
         }
+    }
+
+    evaluateReading(type, values, timing = null) {
+        let status = 'normal'; // green, warning, danger
+        let message = 'Normal';
+
+        switch (type) {
+            case 'pressure':
+                const sys = parseInt(values.systolic);
+                const dia = parseInt(values.diastolic);
+                if (sys >= 140 || dia >= 90) {
+                    status = 'danger';
+                    message = 'Hipertensión';
+                } else if (sys >= 120 || dia >= 80) {
+                    status = 'warning';
+                    message = 'Elevada';
+                } else {
+                    status = 'normal';
+                    message = 'Óptima';
+                }
+                break;
+
+            case 'glucose':
+                const glu = parseInt(values.value);
+                const isFasting = timing && (timing.toLowerCase().includes('ayunas') || timing.toLowerCase().includes('fasting'));
+
+                if (isFasting) {
+                    if (glu >= 126 || glu < 70) {
+                        status = 'danger';
+                        message = glu < 70 ? 'Hipoglicemia' : 'Diabetes';
+                    } else if (glu >= 100) {
+                        status = 'warning';
+                        message = 'Prediabetes';
+                    } else {
+                        status = 'normal';
+                        message = 'Normal';
+                    }
+                } else { // post-prandial
+                    if (glu >= 200 || glu < 70) {
+                        status = 'danger';
+                        message = glu < 70 ? 'Hipoglicemia' : 'Diabetes';
+                    } else if (glu >= 140) {
+                        status = 'warning';
+                        message = 'Prediabetes';
+                    } else {
+                        status = 'normal';
+                        message = 'Normal';
+                    }
+                }
+                break;
+
+            case 'oxygen_temp':
+                const spo2 = values.spo2 ? parseInt(values.spo2) : null;
+                const temp = values.temp ? parseFloat(values.temp) : null;
+
+                let spo2Status = 'normal';
+                let tempStatus = 'normal';
+
+                if (spo2 !== null) {
+                    if (spo2 < 90) spo2Status = 'danger';
+                    else if (spo2 < 95) spo2Status = 'warning';
+                }
+
+                if (temp !== null) {
+                    if (temp > 38.0 || temp < 35.5) tempStatus = 'danger';
+                    else if (temp >= 37.3) tempStatus = 'warning';
+                }
+
+                if (spo2Status === 'danger' || tempStatus === 'danger') status = 'danger';
+                else if (spo2Status === 'warning' || tempStatus === 'warning') status = 'warning';
+
+                message = status === 'danger' ? 'Alerta' : status === 'warning' ? 'Revisión' : 'Normal';
+                break;
+
+            case 'weight':
+                const bmi = parseFloat(values.bmi);
+                if (bmi >= 30 || bmi < 16) {
+                    status = 'danger';
+                    message = bmi < 16 ? 'Delgadez Severa' : 'Obesidad';
+                } else if (bmi >= 25 || bmi < 18.5) {
+                    status = 'warning';
+                    message = bmi < 18.5 ? 'Bajo Peso' : 'Sobrepeso';
+                } else {
+                    status = 'normal';
+                    message = 'Peso Saludable';
+                }
+                break;
+
+            case 'pain':
+                const pain = parseInt(values.value);
+                if (pain >= 7) status = 'danger';
+                else if (pain >= 4) status = 'warning';
+                message = pain >= 7 ? 'Dolor Fuerte' : pain >= 4 ? 'Dolor Moderado' : 'Leve';
+                break;
+
+            case 'bristol':
+                const typeB = parseInt(values.value);
+                if (typeB === 1 || typeB === 2 || typeB === 7) status = 'danger';
+                else if (typeB === 3 || typeB === 6) status = 'warning';
+                message = (typeB >= 3 && typeB <= 5) ? 'Ideal' : 'Atención';
+                break;
+        }
+
+        return { status, message };
     }
 
     listeners = [];

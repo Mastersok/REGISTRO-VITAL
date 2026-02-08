@@ -58,10 +58,51 @@ window.Pages.PressureForm = (router) => {
         </div>
     `;
 
-    // Numeric blindage
+    // Live Evaluation
+    const sysInput = el.querySelector('#systolic');
+    const diaInput = el.querySelector('#diastolic');
+    const badgeContainer = el.querySelector('.p-4.bg-red-500\\/10');
+    const badgeText = badgeContainer.querySelector('p');
+    const badgeIcon = badgeContainer.querySelector('span');
+
+    const updateEvaluation = () => {
+        const sys = parseInt(sysInput.value);
+        const dia = parseInt(diaInput.value);
+
+        if (sys && dia) {
+            const evalResult = window.DosisStore.evaluateReading('pressure', { systolic: sys, diastolic: dia });
+
+            // Perfil de colores
+            badgeContainer.className = 'flex items-center gap-4 p-4 rounded-2xl transition-all duration-500';
+            if (evalResult.status === 'danger') {
+                badgeContainer.classList.add('bg-red-500', 'text-white');
+                badgeText.className = 'text-xs font-black uppercase tracking-widest';
+                badgeIcon.className = 'material-symbols-outlined !text-3xl';
+            } else if (evalResult.status === 'warning') {
+                badgeContainer.classList.add('bg-amber-500', 'text-white');
+                badgeText.className = 'text-xs font-black uppercase tracking-widest';
+                badgeIcon.className = 'material-symbols-outlined !text-3xl';
+            } else {
+                badgeContainer.classList.add('bg-green-500', 'text-white');
+                badgeText.className = 'text-xs font-black uppercase tracking-widest';
+                badgeIcon.className = 'material-symbols-outlined !text-3xl';
+            }
+            badgeText.innerText = `Estado: ${evalResult.message}`;
+        } else {
+            badgeContainer.className = 'flex items-center gap-4 p-4 bg-red-500/10 rounded-2xl';
+            badgeText.className = 'text-xs font-bold text-red-600 dark:text-red-400 uppercase tracking-widest';
+            badgeText.innerText = 'Guía OMS/ESC: Normal < 120/70';
+        }
+    };
+
     el.querySelectorAll('input').forEach(input => {
-        input.oninput = (e) => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); };
+        input.oninput = (e) => {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            if (e.target.id === 'systolic' || e.target.id === 'diastolic') updateEvaluation();
+        };
     });
+
+    if (existingReading) updateEvaluation();
 
     el.querySelector('#btn-back').onclick = () => {
         window.editingReadingId = null;

@@ -81,11 +81,47 @@ window.Pages.GlucoseForm = (router) => {
             render();
         };
 
-        el.querySelector('#glucose-val').oninput = (e) => {
+        const gluInput = el.querySelector('#glucose-val');
+        const badgeContainer = el.querySelector('.bg-orange-500\\/10');
+        const badgeText = badgeContainer.querySelector('p');
+        const badgeIcon = badgeContainer.querySelector('span');
+
+        const updateEvaluation = () => {
+            const val = parseInt(gluInput.value);
+            if (val > 20) {
+                const storeTiming = timing === 'AYUNAS' ? 'fasting' : 'postprandial';
+                const evalResult = window.DosisStore.evaluateReading('glucose', { value: val }, storeTiming);
+
+                badgeContainer.className = 'flex items-center gap-4 p-5 rounded-2xl transition-all duration-500';
+                if (evalResult.status === 'danger') {
+                    badgeContainer.classList.add('bg-red-500', 'text-white');
+                    badgeText.className = 'text-[11px] font-black uppercase leading-relaxed tracking-wide';
+                    badgeIcon.className = 'material-symbols-outlined !text-3xl';
+                } else if (evalResult.status === 'warning') {
+                    badgeContainer.classList.add('bg-amber-500', 'text-white');
+                    badgeText.className = 'text-[11px] font-black uppercase leading-relaxed tracking-wide';
+                    badgeIcon.className = 'material-symbols-outlined !text-3xl';
+                } else {
+                    badgeContainer.classList.add('bg-green-500', 'text-white');
+                    badgeText.className = 'text-[11px] font-black uppercase leading-relaxed tracking-wide';
+                    badgeIcon.className = 'material-symbols-outlined !text-3xl';
+                }
+                badgeText.innerText = `Estado: ${evalResult.message}`;
+            } else {
+                badgeContainer.className = 'flex items-center gap-4 p-5 bg-orange-500/10 rounded-2xl';
+                badgeText.className = 'text-[11px] font-bold text-orange-700 dark:text-orange-300 uppercase leading-relaxed tracking-wide';
+                badgeText.innerText = timing === 'AYUNAS' ? 'Guía ADA: Normal 70 - 100 mg/dL' : 'Guía ADA: Normal < 140 mg/dL';
+            }
+        };
+
+        gluInput.oninput = (e) => {
             let val = e.target.value.replace(/[^0-9]/g, '');
             if (val.length > 3) val = val.slice(0, 3);
             e.target.value = val;
+            updateEvaluation();
         };
+
+        if (initialValue) updateEvaluation();
 
         el.querySelector('#btn-save').onclick = () => {
             const val = parseInt(el.querySelector('#glucose-val').value);

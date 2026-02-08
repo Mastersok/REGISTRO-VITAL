@@ -50,7 +50,7 @@ window.Pages.PainForm = (router) => {
 
                 <div class="p-6 rounded-3xl transition-colors duration-500" style="background-color: ${colors[painLevel]}20; border: 2px solid ${colors[painLevel]}40">
                     <p class="font-black uppercase tracking-widest text-sm" style="color: ${colors[painLevel]}">
-                        ${painLevel === 0 ? 'Sin Dolor' : painLevel < 4 ? 'Leve' : painLevel < 7 ? 'Moderado' : 'Severo'}
+                        ${window.DosisStore.evaluateReading('pain', { value: painLevel }).message}
                     </p>
                 </div>
 
