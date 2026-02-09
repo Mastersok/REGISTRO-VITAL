@@ -31,22 +31,26 @@ window.Pages.WeeklySummary = (router) => {
 
         const normalCount = statuses.filter(s => s === 'normal').length;
         const warningCount = statuses.filter(s => s === 'warning').length;
+        const cautionCount = statuses.filter(s => s === 'caution').length;
         const dangerCount = statuses.filter(s => s === 'danger').length;
         const total = statuses.length;
 
         const normalPercent = Math.round((normalCount / total) * 100);
         const warningPercent = Math.round((warningCount / total) * 100);
+        const cautionPercent = Math.round((cautionCount / total) * 100);
         const dangerPercent = Math.round((dangerCount / total) * 100);
 
         return {
             count: total,
             normalCount,
             warningCount,
+            cautionCount,
             dangerCount,
             normalPercent,
             warningPercent,
+            cautionPercent,
             dangerPercent,
-            overallStatus: dangerCount > 0 ? 'danger' : warningCount > 0 ? 'warning' : 'normal'
+            overallStatus: dangerCount > 0 ? 'danger' : cautionCount > 0 ? 'caution' : warningCount > 0 ? 'warning' : 'normal'
         };
     };
 
@@ -62,12 +66,14 @@ window.Pages.WeeklySummary = (router) => {
     const statusColors = {
         normal: 'bg-green-500',
         warning: 'bg-amber-500',
+        caution: 'bg-orange-500',
         danger: 'bg-red-500'
     };
 
     const statusIcons = {
         normal: 'check_circle',
         warning: 'warning',
+        caution: 'priority_high',
         danger: 'error'
     };
 
@@ -139,6 +145,15 @@ window.Pages.WeeklySummary = (router) => {
                                             <div class="h-full bg-amber-500 rounded-full transition-all" style="width: ${analysis.warningPercent}%"></div>
                                         </div>
                                         <span class="text-xs font-black text-gray-600 dark:text-slate-400 w-10 text-right">${analysis.warningPercent}%</span>
+                                    </div>
+                                ` : ''}
+                                ${analysis.cautionPercent > 0 ? `
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-[10px] font-black text-orange-600 dark:text-orange-400 uppercase w-16">${t('status_caution')}</span>
+                                        <div class="flex-1 h-2 bg-gray-100 dark:bg-slate-900 rounded-full overflow-hidden">
+                                            <div class="h-full bg-orange-500 rounded-full transition-all" style="width: ${analysis.cautionPercent}%"></div>
+                                        </div>
+                                        <span class="text-xs font-black text-gray-600 dark:text-slate-400 w-10 text-right">${analysis.cautionPercent}%</span>
                                     </div>
                                 ` : ''}
                                 ${analysis.dangerPercent > 0 ? `

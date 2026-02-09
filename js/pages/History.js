@@ -17,6 +17,7 @@ window.Pages.HistoryView = (router) => {
     const colors = {
         normal: 'bg-green-500 border-green-100 shadow-green-500/20',
         warning: 'bg-amber-500 border-amber-100 shadow-amber-500/20',
+        caution: 'bg-orange-500 border-orange-100 shadow-orange-500/20',
         danger: 'bg-red-500 border-red-100 shadow-red-500/20'
     };
 
@@ -43,6 +44,7 @@ window.Pages.HistoryView = (router) => {
     const statusOptions = [
         { id: 'normal', label: t('status_normal'), icon: 'check_circle' },
         { id: 'warning', label: t('status_warning'), icon: 'warning' },
+        { id: 'caution', label: t('status_caution'), icon: 'priority_high' },
         { id: 'danger', label: t('status_danger'), icon: 'emergency' }
     ];
 
@@ -101,6 +103,7 @@ window.Pages.HistoryView = (router) => {
             const statusColors = {
                 normal: 'bg-green-500 text-white shadow-green-500/30',
                 warning: 'bg-amber-500 text-white shadow-amber-500/30',
+                caution: 'bg-orange-500 text-white shadow-orange-500/30',
                 danger: 'bg-red-500 text-white shadow-red-500/30'
             };
             return `

@@ -338,29 +338,37 @@ class Store {
                 let tempStatus = 'normal';
 
                 if (spo2 !== null) {
-                    if (spo2 < 90) spo2Status = 'danger';
+                    if (spo2 < 85) spo2Status = 'danger';
+                    else if (spo2 < 90) spo2Status = 'caution';
                     else if (spo2 < 95) spo2Status = 'warning';
                 }
 
                 if (temp !== null) {
-                    if (temp > 38.0 || temp < 35.5) tempStatus = 'danger';
+                    if (temp > 39.0 || temp < 35.0) tempStatus = 'danger';
+                    else if (temp > 38.0 || temp < 35.5) tempStatus = 'caution';
                     else if (temp >= 37.3) tempStatus = 'warning';
                 }
 
                 if (spo2Status === 'danger' || tempStatus === 'danger') status = 'danger';
+                else if (spo2Status === 'caution' || tempStatus === 'caution') status = 'caution';
                 else if (spo2Status === 'warning' || tempStatus === 'warning') status = 'warning';
 
-                message = status === 'danger' ? this.t('status_alert') : status === 'warning' ? this.t('status_review') : this.t('status_normal');
+                message = status === 'danger' ? this.t('status_alert') :
+                    status === 'caution' ? this.t('status_review') :
+                        status === 'warning' ? this.t('status_elevated') : this.t('status_normal');
                 break;
 
             case 'weight':
                 const bmi = parseFloat(values.bmi);
-                if (bmi >= 30 || bmi < 16) {
+                if (bmi >= 35 || bmi < 15) {
                     status = 'danger';
-                    message = bmi < 16 ? this.t('status_low') : this.t('status_high');
+                    message = bmi < 15 ? this.t('status_low') : this.t('status_obesity_stage2');
+                } else if (bmi >= 30 || bmi < 16) {
+                    status = 'caution';
+                    message = bmi < 16 ? this.t('status_low') : this.t('status_obesity_stage1');
                 } else if (bmi >= 25 || bmi < 18.5) {
                     status = 'warning';
-                    message = bmi < 18.5 ? this.t('status_low') : this.t('status_elevated');
+                    message = bmi < 18.5 ? this.t('status_low') : this.t('status_overweight');
                 } else {
                     status = 'normal';
                     message = this.t('status_normal');
@@ -369,26 +377,32 @@ class Store {
 
             case 'pain':
                 const pain = parseInt(values.value);
-                if (pain >= 7) {
+                if (pain >= 9) {
                     status = 'danger';
                     message = this.t('status_severe_pain');
-                } else if (pain > 0) {
+                } else if (pain >= 7) {
+                    status = 'caution';
+                    message = this.t('status_high_pain');
+                } else if (pain >= 4) {
                     status = 'warning';
-                    message = pain >= 4 ? this.t('status_moderate_pain') : this.t('status_mild_pain');
+                    message = this.t('status_moderate_pain');
                 } else {
                     status = 'normal';
-                    message = this.t('status_no_pain');
+                    message = this.t('status_mild_pain');
                 }
                 break;
 
             case 'bristol':
                 const typeB = parseInt(values.value);
-                if (typeB === 1 || typeB === 2 || typeB === 7) {
+                if (typeB === 1 || typeB === 7) {
                     status = 'danger';
-                    message = this.t('status_attention');
-                } else if (typeB === 6) {
-                    status = 'warning';
+                    message = this.t('status_alert');
+                } else if (typeB === 2 || typeB === 6) {
+                    status = 'caution';
                     message = this.t('status_review');
+                } else if (typeB === 5 || typeB === 3) {
+                    status = 'warning';
+                    message = this.t('status_attention');
                 } else {
                     status = 'normal';
                     message = this.t('status_ideal');
