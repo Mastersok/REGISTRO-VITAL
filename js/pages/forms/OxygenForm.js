@@ -47,8 +47,11 @@ window.Pages.OxygenForm = (router) => {
             </div>
 
             <div class="space-y-4 pt-4 border-t border-gray-100 dark:border-slate-700">
-                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('notes')}</label>
-                <textarea id="notes" placeholder="${t('notes_placeholder')}" 
+                <div class="flex justify-between items-center ml-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500">${t('notes')}</label>
+                    <span id="char-count" class="text-[9px] font-black text-gray-400 uppercase tracking-widest">0 / 100</span>
+                </div>
+                <textarea id="notes" maxlength="100" placeholder="${t('notes_placeholder')}" 
                     class="w-full h-24 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl p-5 text-sm font-bold text-gray-700 dark:text-slate-300 focus:border-blue-500 outline-none transition-all resize-none">${existingReading ? existingReading.values.notes || '' : ''}</textarea>
             </div>
 
@@ -68,13 +71,14 @@ window.Pages.OxygenForm = (router) => {
 
         const evalResult = window.DosisStore.evaluateReading('oxygen_temp', { spo2, temp });
 
-        // Update SpO2 badge
+        // Update SpO2 badge (Normal, Warning, Caution, Danger)
         const sBadge = el.querySelector('#spo2-badge');
         const sMsg = sBadge.querySelector('.status-msg');
         if (spo2) {
             sBadge.className = 'p-4 rounded-2xl flex flex-col items-center justify-center gap-1 border-2 transition-all';
-            if (spo2 < 90) { sBadge.classList.add('bg-red-500', 'text-white', 'border-red-600'); sMsg.innerText = 'Bajo'; }
-            else if (spo2 < 95) { sBadge.classList.add('bg-amber-500', 'text-white', 'border-amber-600'); sMsg.innerText = 'Alerta'; }
+            if (spo2 < 85) { sBadge.classList.add('bg-red-500', 'text-white', 'border-red-600'); sMsg.innerText = 'Crítico'; }
+            else if (spo2 < 90) { sBadge.classList.add('bg-orange-500', 'text-white', 'border-orange-600'); sMsg.innerText = 'Bajo'; }
+            else if (spo2 < 95) { sBadge.classList.add('bg-amber-400', 'text-white', 'border-amber-500'); sMsg.innerText = 'Alerta'; }
             else { sBadge.classList.add('bg-green-500', 'text-white', 'border-green-600'); sMsg.innerText = 'Óptimo'; }
         } else {
             sBadge.className = 'p-4 bg-blue-500/10 rounded-2xl flex flex-col items-center justify-center gap-1 border-2 border-transparent text-blue-700 dark:text-blue-300';
@@ -86,14 +90,24 @@ window.Pages.OxygenForm = (router) => {
         const tMsg = tBadge.querySelector('.status-msg');
         if (temp) {
             tBadge.className = 'p-4 rounded-2xl flex flex-col items-center justify-center gap-1 border-2 transition-all';
-            if (temp > 38.0 || temp < 35.5) { tBadge.classList.add('bg-red-500', 'text-white', 'border-red-600'); tMsg.innerText = 'Alerta'; }
-            else if (temp >= 37.3) { tBadge.classList.add('bg-amber-500', 'text-white', 'border-amber-600'); tMsg.innerText = 'Elevada'; }
+            if (temp > 39.0 || temp < 35.0) { tBadge.classList.add('bg-red-500', 'text-white', 'border-red-600'); tMsg.innerText = 'Crítica'; }
+            else if (temp > 38.0 || temp < 35.5) { tBadge.classList.add('bg-orange-500', 'text-white', 'border-orange-600'); tMsg.innerText = 'Alerta'; }
+            else if (temp >= 37.3) { tBadge.classList.add('bg-amber-400', 'text-white', 'border-amber-500'); tMsg.innerText = 'Elevada'; }
             else { tBadge.classList.add('bg-green-500', 'text-white', 'border-green-600'); tMsg.innerText = 'Normal'; }
         } else {
             tBadge.className = 'p-4 bg-orange-500/10 rounded-2xl flex flex-col items-center justify-center gap-1 border-2 border-transparent text-orange-700 dark:text-orange-300';
             tMsg.innerText = 'Normal: 36-37°';
         }
     };
+
+    // Character count for notes
+    const notesArea = el.querySelector('#notes');
+    const charCount = el.querySelector('#char-count');
+    const updateCharCount = () => {
+        charCount.innerText = `${notesArea.value.length} / 100`;
+    };
+    notesArea.oninput = updateCharCount;
+    updateCharCount();
 
     spo2Input.oninput = updateEvaluation;
     tempInput.oninput = updateEvaluation;

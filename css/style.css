@@ -8,8 +8,9 @@
 
     /* Semantic Colors */
     --status-normal: #34c759;
-    --status-caution: #ffcc00;
-    --status-alert: #ff3b30;
+    --status-warning: #ffcc00;
+    --status-caution: #ff9500;
+    --status-danger: #ff3b30;
 
     /* Modules */
     --color-pressure: #e53935;

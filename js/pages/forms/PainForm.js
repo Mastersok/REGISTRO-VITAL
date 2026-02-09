@@ -55,9 +55,12 @@ window.Pages.PainForm = (router) => {
                     </p>
                 </div>
 
-                <div class="space-y-4 pt-4 border-t border-gray-100 dark:border-slate-700">
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 text-left ml-2">${t('notes')}</label>
-                    <textarea id="notes" placeholder="${t('notes_placeholder')}" 
+                <div class="space-y-4 pt-4 border-t border-gray-100 dark:border-slate-700 text-left">
+                    <div class="flex justify-between items-center ml-2">
+                        <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500">${t('notes')}</label>
+                        <span id="char-count" class="text-[9px] font-black text-gray-400 uppercase tracking-widest">${notes.length} / 100</span>
+                    </div>
+                    <textarea id="notes" maxlength="100" placeholder="${t('notes_placeholder')}" 
                         class="w-full h-24 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl p-5 text-sm font-bold text-gray-700 dark:text-slate-300 focus:border-primary outline-none transition-all resize-none">${notes}</textarea>
                 </div>
 
@@ -76,7 +79,15 @@ window.Pages.PainForm = (router) => {
         const slider = el.querySelector('#pain-range');
         slider.oninput = (e) => {
             painLevel = parseInt(e.target.value);
+            notes = el.querySelector('#notes').value; // Preserve notes before re-rendering
             render();
+        };
+
+        const notesArea = el.querySelector('#notes');
+        const charCount = el.querySelector('#char-count');
+        notesArea.oninput = () => {
+            charCount.innerText = `${notesArea.value.length} / 100`;
+            notes = notesArea.value;
         };
 
         el.querySelector('#btn-save').onclick = () => {

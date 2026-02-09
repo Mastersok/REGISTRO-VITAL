@@ -45,8 +45,11 @@ window.Pages.WeightForm = (router) => {
             </div>
 
             <div class="space-y-4 pt-4 border-t border-gray-100 dark:border-slate-700">
-                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('notes')}</label>
-                <textarea id="notes" placeholder="${t('notes_placeholder')}" 
+                <div class="flex justify-between items-center ml-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500">${t('notes')}</label>
+                    <span id="char-count" class="text-[9px] font-black text-gray-400 uppercase tracking-widest">0 / 100</span>
+                </div>
+                <textarea id="notes" maxlength="100" placeholder="${t('notes_placeholder')}" 
                     class="w-full h-24 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl p-5 text-sm font-bold text-gray-700 dark:text-slate-300 focus:border-green-500 outline-none transition-all resize-none">${existingReading ? existingReading.values.notes || '' : ''}</textarea>
             </div>
 
@@ -97,6 +100,15 @@ window.Pages.WeightForm = (router) => {
             imcDisplay.classList.add('hidden');
         }
     };
+
+    // Character count for notes
+    const notesArea = el.querySelector('#notes');
+    const charCount = el.querySelector('#char-count');
+    const updateCharCount = () => {
+        charCount.innerText = `${notesArea.value.length} / 100`;
+    };
+    notesArea.oninput = updateCharCount;
+    updateCharCount();
 
     weightInput.oninput = updateIMC;
     if (existingReading) updateIMC();

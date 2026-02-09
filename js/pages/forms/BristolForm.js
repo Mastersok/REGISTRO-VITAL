@@ -58,8 +58,11 @@ window.Pages.BristolForm = (router) => {
             </div>
 
             <div class="bg-white dark:bg-slate-800 p-8 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 space-y-4 mb-32">
-                <label class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('notes')}</label>
-                <textarea id="notes" placeholder="${t('notes_placeholder')}" 
+                <div class="flex justify-between items-center ml-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500">${t('notes')}</label>
+                    <span id="char-count" class="text-[9px] font-black text-gray-400 uppercase tracking-widest">${notes.length} / 100</span>
+                </div>
+                <textarea id="notes" maxlength="100" placeholder="${t('notes_placeholder')}" 
                     class="w-full h-24 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl p-5 text-sm font-bold text-gray-700 dark:text-slate-300 focus:border-amber-500 outline-none transition-all resize-none">${notes}</textarea>
             </div>
 
@@ -79,9 +82,17 @@ window.Pages.BristolForm = (router) => {
         types.forEach(t => {
             el.querySelector(`#type-${t.id}`).onclick = () => {
                 selectedType = t.id;
+                notes = el.querySelector('#notes').value;
                 render();
             };
         });
+
+        const notesArea = el.querySelector('#notes');
+        const charCount = el.querySelector('#char-count');
+        notesArea.oninput = () => {
+            charCount.innerText = `${notesArea.value.length} / 100`;
+            notes = notesArea.value;
+        };
 
         if (selectedType) {
             el.querySelector('#btn-save').onclick = () => {

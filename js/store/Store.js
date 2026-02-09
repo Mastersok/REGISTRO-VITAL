@@ -240,32 +240,46 @@ class Store {
                 let bpStatus = 'normal';
                 let bpMsg = this.t('status_optimal');
 
-                // Evaluate BP
-                if (sys >= 140 || dia >= 90 || (sys > 0 && sys < 90) || (dia > 0 && dia < 60)) {
+                // Evaluate BP (4 levels)
+                // Danger (Red)
+                if (sys >= 150 || dia >= 95 || (sys > 0 && sys < 85) || (dia > 0 && dia < 55)) {
                     bpStatus = 'danger';
-                    bpMsg = (sys < 90 || dia < 60) ? this.t('status_hypotension') : this.t('status_hypertension');
-                } else if (sys >= 120 || dia >= 80 || (sys > 0 && sys < 100) || (dia > 0 && dia < 65)) {
+                    bpMsg = (sys < 85 || dia < 55) ? this.t('status_hypotension') : this.t('status_hypertension_stage2');
+                }
+                // Caution (Orange)
+                else if (sys >= 140 || dia >= 90 || (sys > 0 && sys < 90) || (dia > 0 && dia < 60)) {
+                    bpStatus = 'caution';
+                    bpMsg = this.t('status_hypertension_stage1');
+                }
+                // Warning (Yellow)
+                else if (sys >= 130 || dia >= 85 || (sys > 0 && sys < 100) || (dia > 0 && dia < 65)) {
                     bpStatus = 'warning';
-                    bpMsg = (sys < 100 || dia < 65) ? this.t('status_low') : this.t('status_elevated');
+                    bpMsg = this.t('status_elevated');
                 }
 
                 // Evaluate Pulse (BPM)
                 let pulseStatus = 'normal';
                 let pulseMsg = this.t('status_normal');
                 if (pulse > 0) {
-                    if (pulse > 120 || pulse < 50) {
+                    if (pulse > 130 || pulse < 45) {
                         pulseStatus = 'danger';
-                        pulseMsg = pulse < 50 ? this.t('status_bradycardia') : this.t('status_tachycardia');
+                        pulseMsg = pulse < 45 ? this.t('status_bradycardia') : this.t('status_tachycardia');
+                    } else if (pulse > 110 || pulse < 55) {
+                        pulseStatus = 'caution';
+                        pulseMsg = this.t('status_review');
                     } else if (pulse > 100 || pulse < 60) {
                         pulseStatus = 'warning';
-                        pulseMsg = pulse < 60 ? this.t('status_low') : this.t('status_elevated');
+                        pulseMsg = this.t('status_elevated');
                     }
                 }
 
-                // Severity Priority
+                // Severity Priority (Danger > Caution > Warning > Normal)
                 if (bpStatus === 'danger' || pulseStatus === 'danger') {
                     status = 'danger';
                     message = bpStatus === 'danger' ? bpMsg : pulseMsg;
+                } else if (bpStatus === 'caution' || pulseStatus === 'caution') {
+                    status = 'caution';
+                    message = bpStatus === 'caution' ? bpMsg : pulseMsg;
                 } else if (bpStatus === 'warning' || pulseStatus === 'warning') {
                     status = 'warning';
                     message = bpStatus === 'warning' ? bpMsg : pulseMsg;
@@ -278,16 +292,15 @@ class Store {
             case 'glucose':
                 const glu = parseInt(values.value);
 
-                // Contextos médicos específicos con rangos ADA
+                // Contextos médicos específicos con rangos ADA + Color Naranja (Caution)
                 const glucoseRanges = {
-                    fasting: { normal: [70, 100], warning: [100, 126], danger: 126 },
-                    before_meal: { normal: [70, 130], warning: [130, 140], danger: 140 },
-                    after_meal: { normal: [0, 140], warning: [140, 180], danger: 180 },
-                    before_sleep: { normal: [100, 140], warning: [140, 180], danger: 180 },
-                    random: { normal: [0, 140], warning: [140, 200], danger: 200 }
+                    fasting: { normal: [70, 100], warning: [100, 115], caution: [115, 126], danger: 126 },
+                    before_meal: { normal: [70, 130], warning: [130, 150], caution: [150, 180], danger: 180 },
+                    after_meal: { normal: [0, 140], warning: [140, 170], caution: [170, 200], danger: 200 },
+                    before_sleep: { normal: [100, 140], warning: [140, 170], caution: [170, 200], danger: 200 },
+                    random: { normal: [0, 140], warning: [140, 180], caution: [180, 250], danger: 250 }
                 };
 
-                // Detectar contexto (compatibilidad con formato antiguo)
                 let context = 'fasting';
                 if (timing) {
                     if (timing === 'fasting' || timing.toLowerCase().includes('ayunas')) context = 'fasting';
@@ -299,28 +312,19 @@ class Store {
 
                 const range = glucoseRanges[context];
 
-                // Hipoglucemia severa (universal)
-                if (glu > 0 && glu < 70) {
+                if (glu > 0 && glu < 60) {
                     status = 'danger';
                     message = this.t('status_hypoglycemia');
-                }
-                // Hiperglucemia según contexto
-                else if (glu >= range.danger) {
+                } else if (glu >= range.danger) {
                     status = 'danger';
                     message = this.t('status_diabetes');
-                }
-                // Advertencia
-                else if (glu >= range.warning[0]) {
+                } else if (glu >= range.caution[0]) {
+                    status = 'caution';
+                    message = this.t('status_high');
+                } else if (glu >= range.warning[0]) {
                     status = 'warning';
                     message = this.t('status_prediabetes');
-                }
-                // Hipoglucemia leve
-                else if (context === 'fasting' && glu < 80) {
-                    status = 'warning';
-                    message = this.t('status_low');
-                }
-                // Normal
-                else {
+                } else {
                     status = 'normal';
                     message = this.t('status_normal');
                 }

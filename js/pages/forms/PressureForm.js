@@ -48,8 +48,11 @@ window.Pages.PressureForm = (router) => {
             </div>
 
             <div class="space-y-2 pt-4 border-t border-gray-100 dark:border-slate-700">
-                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500 ml-2">${t('notes')}</label>
-                <textarea id="notes" placeholder="${t('notes_placeholder')}" 
+                <div class="flex justify-between items-center ml-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500">${t('notes')}</label>
+                    <span id="char-count" class="text-[9px] font-black text-gray-400 uppercase tracking-widest">0 / 100</span>
+                </div>
+                <textarea id="notes" maxlength="100" placeholder="${t('notes_placeholder')}" 
                     class="w-full h-24 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-3xl p-5 text-sm font-bold text-gray-700 dark:text-slate-300 focus:border-red-500 outline-none transition-all resize-none">${existingReading ? existingReading.values.notes || '' : ''}</textarea>
             </div>
 
@@ -76,21 +79,20 @@ window.Pages.PressureForm = (router) => {
         if (sys && dia) {
             const evalResult = window.DosisStore.evaluateReading('pressure', { systolic: sys, diastolic: dia, pulse: pulse || 0 });
 
-            // Perfil de colores
+            // Perfil de colores (Normal, Warning, Caution, Danger)
             badgeContainer.className = 'flex items-center gap-4 p-4 rounded-2xl transition-all duration-500';
             if (evalResult.status === 'danger') {
                 badgeContainer.classList.add('bg-red-500', 'text-white');
-                badgeText.className = 'text-xs font-black uppercase tracking-widest';
-                badgeIcon.className = 'material-symbols-outlined !text-3xl';
+            } else if (evalResult.status === 'caution') {
+                badgeContainer.classList.add('bg-orange-500', 'text-white');
             } else if (evalResult.status === 'warning') {
-                badgeContainer.classList.add('bg-amber-500', 'text-white');
-                badgeText.className = 'text-xs font-black uppercase tracking-widest';
-                badgeIcon.className = 'material-symbols-outlined !text-3xl';
+                badgeContainer.classList.add('bg-amber-400', 'text-white');
             } else {
                 badgeContainer.classList.add('bg-green-500', 'text-white');
-                badgeText.className = 'text-xs font-black uppercase tracking-widest';
-                badgeIcon.className = 'material-symbols-outlined !text-3xl';
             }
+
+            badgeText.className = 'text-xs font-black uppercase tracking-widest';
+            badgeIcon.className = 'material-symbols-outlined !text-3xl';
             badgeText.innerText = `Estado: ${evalResult.message}`;
         } else {
             badgeContainer.className = 'flex items-center gap-4 p-4 bg-red-500/10 rounded-2xl';
@@ -99,12 +101,14 @@ window.Pages.PressureForm = (router) => {
         }
     };
 
-    el.querySelectorAll('input').forEach(input => {
-        input.oninput = (e) => {
-            e.target.value = e.target.value.replace(/[^0-9]/g, '');
-            if (['systolic', 'diastolic', 'pulse'].includes(e.target.id)) updateEvaluation();
-        };
-    });
+    // Character count for notes
+    const notesArea = el.querySelector('#notes');
+    const charCount = el.querySelector('#char-count');
+    const updateCharCount = () => {
+        charCount.innerText = `${notesArea.value.length} / 100`;
+    };
+    notesArea.oninput = updateCharCount;
+    updateCharCount();
 
     if (existingReading) updateEvaluation();
 
