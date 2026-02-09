@@ -95,6 +95,22 @@ button:active {
     animation: slideUp 0.4s cubic-bezier(0, 0, 0.2, 1);
 }
 
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-slide-down {
+    animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .tabular-nums {
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.05em;

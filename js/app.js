@@ -90,4 +90,18 @@ class App {
 // Initialize App when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     window.DosisVital = new App();
+
+    // Mostrar notificación de bienvenida al nuevo sistema (solo una vez)
+    const hasSeenWelcome = localStorage.getItem('notification_system_welcome');
+    if (!hasSeenWelcome) {
+        setTimeout(() => {
+            const t = (key) => window.DosisStore.t(key);
+            window.DosisNotifications.addDeveloperMessage(
+                '🎉 ' + (t('new_feature') || 'Nueva Función'),
+                (t('notification_welcome_message') || 'Centro de Notificaciones activado. Ahora recibirás recordatorios inteligentes y análisis de tus tendencias de salud.'),
+                'medium'
+            );
+            localStorage.setItem('notification_system_welcome', 'true');
+        }, 2000);
+    }
 });

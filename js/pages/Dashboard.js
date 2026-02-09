@@ -30,11 +30,17 @@ window.Pages.Dashboard = (router) => {
                     </p>
                 </div>
             </div>
-            <button id="btn-theme" class="size-14 bg-white dark:bg-white/10 shadow-premium rounded-2xl flex items-center justify-center transition-all active:scale-90 border border-transparent dark:border-white/5">
-                <span class="material-symbols-outlined !text-2xl text-gray-700 dark:text-yellow-400">
-                    ${isDark ? 'light_mode' : 'dark_mode'}
-                </span>
-            </button>
+            <div class="flex items-center gap-2">
+                <button id="btn-notifications" class="relative size-14 bg-white dark:bg-white/10 shadow-premium rounded-2xl flex items-center justify-center transition-all active:scale-90 border border-transparent dark:border-white/5">
+                    <span class="material-symbols-outlined !text-2xl text-gray-700 dark:text-slate-300">notifications</span>
+                    <span id="notification-badge" class="absolute -top-1 -right-1 size-5 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center hidden">0</span>
+                </button>
+                <button id="btn-theme" class="size-14 bg-white dark:bg-white/10 shadow-premium rounded-2xl flex items-center justify-center transition-all active:scale-90 border border-transparent dark:border-white/5">
+                    <span class="material-symbols-outlined !text-2xl text-gray-700 dark:text-yellow-400">
+                        ${isDark ? 'light_mode' : 'dark_mode'}
+                    </span>
+                </button>
+            </div>
         </header>
 
         <!-- Gamification Card -->
@@ -150,6 +156,45 @@ window.Pages.Dashboard = (router) => {
         window.DosisStore.toggleTheme();
         router.navigateTo('dashboard');
     };
+
+    // Botón de notificaciones
+    el.querySelector('#btn-notifications').onclick = () => {
+        const modal = window.Pages.NotificationsView(router);
+        document.body.appendChild(modal);
+    };
+
+    // Actualizar badge de notificaciones
+    const updateNotificationBadge = () => {
+        const unreadCount = window.DosisNotifications.getUnreadCount();
+        const badge = el.querySelector('#notification-badge');
+        if (unreadCount > 0) {
+            badge.textContent = unreadCount > 9 ? '9+' : unreadCount;
+            badge.classList.remove('hidden');
+        } else {
+            badge.classList.add('hidden');
+        }
+    };
+
+    // Generar recordatorios e insights automáticamente
+    const generateSmartNotifications = () => {
+        const profile = window.DosisStore.getActiveProfile();
+        if (profile) {
+            // Generar recordatorios solo si han pasado más de 12 horas desde la última generación
+            const lastGenKey = `last_notification_gen_${profile.id}`;
+            const lastGen = localStorage.getItem(lastGenKey);
+            const now = Date.now();
+
+            if (!lastGen || (now - parseInt(lastGen)) > 12 * 60 * 60 * 1000) {
+                window.DosisNotifications.generateSmartReminders(profile.id);
+                window.DosisNotifications.generateHealthInsights(profile.id);
+                localStorage.setItem(lastGenKey, now.toString());
+            }
+        }
+    };
+
+    generateSmartNotifications();
+    updateNotificationBadge();
+
     el.querySelector('#btn-profiles').onclick = () => router.navigateTo('profiles');
     el.querySelector('#btn-pressure').onclick = () => router.navigateTo('form-pressure');
     el.querySelector('#btn-glucose').onclick = () => router.navigateTo('form-glucose');
