@@ -6,14 +6,25 @@
 class App {
     constructor() {
         this.container = document.getElementById('view-container');
+        this.splash = document.getElementById('splash-screen');
+
         window.addEventListener('popstate', () => this.route());
 
         const pin = window.DosisStore.state.settings.pin;
-        if (pin) {
-            this.showLockScreen();
-        } else {
-            this.route();
-        }
+
+        // Retrasar el inicio para mostrar el Logo 2 segundos
+        setTimeout(() => {
+            if (this.splash) {
+                this.splash.classList.add('opacity-0', 'pointer-events-none', 'scale-110');
+                setTimeout(() => this.splash.remove(), 700);
+            }
+
+            if (pin) {
+                this.showLockScreen();
+            } else {
+                this.route();
+            }
+        }, 2500);
     }
 
     showLockScreen() {

@@ -23,9 +23,12 @@ window.Pages.Dashboard = (router) => {
                     <img src="${profile.avatar}" class="size-full rounded-full object-cover">
                 </div>
                 <div>
-                    <h2 class="text-2xl font-black tracking-tight text-gray-900 dark:text-white transition-colors">${t('home').toUpperCase()}, ${profile.name}</h2>
-                    <p class="text-[10px] font-black text-primary uppercase tracking-widest flex items-center gap-1">
-                        ${t('active_patient')}
+                    <div class="flex items-center gap-2">
+                        <img src="assets/logo.png" class="size-6 object-contain" alt="">
+                        <h2 class="text-xl font-black tracking-tighter text-gray-900 dark:text-white transition-colors">DOSIS<span class="text-primary italic">VITAL</span></h2>
+                    </div>
+                    <p class="text-[10px] font-black text-primary uppercase tracking-widest flex items-center gap-1 mt-0.5">
+                        ${profile.name} • ${t('active_patient')}
                         <span class="material-symbols-outlined !text-[12px]">swap_horiz</span>
                     </p>
                 </div>
