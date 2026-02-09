@@ -9,10 +9,11 @@ La aplicación es una **SPA (Single Page Application)** construida con Vanilla J
 ### Componentes Clave
 *   **Gestión de Datos (`Store.js`)**: Sistema de persistencia local con soporte para múltiples tipos de mediciones, perfiles de usuario y preferencias de tema.
 *   **Motor Visual (`Chart.js`)**: Visualización de tendencias médicas mediante 6 tipos de gráficas interactivas con soporte nativo para Modo Oscuro.
-*   **Sistema de Identidad**: Identificación de pacientes mediante iniciales dinámicas y paletas de colores institucionales.
-*   **Notas Contextuales**: Persistencia de observaciones subjetivas vinculadas a cada registro médico para análisis de contexto.
+*   **Sistema de Identidad y Multi-Paciente**: Gestión de múltiples perfiles mediante iniciales dinámicas y paletas de colores personalizables.
+*   **Notas Contextuales**: Persistencia de observaciones subjetivas vinculadas a cada registro médico.
 *   **Biometría Flexible**: Lógica de guardado independiente para mediciones combinadas (Oxígeno/Temperatura).
 *   **Exportación Clínica**: Generador de reportes PDF enriquecidos con observaciones del usuario.
+*   **Internacionalización (i18n)**: Soporte completo para Español e Inglés en toda la interfaz y reportes.
 
 ## 🎨 Diseño y Experiencia de Usuario (UX)
 
@@ -32,7 +33,7 @@ La aplicación es una **SPA (Single Page Application)** construida con Vanilla J
 La versión 2.0 está **totalmente operativa**, ofreciendo una experiencia profesional, sobria y funcional para el seguimiento de la salud personal.
 
 ### Próximos Pasos (Hoja de Ruta)
-1.  **Análisis Predictivo**: Pequeños algoritmos para detectar tendencias negativas antes de que ocurran.
-2.  **Gestión de Medicación**: Módulo para registrar tomas de medicamentos y dosis.
-3.  **Seguridad Biométrica**: Integración con huella o rostro (vía Capacitor) para proteger los datos médicos.
-4.  **Multi-Perfil**: Gestión simultánea de varios pacientes (ej: padres e hijos).
+1.  **Metas de Salud**: Establecimiento de objetivos y seguimiento visual del progreso.
+2.  **Recordatorios Locales**: Alarmas programables para mediciones y tomas de medicación.
+3.  **Análisis Predictivo**: Detección de tendencias negativas mediante heurísticas.
+4.  **Seguridad Biométrica**: Integración con huella o rostro (vía biometría web) para proteger los datos médicos.
