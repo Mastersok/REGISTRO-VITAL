@@ -271,30 +271,52 @@ class Store {
 
             case 'glucose':
                 const glu = parseInt(values.value);
-                const isFasting = timing && (timing.toLowerCase().includes('ayunas') || timing.toLowerCase().includes('fasting'));
 
-                if (isFasting) {
-                    if (glu >= 126 || (glu > 0 && glu < 70)) {
-                        status = 'danger';
-                        message = glu < 70 ? this.t('status_hypoglycemia') : this.t('status_diabetes');
-                    } else if (glu >= 100 || (glu > 0 && glu < 80)) {
-                        status = 'warning';
-                        message = glu < 80 ? this.t('status_low') : this.t('status_prediabetes');
-                    } else {
-                        status = 'normal';
-                        message = this.t('status_normal');
-                    }
-                } else { // post-prandial
-                    if (glu >= 200 || (glu > 0 && glu < 70)) {
-                        status = 'danger';
-                        message = glu < 70 ? this.t('status_hypoglycemia') : this.t('status_diabetes');
-                    } else if (glu >= 140 || (glu > 0 && glu < 90)) {
-                        status = 'warning';
-                        message = glu < 90 ? this.t('status_low') : this.t('status_prediabetes');
-                    } else {
-                        status = 'normal';
-                        message = this.t('status_normal');
-                    }
+                // Contextos médicos específicos con rangos ADA
+                const glucoseRanges = {
+                    fasting: { normal: [70, 100], warning: [100, 126], danger: 126 },
+                    before_meal: { normal: [70, 130], warning: [130, 140], danger: 140 },
+                    after_meal: { normal: [0, 140], warning: [140, 180], danger: 180 },
+                    before_sleep: { normal: [100, 140], warning: [140, 180], danger: 180 },
+                    random: { normal: [0, 140], warning: [140, 200], danger: 200 }
+                };
+
+                // Detectar contexto (compatibilidad con formato antiguo)
+                let context = 'fasting';
+                if (timing) {
+                    if (timing === 'fasting' || timing.toLowerCase().includes('ayunas')) context = 'fasting';
+                    else if (timing === 'before_meal') context = 'before_meal';
+                    else if (timing === 'after_meal' || timing.toLowerCase().includes('post')) context = 'after_meal';
+                    else if (timing === 'before_sleep') context = 'before_sleep';
+                    else if (timing === 'random') context = 'random';
+                }
+
+                const range = glucoseRanges[context];
+
+                // Hipoglucemia severa (universal)
+                if (glu > 0 && glu < 70) {
+                    status = 'danger';
+                    message = this.t('status_hypoglycemia');
+                }
+                // Hiperglucemia según contexto
+                else if (glu >= range.danger) {
+                    status = 'danger';
+                    message = this.t('status_diabetes');
+                }
+                // Advertencia
+                else if (glu >= range.warning[0]) {
+                    status = 'warning';
+                    message = this.t('status_prediabetes');
+                }
+                // Hipoglucemia leve
+                else if (context === 'fasting' && glu < 80) {
+                    status = 'warning';
+                    message = this.t('status_low');
+                }
+                // Normal
+                else {
+                    status = 'normal';
+                    message = this.t('status_normal');
                 }
                 break;
 

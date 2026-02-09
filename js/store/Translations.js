@@ -78,6 +78,12 @@ window.DosisTranslations = {
         confirm_clear_notifications: "¿Eliminar todas las notificaciones?",
         new_feature: "Nueva Función",
         notification_welcome_message: "Centro de Notificaciones activado. Ahora recibirás recordatorios inteligentes y análisis de tus tendencias de salud.",
+        weekly_summary: "Resumen Semanal",
+        view_trends: "Ver Tendencias",
+        last_7_days: "Últimos 7 Días",
+        no_data_this_week: "Sin datos esta semana",
+        total_measurements: "Mediciones Totales",
+        weekly_summary_desc: "Análisis de tus registros de los últimos 7 días",
 
         // Dashboard/Forms labels
         pressure: "Presión Arterial",
@@ -108,6 +114,19 @@ window.DosisTranslations = {
         oxygen_spo2: "Saturación SpO2 (%)",
         body_temp: "Temperatura Corporal (°C)",
         pain_intensity: "Intensidad (0-10)",
+
+        // Glucose Contexts
+        glucose_context: "Contexto de la Medición",
+        ctx_fasting: "Al Despertar",
+        ctx_before_meal: "Antes de Comer",
+        ctx_after_meal: "2h Después",
+        ctx_before_sleep: "Antes de Dormir",
+        ctx_random: "Medición Aleatoria",
+        normal_range: "Rango Normal",
+        status: "Estado",
+        enter_valid_value: "Ingresa un valor válido",
+        record_updated: "Registro actualizado",
+        glucose_registered: "Glucosa registrada",
 
         // Status Messages
         status_optimal: "Óptima",
@@ -235,6 +254,12 @@ window.DosisTranslations = {
         confirm_clear_notifications: "Delete all notifications?",
         new_feature: "New Feature",
         notification_welcome_message: "Notification Center activated. You will now receive smart reminders and analysis of your health trends.",
+        weekly_summary: "Weekly Summary",
+        view_trends: "View Trends",
+        last_7_days: "Last 7 Days",
+        no_data_this_week: "No data this week",
+        total_measurements: "Total Measurements",
+        weekly_summary_desc: "Analysis of your records from the last 7 days",
 
         // Dashboard/Forms labels
         pressure: "Blood Pressure",
@@ -265,6 +290,19 @@ window.DosisTranslations = {
         oxygen_spo2: "Oxygen SpO2 (%)",
         body_temp: "Body Temperature (°C)",
         pain_intensity: "Intensity (0-10)",
+
+        // Glucose Contexts
+        glucose_context: "Measurement Context",
+        ctx_fasting: "Upon Waking",
+        ctx_before_meal: "Before Meal",
+        ctx_after_meal: "2h After Meal",
+        ctx_before_sleep: "Before Sleep",
+        ctx_random: "Random Measurement",
+        normal_range: "Normal Range",
+        status: "Status",
+        enter_valid_value: "Enter a valid value",
+        record_updated: "Record updated",
+        glucose_registered: "Glucose registered",
 
         // Status Messages
         status_optimal: "Optimal",

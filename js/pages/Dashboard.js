@@ -57,6 +57,20 @@ window.Pages.Dashboard = (router) => {
             <span class="absolute top-8 right-8 text-5xl opacity-40">🔥</span>
         </div>
 
+        <!-- Weekly Summary Button -->
+        <button id="btn-weekly-summary" class="w-full h-20 bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 flex items-center justify-between px-8 mb-10 active:scale-95 transition-all group">
+            <div class="flex items-center gap-4">
+                <div class="size-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <span class="material-symbols-outlined !text-2xl">insights</span>
+                </div>
+                <div class="text-left">
+                    <h3 class="font-black text-lg text-gray-800 dark:text-slate-50">${t('weekly_summary') || 'Resumen Semanal'}</h3>
+                    <p class="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-widest">${t('view_trends') || 'Ver Tendencias'}</p>
+                </div>
+            </div>
+            <span class="material-symbols-outlined text-gray-400 dark:text-slate-500 group-hover:text-primary transition-colors">arrow_forward</span>
+        </button>
+
         <!-- Quick Access Grid -->
         <h4 class="text-lg font-black mb-6 flex items-center gap-2 text-gray-800 dark:text-white transition-colors">
             <span class="material-symbols-outlined text-primary">add_circle</span>
@@ -196,6 +210,7 @@ window.Pages.Dashboard = (router) => {
     updateNotificationBadge();
 
     el.querySelector('#btn-profiles').onclick = () => router.navigateTo('profiles');
+    el.querySelector('#btn-weekly-summary').onclick = () => router.navigateTo('weekly-summary');
     el.querySelector('#btn-pressure').onclick = () => router.navigateTo('form-pressure');
     el.querySelector('#btn-glucose').onclick = () => router.navigateTo('form-glucose');
     el.querySelector('#btn-oxygen').onclick = () => router.navigateTo('form-oxygen');

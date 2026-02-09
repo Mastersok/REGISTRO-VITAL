@@ -59,6 +59,9 @@ class App {
             case '#settings':
                 view = Pages.SettingsView(this);
                 break;
+            case '#weekly-summary':
+                view = Pages.WeeklySummary(this);
+                break;
             default:
                 view = Pages.Dashboard(this);
         }
