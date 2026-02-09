@@ -14,7 +14,16 @@ window.PDFGenerator = {
         if (options.categories && options.categories.length > 0) {
             readings = readings.filter(r => options.categories.includes(r.type));
         }
-        if (options.range !== 'all') {
+        if (options.range === 'custom' && options.customRange) {
+            const start = new Date(options.customRange.start);
+            start.setHours(0, 0, 0, 0);
+            const end = new Date(options.customRange.end);
+            end.setHours(23, 59, 59, 999);
+            readings = readings.filter(r => {
+                const rt = new Date(r.timestamp);
+                return rt >= start && rt <= end;
+            });
+        } else if (options.range !== 'all') {
             const days = parseInt(options.range);
             const cutoff = new Date();
             cutoff.setDate(cutoff.getDate() - days);

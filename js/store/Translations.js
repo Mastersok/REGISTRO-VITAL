@@ -54,6 +54,11 @@ window.DosisTranslations = {
         time_range: "Rango de Tiempo",
         include: "Incluir",
         generate_pdf: "Generar PDF",
+        custom: "Personalizado",
+        start_date: "Inicio",
+        end_date: "Fin",
+        error_select_category: "Selecciona al menos una categoría",
+        error_select_dates: "Selecciona ambas fechas",
 
         // Notifications
         notifications: "Notificaciones",
@@ -127,6 +132,26 @@ window.DosisTranslations = {
         enter_valid_value: "Ingresa un valor válido",
         record_updated: "Registro actualizado",
         glucose_registered: "Glucosa registrada",
+
+        // PIN & Security
+        enter_pin: "Ingresa tu PIN",
+        app_locked: "Aplicación Bloqueada",
+        verify_identity: "Verifica tu identidad",
+        forgot_pin: "¿Olvidaste tu PIN?",
+        recover_pin: "Recuperar PIN",
+        security_question: "Pregunta de Seguridad",
+        your_answer: "Tu Respuesta",
+        enter_answer: "Ingresa tu respuesta",
+        incorrect_pin: "PIN Incorrecto",
+        incorrect_answer: "Respuesta incorrecta",
+        pin_activated: "PIN activado con éxito",
+        pin_disabled: "PIN desactivado",
+        set_pin_message: "Crea un PIN de 4 dígitos",
+        enter_new_pin: "Ingresa el nuevo PIN",
+        prompt_security_question: "Pregunta de seguridad (ej: ¿Nombre de tu mascota?)",
+        prompt_security_answer: "Respuesta a la pregunta",
+        pin_error_length: "El PIN debe tener 4 números",
+        answer_security_question: "Responde para recuperar acceso",
 
         // Status Messages
         status_optimal: "Óptima",
@@ -230,6 +255,11 @@ window.DosisTranslations = {
         time_range: "Time Range",
         include: "Include",
         generate_pdf: "Generate PDF",
+        custom: "Custom",
+        start_date: "Start",
+        end_date: "End",
+        error_select_category: "Select at least one category",
+        error_select_dates: "Select both dates",
 
         // Notifications
         notifications: "Notifications",
@@ -303,6 +333,26 @@ window.DosisTranslations = {
         enter_valid_value: "Enter a valid value",
         record_updated: "Record updated",
         glucose_registered: "Glucose registered",
+
+        // PIN & Security
+        enter_pin: "Enter your PIN",
+        app_locked: "Application Locked",
+        verify_identity: "Verify your identity",
+        forgot_pin: "Forgot your PIN?",
+        recover_pin: "Recover PIN",
+        security_question: "Security Question",
+        your_answer: "Your Answer",
+        enter_answer: "Enter your answer",
+        incorrect_pin: "Incorrect PIN",
+        incorrect_answer: "Incorrect answer",
+        pin_activated: "PIN successfully activated",
+        pin_disabled: "PIN disabled",
+        set_pin_message: "Create a 4-digit PIN",
+        enter_new_pin: "Enter new PIN",
+        prompt_security_question: "Security question (e.g. Pet's name?)",
+        prompt_security_answer: "Answer to the question",
+        pin_error_length: "PIN must be 4 digits",
+        answer_security_question: "Answer to recover access",
 
         // Status Messages
         status_optimal: "Optimal",

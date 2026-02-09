@@ -26,6 +26,8 @@ class Store {
                 units: 'metric', // metric or imperial
                 timeFormat: '24h',
                 pin: null, // null means no PIN
+                securityQuestion: null,
+                securityAnswer: null,
                 autoTheme: false
             };
             localStorage.setItem(this.settingsKey, JSON.stringify(defaultSettings));
@@ -181,8 +183,12 @@ class Store {
         this.notify();
     }
 
-    setPIN(pin) {
-        this.updateSettings({ pin });
+    setPIN(pin, question = null, answer = null) {
+        this.updateSettings({
+            pin,
+            securityQuestion: question,
+            securityAnswer: answer
+        });
     }
 
     verifyPIN(pin) {

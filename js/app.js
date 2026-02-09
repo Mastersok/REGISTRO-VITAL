@@ -7,7 +7,24 @@ class App {
     constructor() {
         this.container = document.getElementById('view-container');
         window.addEventListener('popstate', () => this.route());
-        this.route();
+
+        const pin = window.DosisStore.state.settings.pin;
+        if (pin) {
+            this.showLockScreen();
+        } else {
+            this.route();
+        }
+    }
+
+    showLockScreen() {
+        // Asegurarse de que los modales estén cargados
+        if (window.Modals && window.Modals.PinModal) {
+            const lock = window.Modals.PinModal(this, () => this.route(), true);
+            document.body.appendChild(lock);
+        } else {
+            // Fallback si el modal no cargó
+            this.route();
+        }
     }
 
     navigateTo(path) {

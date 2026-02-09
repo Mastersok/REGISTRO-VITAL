@@ -21,7 +21,7 @@ window.Pages.ReportModal = (onConfirm, onCancel) => {
             <!-- Date Range -->
             <div class="mb-6 space-y-3">
                 <p class="text-xs font-black uppercase text-primary tracking-widest">${t('time_range')}</p>
-                <div class="grid grid-cols-3 gap-2">
+                <div class="grid grid-cols-2 gap-2">
                     <label>
                         <input type="radio" name="range" value="7" class="peer hidden" checked>
                         <div class="h-12 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-sm font-bold peer-checked:bg-primary peer-checked:text-white transition-all cursor-pointer">
@@ -40,6 +40,24 @@ window.Pages.ReportModal = (onConfirm, onCancel) => {
                             ${t('all')}
                         </div>
                     </label>
+                    <label>
+                        <input type="radio" name="range" value="custom" class="peer hidden" id="radio-custom">
+                        <div class="h-12 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-sm font-bold peer-checked:bg-primary peer-checked:text-white transition-all cursor-pointer">
+                            ${t('custom') || 'Personalizado'}
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Custom Date Inputs -->
+                <div id="custom-dates" class="hidden grid grid-cols-2 gap-2 mt-2 animate-up">
+                    <div class="space-y-1">
+                        <label class="text-[9px] font-black text-gray-400 uppercase ml-2">${t('start_date') || 'Inicio'}</label>
+                        <input type="date" id="date-start" class="w-full h-10 bg-gray-100 dark:bg-white/5 rounded-xl px-3 text-xs font-bold outline-none text-gray-800 dark:text-slate-200">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[9px] font-black text-gray-400 uppercase ml-2">${t('end_date') || 'Fin'}</label>
+                        <input type="date" id="date-end" class="w-full h-10 bg-gray-100 dark:bg-white/5 rounded-xl px-3 text-xs font-bold outline-none text-gray-800 dark:text-slate-200">
+                    </div>
                 </div>
             </div>
 
@@ -82,6 +100,18 @@ window.Pages.ReportModal = (onConfirm, onCancel) => {
         `;
     });
 
+    // Toggle custom dates
+    el.querySelectorAll('input[name="range"]').forEach(radio => {
+        radio.onchange = (e) => {
+            const customDiv = el.querySelector('#custom-dates');
+            if (e.target.value === 'custom') {
+                customDiv.classList.remove('hidden');
+            } else {
+                customDiv.classList.add('hidden');
+            }
+        };
+    });
+
     // Events
     el.querySelector('#btn-cancel').onclick = () => {
         el.remove();
@@ -93,11 +123,22 @@ window.Pages.ReportModal = (onConfirm, onCancel) => {
         const selectedCats = Array.from(el.querySelectorAll('input[name="cats"]:checked')).map(cb => cb.value);
 
         if (selectedCats.length === 0) {
-            alert("Selecciona al menos una categoría");
+            alert(t('error_select_category') || "Selecciona al menos una categoría");
             return;
         }
 
-        onConfirm({ range, categories: selectedCats });
+        let customRange = null;
+        if (range === 'custom') {
+            const start = el.querySelector('#date-start').value;
+            const end = el.querySelector('#date-end').value;
+            if (!start || !end) {
+                alert(t('error_select_dates') || "Selecciona ambas fechas");
+                return;
+            }
+            customRange = { start, end };
+        }
+
+        onConfirm({ range, categories: selectedCats, customRange });
         el.remove();
     };
 

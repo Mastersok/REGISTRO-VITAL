@@ -147,14 +147,28 @@ window.Pages.SettingsView = (router) => {
 
         // PIN
         el.querySelector('#btn-set-pin').onclick = () => {
-            const pin = prompt('Ingresa un nuevo PIN de 4 dígitos (deja vacío para desactivar):');
+            const pin = settings.pin ?
+                prompt(t('enter_new_pin') || 'Ingresa el nuevo PIN de 4 dígitos (vacío para desactivar):') :
+                prompt(t('set_pin_message') || 'Crea un PIN de 4 dígitos para proteger tus datos:');
+
             if (pin === null) return;
-            if (pin === '' || /^\d{4}$/.test(pin)) {
-                window.DosisStore.setPIN(pin || null);
-                router.showToast(pin ? 'PIN activado' : 'PIN desactivado');
+
+            if (pin === '') {
+                window.DosisStore.setPIN(null);
+                router.showToast(t('pin_disabled') || 'PIN desactivado');
+                render();
+            } else if (/^\d{4}$/.test(pin)) {
+                // Si está activando el PIN, pedir pregunta de seguridad
+                const question = prompt(t('prompt_security_question') || 'Pregunta de seguridad (ej: ¿Nombre de tu primera mascota?):');
+                if (!question) return;
+                const answer = prompt(t('prompt_security_answer') || 'Respuesta a la pregunta:');
+                if (!answer) return;
+
+                window.DosisStore.setPIN(pin, question, answer);
+                router.showToast(t('pin_activated') || 'PIN activado con seguridad');
                 render();
             } else {
-                alert('El PIN debe tener exactamente 4 números.');
+                alert(t('pin_error_length') || 'El PIN debe tener exactamente 4 números.');
             }
         };
 
