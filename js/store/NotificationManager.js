@@ -91,7 +91,8 @@ class NotificationManager {
             { id: 'oxygen_temp', name: store.t('bio_health_short'), days: 3 },
             { id: 'weight', name: store.t('weight_short'), days: 7 },
             { id: 'pain', name: store.t('pain_short'), days: 1 },
-            { id: 'bristol', name: store.t('bristol_short'), days: 2 }
+            { id: 'bristol', name: store.t('bristol_short'), days: 2 },
+            { id: 'sleep', name: store.t('sleep_short'), days: 1 }
         ];
 
         measurementTypes.forEach(type => {

@@ -60,7 +60,8 @@ window.Pages.WeeklySummary = (router) => {
         { id: 'oxygen_temp', label: t('bio_health_short'), icon: 'thermostat', color: 'blue' },
         { id: 'weight', label: t('weight_short'), icon: 'monitor_weight', color: 'green' },
         { id: 'pain', label: t('pain_short'), icon: 'sentiment_dissatisfied', color: 'purple' },
-        { id: 'bristol', label: t('bristol_short'), icon: 'water_drop', color: 'amber' }
+        { id: 'bristol', label: t('bristol_short'), icon: 'water_drop', color: 'amber' },
+        { id: 'sleep', label: t('sleep_short'), icon: 'bedtime', color: 'indigo' }
     ];
 
     const statusColors = {

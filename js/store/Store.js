@@ -155,8 +155,9 @@ class Store {
             this.setActiveProfile(this.state.profiles[0].id);
         }
 
-        // Optional: delete all readings associated with this profile? 
-        // For now, let's keep them in storage but they won't be accessible
+        // Delete all readings associated with this profile to keep storage clean
+        this.state.readings = this.state.readings.filter(r => r.profileId !== id);
+        localStorage.setItem(this.storageKey, JSON.stringify(this.state.readings));
 
         localStorage.setItem(this.profilesKey, JSON.stringify(this.state.profiles));
         this.notify();
