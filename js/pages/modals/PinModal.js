@@ -49,7 +49,7 @@ window.Modals.PinModal = (router, onSuccess, isLockScreen = false) => {
             <div class="relative mb-8">
                 <div class="absolute inset-0 bg-primary/10 blur-2xl rounded-full"></div>
                 <div class="size-28 bg-white rounded-[2rem] shadow-xl flex items-center justify-center overflow-hidden border-2 border-primary/5">
-                    <img src="assets/logo.png" class="w-full h-full object-contain scale-125" alt="Dosis Vital Logo">
+                    <img src="assets/logo.png" class="w-[85%] h-[85%] object-contain" alt="Dosis Vital Logo">
                 </div>
             </div>
             

@@ -25,7 +25,7 @@ window.Pages.Dashboard = (router) => {
                 <div>
                     <div class="flex items-center gap-2">
                         <div class="size-8 bg-white rounded-lg flex items-center justify-center overflow-hidden shadow-sm border border-gray-100">
-                             <img src="assets/logo.png" class="size-full object-contain scale-150" alt="">
+                             <img src="assets/logo.png" class="w-[85%] h-[85%] object-contain" alt="">
                         </div>
                         <h2 class="text-xl font-black tracking-tighter text-gray-900 dark:text-white transition-colors">DOSIS<span class="text-primary italic">VITAL</span></h2>
                     </div>
