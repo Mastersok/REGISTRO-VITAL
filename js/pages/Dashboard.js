@@ -123,6 +123,19 @@ window.Pages.Dashboard = (router) => {
         <!-- Evaluation List -->
         <h4 class="text-lg font-black mb-4 text-gray-800 dark:text-white transition-colors">${t('daily_evaluation')}</h4>
         <div class="space-y-4">
+            <button id="btn-sleep" class="w-full bg-white dark:bg-slate-800 p-6 rounded-[2rem] flex items-center justify-between border-2 border-gray-100 dark:border-slate-700 active:scale-[0.98] transition-all text-left shadow-sm">
+                <div class="flex items-center gap-4">
+                    <div class="size-14 bg-blue-500/10 dark:bg-blue-500/20 rounded-2xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-blue-600 dark:text-blue-400">bedtime</span>
+                    </div>
+                    <div>
+                        <p class="font-black text-gray-800 dark:text-slate-100">${t('sleep_tracking') || 'Registro de Sueño'}</p>
+                        <p class="text-xs text-gray-500 dark:text-slate-400 font-bold">${t('night_sleep')} / ${t('nap')}</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-gray-300 dark:text-slate-600">chevron_right</span>
+            </button>
+
             <button id="btn-pain" class="w-full bg-white dark:bg-slate-800 p-6 rounded-[2rem] flex items-center justify-between border-2 border-gray-100 dark:border-slate-700 active:scale-[0.98] transition-all text-left shadow-sm">
                 <div class="flex items-center gap-4">
                     <div class="size-14 bg-primary/10 dark:bg-primary/20 rounded-2xl flex items-center justify-center">
@@ -144,19 +157,6 @@ window.Pages.Dashboard = (router) => {
                     <div>
                         <p class="font-black text-gray-800 dark:text-slate-100">${t('bristol_scale')}</p>
                         <p class="text-xs text-gray-500 dark:text-slate-400 font-bold">${t('bristol_short')}</p>
-                    </div>
-                </div>
-                <span class="material-symbols-outlined text-gray-300 dark:text-slate-600">chevron_right</span>
-            </button>
-
-            <button id="btn-sleep" class="w-full bg-white dark:bg-slate-800 p-6 rounded-[2rem] flex items-center justify-between border-2 border-gray-100 dark:border-slate-700 active:scale-[0.98] transition-all text-left shadow-sm">
-                <div class="flex items-center gap-4">
-                    <div class="size-14 bg-blue-500/10 dark:bg-blue-500/20 rounded-2xl flex items-center justify-center">
-                        <span class="material-symbols-outlined text-blue-600 dark:text-blue-400">bedtime</span>
-                    </div>
-                    <div>
-                        <p class="font-black text-gray-800 dark:text-slate-100">${t('sleep_tracking') || 'Registro de Sueño'}</p>
-                        <p class="text-xs text-gray-500 dark:text-slate-400 font-bold">${t('night_sleep')} / ${t('nap')}</p>
                     </div>
                 </div>
                 <span class="material-symbols-outlined text-gray-300 dark:text-slate-600">chevron_right</span>
