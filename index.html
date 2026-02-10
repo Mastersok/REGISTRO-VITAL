@@ -37,11 +37,17 @@
             class="fixed inset-0 z-[2000] bg-white dark:bg-[#101922] flex flex-col items-center justify-center transition-all duration-700">
             <div class="relative">
                 <div class="absolute inset-0 bg-primary/20 blur-3xl rounded-full animate-pulse"></div>
-                <img src="assets/logo.png" class="size-40 relative z-10 animate-bounce-slow" alt="Dosis Vital Logo">
+                <!-- Logo Container with White Background for Dark Mode clarity -->
+                <div
+                    class="size-48 bg-white rounded-[2.5rem] shadow-2xl flex items-center justify-center overflow-hidden border-4 border-primary/10 relative z-10 animate-bounce-slow">
+                    <img src="assets/logo.png" class="w-full h-full object-contain scale-125" alt="Dosis Vital Logo">
+                </div>
             </div>
-            <h1 class="text-4xl font-black italic tracking-tighter text-gray-800 dark:text-white mt-6 animate-up">
+            <h1 class="text-4xl font-black italic tracking-tighter text-gray-800 dark:text-white mt-8 animate-up">
                 DOSIS<span class="text-primary italic">VITAL</span>
             </h1>
+            <p class="text-[10px] font-black tracking-[0.4em] text-gray-400 dark:text-slate-500 uppercase mt-2">Health
+                Monitoring</p>
             <div class="mt-12 flex gap-1">
                 <div class="size-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></div>
                 <div class="size-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></div>

@@ -48,7 +48,9 @@ window.Modals.PinModal = (router, onSuccess, isLockScreen = false) => {
         <div class="w-full max-w-sm px-8 flex flex-col items-center animate-up">
             <div class="relative mb-8">
                 <div class="absolute inset-0 bg-primary/10 blur-2xl rounded-full"></div>
-                <img src="assets/logo.png" class="size-24 relative z-10" alt="Dosis Vital Logo">
+                <div class="size-28 bg-white rounded-[2rem] shadow-xl flex items-center justify-center overflow-hidden border-2 border-primary/5">
+                    <img src="assets/logo.png" class="w-full h-full object-contain scale-125" alt="Dosis Vital Logo">
+                </div>
             </div>
             
             <h2 class="text-2xl font-black text-gray-800 dark:text-slate-50 mb-2">${t('enter_pin') || 'Ingresa tu PIN'}</h2>
