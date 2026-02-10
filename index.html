@@ -25,6 +25,18 @@
         }
     </script>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#137fec">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js');
+            });
+        }
+    </script>
 </head>
 
 <body class="bg-gray-50 dark:bg-[#101922]">
@@ -77,6 +89,8 @@
     <script src="js/pages/modals/CalendarModal.js?v=1.0"></script>
     <script src="js/pages/modals/PinModal.js?v=1.0"></script>
     <script src="js/pages/modals/PinRecoveryModal.js?v=1.0"></script>
+    <script src="js/pages/modals/ReportSuccessModal.js?v=1.0"></script>
+    <script src="js/pages/modals/PaywallModal.js?v=1.0"></script>
     <script src="js/pages/Notifications.js?v=1.0"></script>
 
     <!-- Pages -->

@@ -57,11 +57,29 @@ window.Pages.SettingsView = (router) => {
                     </div>
                 </section>
 
-                <!-- Section: Seguridad -->
+                <!-- Section: Configuración Médica (Pro) -->
+                <section class="space-y-4">
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">${t('doctor_contact')}</p>
+                    <div class="bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 overflow-hidden p-6 space-y-4">
+                        <div class="flex items-center gap-4 mb-2">
+                            <div class="size-10 bg-green-500/10 text-green-500 rounded-xl flex items-center justify-center">
+                                <span class="material-symbols-outlined">contact_phone</span>
+                            </div>
+                            <div class="flex-1">
+                                <label class="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-slate-500">${t('doctor_phone')}</label>
+                                <input type="text" id="set-doctor-phone" value="${settings.doctorPhone || ''}" placeholder="${t('doctor_phone_placeholder')}"
+                                    class="w-full h-12 bg-gray-50 dark:bg-slate-900 border-2 border-gray-100 dark:border-slate-700 rounded-xl px-4 text-sm font-bold text-gray-800 dark:text-slate-50 focus:border-primary outline-none transition-all mt-1">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section: Seguridad Avanzada (Pro) -->
                 <section class="space-y-4">
                     <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">${t('security_privacy')}</p>
                     <div class="bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 overflow-hidden">
-                        <div class="p-6 flex items-center justify-between">
+                        <!-- PIN -->
+                        <div class="p-6 flex items-center justify-between border-b border-gray-50 dark:border-slate-700/50">
                             <div class="flex items-center gap-4">
                                 <div class="size-10 bg-red-500/10 rounded-xl flex items-center justify-center">
                                     <span class="material-symbols-outlined text-red-500">lock</span>
@@ -74,6 +92,23 @@ window.Pages.SettingsView = (router) => {
                             <button id="btn-set-pin" class="px-4 py-2 bg-primary text-white text-[10px] font-black uppercase rounded-full shadow-lg shadow-primary/30">
                                 ${settings.pin ? t('change_pin') : t('activate')}
                             </button>
+                        </div>
+                        
+                        <!-- Biometría (Pro) -->
+                        <div class="p-6 flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="size-10 bg-purple-500/10 rounded-xl flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-purple-500">fingerprint</span>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-700 dark:text-slate-200">${t('biometry')}</p>
+                                    <p class="text-[10px] text-gray-400 font-medium">${t('biometry_desc')}</p>
+                                </div>
+                            </div>
+                            <div class="relative inline-block w-12 h-6 transition duration-200 ease-in mt-1">
+                                <input type="checkbox" id="toggle-biometry" ${settings.biometryEnabled ? 'checked' : ''} class="absolute w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-300 checked:bg-primary checked:border-primary checked:right-0 right-6 transition-all duration-300"/>
+                                <label for="toggle-biometry" class="block overflow-hidden h-6 rounded-full bg-gray-200 cursor-pointer transition-colors duration-300 peer-checked:bg-primary/20"></label>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -99,10 +134,40 @@ window.Pages.SettingsView = (router) => {
                     </button>
                 </section>
 
+                <!-- Section: Premium -->
+                <section class="space-y-4">
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">PRO</p>
+                    <div class="bg-white dark:bg-slate-800 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700 overflow-hidden">
+                        <div class="p-6 flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="size-10 ${settings.isPremium ? 'bg-amber-500/10 text-amber-500' : 'bg-gray-500/10 text-gray-400'} rounded-xl flex items-center justify-center">
+                                    <span class="material-symbols-outlined">${settings.isPremium ? 'verified' : 'workspace_premium'}</span>
+                                </div>
+                                <div>
+                                    <p class="font-bold text-gray-700 dark:text-slate-200">${settings.isPremium ? t('premium_active') : t('premium_upgrade')}</p>
+                                    <p class="text-[10px] text-gray-400 font-medium">${settings.isPremium ? t('premium_subtitle') : t('one_time_payment')}</p>
+                                </div>
+                            </div>
+                            ${!settings.isPremium ? `
+                            <button onclick="window.showPaywall()" class="px-4 py-2 bg-amber-500 text-white text-[10px] font-black uppercase rounded-full shadow-lg shadow-amber-500/30 active:scale-95 transition-all">
+                                ${t('unlock_pro')}
+                            </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Footer Info -->
                 <div class="text-center space-y-2 py-8">
-                    <p class="text-[10px] font-black text-gray-300 dark:text-slate-700 uppercase tracking-[0.5em]">Dosis Vital v2.1</p>
+                    <p id="dev-trigger" class="text-[10px] font-black text-gray-300 dark:text-slate-700 uppercase tracking-[0.5em] transition-all cursor-pointer select-none">Dosis Vital v2.1</p>
                     <p class="text-[9px] text-gray-400 dark:text-slate-600 font-medium italic">Creado como herramienta de apoyo clínico personal.</p>
+                    
+                    <div id="dev-controls" class="hidden animate-up mt-4 p-4 bg-primary/5 rounded-2xl border border-primary/10">
+                         <p class="text-[9px] font-black text-primary uppercase mb-3 mr-2">${t('dev_mode')}</p>
+                         <button id="btn-toggle-pro" class="h-10 px-4 bg-primary text-white text-[9px] font-black uppercase rounded-xl">
+                            ${t('toggle_premium')}
+                         </button>
+                    </div>
                 </div>
             </main>
 
@@ -143,6 +208,48 @@ window.Pages.SettingsView = (router) => {
         el.querySelector('#set-units').onchange = (e) => {
             window.DosisStore.updateSettings({ units: e.target.value });
             router.showToast('Sistema de unidades actualizado');
+        };
+
+        // Doctor Phone (Pro)
+        el.querySelector('#set-doctor-phone').onblur = (e) => {
+            const isPremium = window.DosisStore.state.settings.isPremium;
+            if (!isPremium) {
+                e.target.value = '';
+                window.showPaywall();
+                return;
+            }
+            window.DosisStore.updateSettings({ doctorPhone: e.target.value });
+            router.showToast(t('record_updated'));
+        };
+
+        // Biometry (Pro)
+        el.querySelector('#toggle-biometry').onclick = async (e) => {
+            const isPremium = window.DosisStore.state.settings.isPremium;
+            if (!isPremium) {
+                e.preventDefault();
+                window.showPaywall();
+                return;
+            }
+
+            // Check if biometry is supported
+            if (window.PublicKeyCredential) {
+                try {
+                    const available = await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+                    if (available) {
+                        window.DosisStore.updateSettings({ biometryEnabled: e.target.checked });
+                        router.showToast(e.target.checked ? t('biometry_activated') : t('record_updated'));
+                    } else {
+                        e.preventDefault();
+                        alert(t('biometry_not_supported'));
+                    }
+                } catch (err) {
+                    e.preventDefault();
+                    console.error(err);
+                }
+            } else {
+                e.preventDefault();
+                alert(t('biometry_not_supported'));
+            }
         };
 
         // PIN
@@ -207,6 +314,23 @@ window.Pages.SettingsView = (router) => {
                 localStorage.clear();
                 location.reload();
             }
+        };
+
+        // Developer Mode Trigger
+        let devClicks = 0;
+        el.querySelector('#dev-trigger').onclick = () => {
+            devClicks++;
+            if (devClicks >= 5) {
+                el.querySelector('#dev-controls').classList.remove('hidden');
+                el.querySelector('#dev-trigger').classList.add('text-primary');
+                router.showToast('Developer Mode Active');
+            }
+        };
+
+        el.querySelector('#btn-toggle-pro').onclick = () => {
+            const isPro = window.DosisStore.togglePremium();
+            router.showToast('Premium: ' + (isPro ? 'ON' : 'OFF'));
+            render(); // Refresh the settings view
         };
     };
 

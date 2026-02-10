@@ -14,26 +14,34 @@ La aplicación es una **SPA (Single Page Application)** construida con Vanilla J
 *   **Biometría Flexible**: Lógica de guardado independiente para mediciones combinadas (Oxígeno/Temperatura).
 *   **Exportación Clínica**: Generador de reportes PDF enriquecidos con observaciones del usuario.
 *   **Internacionalización (i18n)**: Soporte completo para Español e Inglés en toda la interfaz y reportes.
+*   **Seguimiento del Descanso**: Módulo de sueño con cálculo automático de duración, distinción entre siestas/sueño nocturno y registro de interrupciones.
 
 ## 🎨 Diseño y Experiencia de Usuario (UX)
 
 1.  **Modo Oscuro de Alto Contraste**: Basado en la paleta `Slate` (Tailwind), optimizado para legibilidad médica.
 2.  **Contexto Médico**: Campos de texto opcionales en formularios que permiten al usuario dar referencias adicionales (ej: "medición post-ejercicio").
-3.  **Navegación Intuitiva**: Implementación de una barra inferior (`Bottom Nav`) para acceso global.
-3.  **Filtros Inteligentes**: Historial con capacidad de filtrado por categoría de medición y estado de salud (Normal/Atención/Alerta) mediante una rejilla compacta.
+3.  **Priorización Basada en la Recuperación**: El registro de sueño se posiciona como el primer indicador en la evaluación diaria, reconociendo el descanso como el pilar fundamental de la salud.
+4.  **Navegación Intuitiva**: Implementación de una barra inferior (`Bottom Nav`) para acceso global.
+5.  **Filtros Inteligentes**: Historial con capacidad de filtrado por categoría de medición y estado de salud (Normal/Atención/Alerta) mediante una rejilla compacta.
 
 ## 🛡️ Blindaje y Fiabilidad
 
 *   **Validación Médica**: Implementación de rangos AHA para presión arterial y guías clínicas para glucosa.
 *   **Sanitización Estricta**: Control total sobre la entrada de datos, bloqueando caracteres no válidos y asegurando la integridad de los registros.
+*   **Integridad de Datos**: Sistema de limpieza automática de registros al eliminar perfiles para evitar datos huérfanos.
 *   **Privacidad Absoluta**: Los datos residen exclusivamente en el dispositivo del usuario (`localStorage`).
 
-## 🚀 Estado Final de la Versión 2.0
+## 🚀 Hoja de Ruta (Monetización y Crecimiento)
 
-La versión 2.0 está **totalmente operativa**, ofreciendo una experiencia profesional, sobria y funcional para el seguimiento de la salud personal.
+La arquitectura actual permite escalar hacia un producto comercial bajo el modelo **Freemium**:
 
-### Próximos Pasos (Hoja de Ruta)
-1.  **Metas de Salud**: Establecimiento de objetivos y seguimiento visual del progreso.
-2.  **Recordatorios Locales**: Alarmas programables para mediciones y tomas de medicación.
-3.  **Análisis Predictivo**: Detección de tendencias negativas mediante heurísticas.
-4.  **Seguridad Biométrica**: Integración con huella o rostro (vía biometría web) para proteger los datos médicos.
+1.  **Estrategia Premium ($4.99 Pago Único)**: 
+    *   Desbloqueo de historial completo (más de 7 días).
+    *   Generación ilimitada de reportes PDF profesionales.
+    *   Modo Familiar (Multi-perfil ilimitado).
+    *   Copia de seguridad y exportación de datos avanzada.
+2.  **Compartición Nativa**: Implementación de la Native Share API para enviar reportes directamente vía WhatsApp, Correo o apps de mensajería con nombres de archivo amigables.
+3.  **Sincronización de Salud (Integración de Ecosistema)**:
+    *   **iOS**: Sincronización con Apple HealthKit.
+    *   **Android**: Sincronización con Google Health Connect.
+4.  **Seguridad Pro**: Protección de acceso mediante biometría (FaceID/Fingerprint) integrada en el flujo de la aplicación.

@@ -60,6 +60,51 @@ window.DosisTranslations = {
         error_select_category: "Selecciona al menos una categoría",
         error_select_dates: "Selecciona ambas fechas",
 
+        // Paywall & Premium
+        premium_upgrade: "Dosis Vital Pro",
+        premium_subtitle: "Control Total de tu Salud",
+        premium_benefit_unlimited_history: "Historial de Salud Ilimitado",
+        premium_benefit_reports: "Reportes PDF Médicos Ilimitados",
+        premium_benefit_family: "Modo Familiar (Perfiles Ilimitados)",
+        premium_benefit_ads: "Experiencia Sin Publicidad",
+        buy_pro: "DESBLOQUEAR TODO POR $4.99",
+        one_time_payment: "Pago único para siempre",
+        restore_purchase: "Restaurar compra",
+        free_limit_title: "Límite de Versión Gratuita",
+        free_limit_history: "La versión gratuita solo muestra los últimos 7 días de registros.",
+        free_limit_profiles: "Para gestionar múltiples pacientes, necesitas Dosis Vital Pro.",
+        free_limit_reports: "Has usado tu único reporte gratuito. Desbloquea Pro para reportes ilimitados.",
+        unlock_pro: "Desbloquear Pro",
+        premium_active: "Premium Activado",
+        dev_mode: "Modo Desarrollador",
+        toggle_premium: "Alternar Estado Premium (Prueba)",
+
+        // Emotional & New Benefits
+        premium_benefit_peace: "Tranquilidad total para tu familia",
+        premium_benefit_photos: "Fotos reales en tus perfiles",
+        premium_benefit_security: "Seguridad avanzada y privacidad total",
+        premium_benefit_support: "Soporte prioritario y futuras mejoras",
+        premium_emotional_phrase: "Tu salud y la de los que amas no tiene precio.",
+
+        // Monetization Notifications
+        bonus_pro_title: "🚀 Mejora tu experiencia",
+        bonus_pro_msg: "Desbloquea el historial ilimitado y perfiles familiares hoy mismo con Dosis Vital Pro.",
+        change_photo: "Cambiar Foto",
+        only_pro_feature: "Función exclusiva de Dosis Vital Pro",
+
+        // Biometry & Doctor
+        biometry: "Biometría (Huella/Cara)",
+        biometry_desc: "Protege el acceso con tu huella o rostro",
+        biometry_not_supported: "La biometría no es compatible o no está configurada en este dispositivo.",
+        biometry_activated: "Autenticación biométrica activada",
+        biometry_failed: "Error en la autenticación biométrica",
+        doctor_contact: "Contacto del Médico (WhatsApp)",
+        doctor_phone: "Teléfono del Médico",
+        doctor_phone_placeholder: "Ej: +56912345678",
+        send_to_doctor: "ENVIAR AL MÉDICO",
+        whatsapp_msg: "Hola Doctor, adjunto mi reporte de salud de Dosis Vital.",
+        biometry_verify: "Escanea tu huella o rostro",
+
         // Notifications
         notifications: "Notificaciones",
         no_notifications: "No hay notificaciones",
@@ -230,7 +275,11 @@ window.DosisTranslations = {
         height: "Altura (m)",
         select_color: "Color de Identidad",
         save_profile: "GUARDAR PERFIL",
-        add_profile: "AGREGAR PACIENTE"
+        add_profile: "AGREGAR PACIENTE",
+        report_ready: "Reporte Listo",
+        report_success: "El reporte médico ha sido generado correctamente.",
+        share: "Compartir",
+        share_text: "Hola, adjunto mi reporte de salud generado desde Dosis Vital."
     },
     en: {
         // Common
@@ -289,6 +338,51 @@ window.DosisTranslations = {
         end_date: "End",
         error_select_category: "Select at least one category",
         error_select_dates: "Select both dates",
+
+        // Paywall & Premium
+        premium_upgrade: "Dosis Vital Pro",
+        premium_subtitle: "Total Control of Your Health",
+        premium_benefit_unlimited_history: "Unlimited Health History",
+        premium_benefit_reports: "Unlimited Medical PDF Reports",
+        premium_benefit_family: "Family Mode (Unlimited Profiles)",
+        premium_benefit_ads: "Ad-Free Experience",
+        buy_pro: "UNLOCK EVERYTHING FOR $4.99",
+        one_time_payment: "One-time payment forever",
+        restore_purchase: "Restore purchase",
+        free_limit_title: "Free Version Limit",
+        free_limit_history: "The free version only shows the last 7 days of records.",
+        free_limit_profiles: "To manage multiple patients, you need Dosis Vital Pro.",
+        free_limit_reports: "You've used your only free report. Unlock Pro for unlimited reports.",
+        unlock_pro: "Unlock Pro",
+        premium_active: "Premium Active",
+        dev_mode: "Developer Mode",
+        toggle_premium: "Toggle Premium Status (Test)",
+
+        // Emotional & New Benefits
+        premium_benefit_peace: "Total peace of mind for your family",
+        premium_benefit_photos: "Real photos for your profiles",
+        premium_benefit_security: "Advanced security and total privacy",
+        premium_benefit_support: "Priority support and future updates",
+        premium_emotional_phrase: "Your health and your loved ones' health is priceless.",
+
+        // Monetization Notifications
+        bonus_pro_title: "🚀 Upgrade your experience",
+        bonus_pro_msg: "Unlock unlimited history and family profiles today with Dosis Vital Pro.",
+        change_photo: "Change Photo",
+        only_pro_feature: "Exclusive Dosis Vital Pro feature",
+
+        // Biometry & Doctor
+        biometry: "Biometry (Fingerprint/Face)",
+        biometry_desc: "Protect access with your fingerprint or face",
+        biometry_not_supported: "Biometry is not supported or not configured on this device.",
+        biometry_activated: "Biometric authentication activated",
+        biometry_failed: "Biometric authentication failed",
+        doctor_contact: "Doctor's Contact (WhatsApp)",
+        doctor_phone: "Doctor's Phone",
+        doctor_phone_placeholder: "E.g.: +1234567890",
+        send_to_doctor: "SEND TO DOCTOR",
+        whatsapp_msg: "Hello Doctor, I am attaching my Dosis Vital health report.",
+        biometry_verify: "Scan your fingerprint or face",
 
         // Notifications
         notifications: "Notifications",
@@ -459,6 +553,10 @@ window.DosisTranslations = {
         height: "Height (m)",
         select_color: "Identity Color",
         save_profile: "SAVE PROFILE",
-        add_profile: "ADD PATIENT"
+        add_profile: "ADD PATIENT",
+        report_ready: "Report Ready",
+        report_success: "The medical report has been generated successfully.",
+        share: "Share",
+        share_text: "Hello, I am attaching my health report generated from Dosis Vital."
     }
 };

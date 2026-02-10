@@ -41,7 +41,7 @@ window.Pages.ProfileView = (router) => {
                             <img id="profile-avatar-preview" src="${profile.avatar}" class="size-full rounded-full object-cover">
                         </div>
                         <button id="btn-change-color" class="absolute bottom-1 right-1 size-12 bg-primary text-white rounded-full flex items-center justify-center shadow-lg border-4 border-white dark:border-slate-900 active:scale-90 transition-all">
-                            <span class="material-symbols-outlined !text-2xl">palette</span>
+                            <span class="material-symbols-outlined !text-2xl">${window.DosisStore.state.settings.isPremium ? 'camera_alt' : 'palette'}</span>
                         </button>
                     </div>
                     <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">${t('toca_paleta')}</p>
@@ -122,12 +122,36 @@ window.Pages.ProfileView = (router) => {
         const nameInput = el.querySelector('#profile-name');
         const avatarPreview = el.querySelector('#profile-avatar-preview');
 
-        // Dynamic change color
+        // Create hidden file input for photo upload (Pro)
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = 'image/*';
+        fileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    profile.avatar = event.target.result;
+                    avatarPreview.src = profile.avatar;
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        // Dynamic change color (Free) or Photo (Pro)
         el.querySelector('#btn-change-color').onclick = () => {
-            colorIndex++;
-            const newAvatar = getProfessionalAvatar(nameInput.value || 'U', colorIndex);
-            profile.avatar = newAvatar;
-            avatarPreview.src = newAvatar;
+            const isPremium = window.DosisStore.state.settings.isPremium;
+            if (isPremium) {
+                fileInput.click();
+            } else {
+                colorIndex++;
+                const newAvatar = getProfessionalAvatar(nameInput.value || 'U', colorIndex);
+                profile.avatar = newAvatar;
+                avatarPreview.src = newAvatar;
+
+                // Show floating hint about Pro
+                router.showToast(t('only_pro_feature'), 'info');
+            }
         };
 
         el.querySelector('#btn-save-profile').onclick = () => {

@@ -275,6 +275,16 @@ window.PDFGenerator = {
             doc.text('Generado por Dosis Vital', 15, 285);
         }
 
-        doc.save(`DosisVital_${profile.name}_Summary.pdf`);
+        const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+        const nowFinal = new Date();
+        const fileName = `Reporte_${profile.name.replace(/\s+/g, '_')}_${monthNames[nowFinal.getMonth()]}_${nowFinal.getFullYear()}.pdf`;
+
+        doc.save(fileName);
+
+        // Return for potential native sharing
+        return {
+            blob: doc.output('blob'),
+            fileName: fileName
+        };
     }
 };

@@ -146,6 +146,24 @@ window.Pages.HistoryView = (router) => {
 
     const renderList = () => {
         let readings = window.DosisStore.getReadings();
+        const isPremium = window.DosisStore.state.settings.isPremium;
+
+        // --- Logic: 7 Day Limit for Free Users ---
+        let isRestricted = false;
+        if (!isPremium) {
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            sevenDaysAgo.setHours(0, 0, 0, 0);
+
+            // Check if there are readings older than 7 days
+            const hasOlderReadings = readings.some(r => new Date(r.timestamp) < sevenDaysAgo);
+
+            if (hasOlderReadings) {
+                isRestricted = true;
+                // Filter to only show the last 7 days in the active list
+                readings = readings.filter(r => new Date(r.timestamp) >= sevenDaysAgo);
+            }
+        }
 
         if (currentDateFilter) {
             readings = readings.filter(r => {
@@ -273,6 +291,22 @@ window.Pages.HistoryView = (router) => {
             }
         });
 
+        // Add Restricted View Card if needed
+        if (isRestricted) {
+            readingListHtml += `
+            <div class="mt-8 p-8 rounded-[2.5rem] bg-primary/5 border-2 border-dashed border-primary/20 flex flex-col items-center text-center animate-up">
+                <div class="size-16 rounded-full bg-primary/10 flex items-center justify-center text-primary mb-4">
+                    <span class="material-symbols-outlined !text-4xl">lock</span>
+                </div>
+                <h4 class="text-xl font-black italic tracking-tighter mb-2 dark:text-white">${window.DosisStore.t('free_limit_title')}</h4>
+                <p class="text-xs font-bold text-gray-500 dark:text-slate-400 mb-6 px-4 leading-relaxed">${window.DosisStore.t('free_limit_history')}</p>
+                <button onclick="window.showPaywall()" class="h-12 px-8 bg-primary text-white font-black rounded-xl shadow-lg shadow-primary/20 active:scale-95 transition-all text-sm uppercase">
+                    ${window.DosisStore.t('unlock_pro')}
+                </button>
+            </div>
+            `;
+        }
+
         readingListHtml += `<div class="h-48 w-full"></div>`;
         mainEl.innerHTML = readingListHtml;
         updateHeader();
@@ -339,7 +373,32 @@ window.Pages.HistoryView = (router) => {
         document.body.appendChild(modal);
     };
     el.querySelector('#btn-pdf').onclick = () => {
-        const modal = window.Pages.ReportModal((options) => { window.PDFGenerator.generateAndDownload(options); }, () => { });
+        const isPremium = window.DosisStore.state.settings.isPremium;
+        const hasGeneratedReport = window.DosisStore.state.settings.hasGeneratedReport;
+
+        if (!isPremium && hasGeneratedReport) {
+            alert(t('free_limit_reports'));
+            window.showPaywall();
+            return;
+        }
+
+        const modal = window.Pages.ReportModal(async (options) => {
+            const pdfData = await window.PDFGenerator.generateAndDownload(options);
+
+            // Si no es premium, registrar que ya generó su único reporte gratuito
+            if (!isPremium) {
+                window.DosisStore.updateSettings({ hasGeneratedReport: true });
+            }
+
+            // Mostramos el modal de éxito con la opción de compartir
+            const successModal = window.Pages.ReportSuccessModal(pdfData, () => { });
+            document.body.appendChild(successModal);
+        }, () => { });
+        document.body.appendChild(modal);
+    };
+
+    window.showPaywall = () => {
+        const modal = window.Pages.PaywallModal(() => { });
         document.body.appendChild(modal);
     };
 

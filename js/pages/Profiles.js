@@ -127,6 +127,15 @@ window.Pages.ProfilesView = (router) => {
         el.querySelector('#nav-profile').onclick = () => router.navigateTo('profile');
 
         el.querySelector('#btn-add-profile').onclick = () => {
+            const isPremium = window.DosisStore.state.settings.isPremium;
+            const profiles = window.DosisStore.state.profiles;
+
+            if (!isPremium && profiles.length >= 1) {
+                alert(t('free_limit_profiles'));
+                window.showPaywall();
+                return;
+            }
+
             const nameInput = el.querySelector('#new-profile-name');
             const heightInput = el.querySelector('#new-profile-height');
             const name = nameInput.value.trim();

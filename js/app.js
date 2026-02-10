@@ -121,6 +121,14 @@ class App {
     }
 }
 
+// Global UI helper for Paywall
+window.showPaywall = () => {
+    if (window.Pages && window.Pages.PaywallModal) {
+        const modal = window.Pages.PaywallModal(() => { });
+        document.body.appendChild(modal);
+    }
+};
+
 // Initialize App when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     window.DosisVital = new App();
@@ -137,5 +145,19 @@ document.addEventListener('DOMContentLoaded', () => {
             );
             localStorage.setItem('notification_system_welcome', 'true');
         }, 2000);
+    }
+
+    // Notificación de beneficios Pro si no es premium
+    const isPremium = window.DosisStore.state.settings.isPremium;
+    if (!isPremium) {
+        setTimeout(() => {
+            const t = (key) => window.DosisStore.t(key);
+            window.DosisNotifications.addDeveloperMessage(
+                t('bonus_pro_title'),
+                t('bonus_pro_msg'),
+                'medium',
+                'settings'
+            );
+        }, 5000);
     }
 });

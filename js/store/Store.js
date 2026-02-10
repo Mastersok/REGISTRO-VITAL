@@ -23,9 +23,12 @@ class Store {
         if (!localStorage.getItem(this.settingsKey)) {
             const defaultSettings = {
                 language: 'es',
+                isPremium: false,
                 units: 'metric', // metric or imperial
                 timeFormat: '24h',
                 pin: null, // null means no PIN
+                biometryEnabled: false,
+                doctorPhone: null,
                 securityQuestion: null,
                 securityAnswer: null,
                 autoTheme: false
@@ -182,6 +185,12 @@ class Store {
         this.state.settings = { ...this.state.settings, ...newSettings };
         localStorage.setItem(this.settingsKey, JSON.stringify(this.state.settings));
         this.notify();
+    }
+
+    togglePremium() {
+        const newState = !this.state.settings.isPremium;
+        this.updateSettings({ isPremium: newState });
+        return newState;
     }
 
     setPIN(pin, question = null, answer = null) {
