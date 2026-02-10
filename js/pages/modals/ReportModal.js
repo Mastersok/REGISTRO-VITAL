@@ -87,7 +87,8 @@ window.Pages.ReportModal = (onConfirm, onCancel) => {
         { id: 'oxygen_temp', label: t('bio_health_short') },
         { id: 'weight', label: t('weight_short') },
         { id: 'pain', label: t('pain_short') },
-        { id: 'bristol', label: t('bristol_short') }
+        { id: 'bristol', label: t('bristol_short') },
+        { id: 'sleep', label: t('sleep_short') }
     ];
 
     const grid = el.querySelector('#cat-grid');

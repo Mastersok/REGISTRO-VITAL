@@ -408,6 +408,38 @@ class Store {
                     message = this.t('status_ideal');
                 }
                 break;
+
+            case 'sleep':
+                const duration = parseFloat(values.duration); // en horas
+                const feeling = parseInt(values.feeling); // 1-5
+                const sleepType = values.sleepType; // 'night' | 'nap'
+
+                if (sleepType === 'nap') {
+                    // Para siestas, la evaluación es menos punitiva
+                    if (duration > 2.5) {
+                        status = 'warning';
+                        message = this.t('status_excessive_sleep');
+                    } else {
+                        status = 'normal';
+                        message = this.t('status_optimal_sleep');
+                    }
+                } else {
+                    // Sueño nocturno
+                    if (duration < 4 || feeling === 1) {
+                        status = 'danger';
+                        message = this.t('status_insufficient_sleep');
+                    } else if (duration < 6 || duration > 10 || feeling === 2) {
+                        status = 'caution';
+                        message = this.t('status_review');
+                    } else if (duration < 7 || duration > 9 || feeling === 3) {
+                        status = 'warning';
+                        message = this.t('status_attention');
+                    } else {
+                        status = 'normal';
+                        message = this.t('status_optimal_sleep');
+                    }
+                }
+                break;
         }
 
         return { status, message };

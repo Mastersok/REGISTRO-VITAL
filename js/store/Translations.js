@@ -102,6 +102,9 @@ window.DosisTranslations = {
         pain_short: "Dolor",
         bristol_scale: "Escala Bristol",
         bristol_short: "Intestinal",
+        sleep_tracking: "Registro de Sueño",
+        sleep_short: "Sueño",
+        how_feel_today: "¿Cómo te sientes hoy?",
 
         // Form Specifics
         systolic: "Sistólica (MAX)",
@@ -119,6 +122,20 @@ window.DosisTranslations = {
         oxygen_spo2: "Saturación SpO2 (%)",
         body_temp: "Temperatura Corporal (°C)",
         pain_intensity: "Intensidad (0-10)",
+        bed_time: "Hora de Dormir",
+        wake_time: "Hora de Despertar",
+        interruptions: "Interrupciones",
+        sleep_quality: "Calidad del Sueño",
+        nap: "Siesta",
+        night_sleep: "Sueño Nocturno",
+        duration: "Duración",
+        hours_short: "hrs",
+        feeling_1: "Muy Cansado",
+        feeling_2: "Cansado",
+        feeling_3: "Normal",
+        feeling_4: "Descansado",
+        feeling_5: "Excelente",
+        times: "veces",
 
         // Glucose Contexts
         glucose_context: "Contexto de la Medición",
@@ -186,6 +203,9 @@ window.DosisTranslations = {
         status_tachycardia: "Taquicardia",
         status_warning: "Atención",
         status_danger: "Peligro",
+        status_insufficient_sleep: "Sueño Insuficiente",
+        status_optimal_sleep: "Sueño Óptimo",
+        status_excessive_sleep: "Sueño Excesivo",
 
         // Settings View
         system_prefs: "Preferencias del Sistema",
@@ -312,6 +332,9 @@ window.DosisTranslations = {
         pain_short: "Pain",
         bristol_scale: "Bristol Scale",
         bristol_short: "Intestinal",
+        sleep_tracking: "Sleep Tracking",
+        sleep_short: "Sleep",
+        how_feel_today: "How do you feel today?",
 
         // Form Specifics
         systolic: "Systolic (MAX)",
@@ -329,6 +352,20 @@ window.DosisTranslations = {
         oxygen_spo2: "Oxygen SpO2 (%)",
         body_temp: "Body Temperature (°C)",
         pain_intensity: "Intensity (0-10)",
+        bed_time: "Bed Time",
+        wake_time: "Wake Time",
+        interruptions: "Interruptions",
+        sleep_quality: "Sleep Quality",
+        nap: "Nap",
+        night_sleep: "Night Sleep",
+        duration: "Duration",
+        hours_short: "hrs",
+        feeling_1: "Very Tired",
+        feeling_2: "Tired",
+        feeling_3: "Normal",
+        feeling_4: "Rested",
+        feeling_5: "Excellent",
+        times: "times",
 
         // Glucose Contexts
         glucose_context: "Measurement Context",
@@ -395,6 +432,9 @@ window.DosisTranslations = {
         status_tachycardia: "Tachycardia",
         status_warning: "Warning",
         status_danger: "Danger",
+        status_insufficient_sleep: "Insufficient Sleep",
+        status_optimal_sleep: "Optimal Sleep",
+        status_excessive_sleep: "Excessive Sleep",
 
         // Settings View
         system_prefs: "System Preferences",

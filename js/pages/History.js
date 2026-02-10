@@ -28,6 +28,7 @@ window.Pages.HistoryView = (router) => {
         { id: 'weight', label: t('weight_short'), icon: 'monitor_weight' },
         { id: 'pain', label: t('pain_short'), icon: 'sentiment_dissatisfied' },
         { id: 'bristol', label: t('bristol_short'), icon: 'water_drop' },
+        { id: 'sleep', label: t('sleep_short'), icon: 'bedtime' },
         { id: 'other', label: t('other'), icon: 'more_horiz' }
     ];
 
@@ -38,6 +39,7 @@ window.Pages.HistoryView = (router) => {
         weight: 'monitor_weight',
         pain: 'sentiment_dissatisfied',
         bristol: 'water_drop',
+        sleep: 'bedtime',
         other: 'more_horiz'
     };
 
@@ -208,6 +210,7 @@ window.Pages.HistoryView = (router) => {
                 weight: { label: t('weight_imc'), getVal: v => v.weight, unit: 'kg', sub: v => `IMC: ${v.bmi}` },
                 pain: { label: t('pain_scale'), getVal: v => v.value, unit: '/ 10', sub: v => '' },
                 bristol: { label: t('bristol_short'), getVal: v => `${t('bristol_scale')} Type ${v.value || '?'}`, unit: '', sub: v => '' },
+                sleep: { label: t('sleep_short'), getVal: v => `${v.duration} ${t('hours_short')}`, unit: '', sub: v => `${v.sleepType === 'nap' ? t('nap') : t('night_sleep')} • ${v.interruptions} ${t('times')}` },
                 other: { label: t('other'), getVal: v => '?', unit: '', sub: v => '' }
             };
 
@@ -366,7 +369,8 @@ window.Pages.HistoryView = (router) => {
             oxygen_temp: 'form-oxygen',
             weight: 'form-weight',
             pain: 'form-pain',
-            bristol: 'form-bristol'
+            bristol: 'form-bristol',
+            sleep: 'form-sleep'
         };
 
         router.navigateTo(typeToHash[reading.type]);

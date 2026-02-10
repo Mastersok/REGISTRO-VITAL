@@ -75,6 +75,9 @@ class App {
             case '#form-bristol':
                 view = Pages.BristolForm(this);
                 break;
+            case '#form-sleep':
+                view = Pages.SleepForm(this);
+                break;
             case '#trends':
                 view = Pages.TrendsView(this);
                 break;

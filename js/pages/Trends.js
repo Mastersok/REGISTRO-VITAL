@@ -97,6 +97,17 @@ window.Pages.TrendsView = (router) => {
                     </div>
                     <div class="relative h-64 w-full"><canvas id="chart-pain"></canvas></div>
                 </div>
+
+                <!-- 7. Sleep Duration -->
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-[2.5rem] shadow-premium border border-gray-100 dark:border-slate-700">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="size-10 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-500">
+                            <span class="material-symbols-outlined">bedtime</span>
+                        </div>
+                        <h3 class="font-black text-gray-800 dark:text-slate-100">${t('sleep_short')} (${t('duration')})</h3>
+                    </div>
+                    <div class="relative h-64 w-full"><canvas id="chart-sleep"></canvas></div>
+                </div>
             </main>
 
             <!-- Navigation Bar -->
@@ -203,6 +214,9 @@ window.Pages.TrendsView = (router) => {
 
         // 6. Pain
         drawChart('chart-pain', readings.filter(r => r.type === 'pain'), 'Dolor', 'value', '#a855f7');
+
+        // 7. Sleep
+        drawChart('chart-sleep', readings.filter(r => r.type === 'sleep'), 'Sueño', 'duration', '#6366f1');
     };
 
     render();

@@ -47,6 +47,7 @@ window.PDFGenerator = {
             else if (r.type === 'oxygen_temp') val = r.values.spo2; // Stats focus on Oxygen mainly
             else if (r.type === 'weight') val = r.values.weight;
             else if (r.type === 'glucose' || r.type === 'pain' || r.type === 'bristol') val = r.values.value;
+            else if (r.type === 'sleep') val = parseFloat(r.values.duration);
 
             if (val !== 0 && val !== null && val !== undefined) {
                 s.count++;
@@ -122,6 +123,7 @@ window.PDFGenerator = {
                 case 'oxygen_temp': label = "Oxígeno (SpO2)"; unit = "%"; avg = (s.sum / s.count).toFixed(0); break;
                 case 'pain': label = "Nivel de Dolor"; unit = "/10"; break;
                 case 'bristol': label = "Escala Bristol"; unit = ""; avg = (s.sum / s.count).toFixed(1); break;
+                case 'sleep': label = "Promedio de Sueño"; unit = "hrs"; break;
             }
 
             const minStr = s.min === 999999 ? '-' : `${s.min} ${unit}`;
@@ -154,7 +156,7 @@ window.PDFGenerator = {
         yPos += 10;
 
         // Define order of appearance
-        const typeOrder = ['pressure', 'glucose', 'oxygen_temp', 'weight', 'pain', 'bristol'];
+        const typeOrder = ['pressure', 'glucose', 'oxygen_temp', 'weight', 'pain', 'bristol', 'sleep'];
 
         typeOrder.forEach(type => {
             const typeReadings = readings.filter(r => r.type === type);
@@ -172,6 +174,7 @@ window.PDFGenerator = {
                     case 'weight': sectionTitle = "Control de Peso"; col1 = "PESO (kg)"; col2 = "IMC / ESTADO"; break;
                     case 'pain': sectionTitle = "Registro de Dolor"; col1 = "INTENSIDAD (0-10)"; col2 = "OBSERVACIONES"; break;
                     case 'bristol': sectionTitle = "Salud Intestinal (Bristol)"; col1 = "TIPO (1-7)"; col2 = "DESCRIPCIÓN"; break;
+                    case 'sleep': sectionTitle = "Registro de Sueño"; col1 = "DURACIÓN (hrs)"; col2 = "CALIDAD / TIPO"; break;
                 }
 
                 // Check for page break space
@@ -213,6 +216,11 @@ window.PDFGenerator = {
                         case 'weight': val = `${r.values.weight}`; notes = `IMC: ${r.values.bmi}`; break;
                         case 'pain': val = `${r.values.value}`; notes = "-"; break;
                         case 'bristol': val = `Tipo ${r.values.value}`; notes = "-"; break;
+                        case 'sleep':
+                            val = `${r.values.duration} hrs`;
+                            const feelingLabelsEs = ["Muy Cansado", "Cansado", "Normal", "Descansado", "Excelente"];
+                            notes = `${r.values.sleepType === 'nap' ? 'Siesta' : 'Sueño Nocturno'} | Calidad: ${feelingLabelsEs[r.values.feeling - 1]} | Interrup: ${r.values.interruptions}`;
+                            break;
                     }
 
                     // Append user notes if present
