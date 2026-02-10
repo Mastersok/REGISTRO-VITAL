@@ -121,6 +121,14 @@ window.DosisTranslations = {
         insight_pressure_message: "Tu presión sistólica cambió",
         insight_glucose_title: "📊 Tendencia de Glucosa",
         insight_glucose_message: "Tu glucosa promedio cambió",
+
+        // Onboarding
+        welcome_title: "Bienvenido a Dosis Vital",
+        welcome_subtitle: "Tu asistente inteligente de salud. Vamos a configurar tu perfil para empezar.",
+        step_basic_info: "Información Básica",
+        birthdate: "Fecha de Nacimiento",
+        start_using: "EMPEZAR AHORA",
+        setup_complete: "¡Configuración lista!",
         insight_this_week: "esta semana",
         view_details: "Ver detalles",
         dismiss: "Descartar",
@@ -400,6 +408,14 @@ window.DosisTranslations = {
         insight_pressure_message: "Your systolic pressure changed",
         insight_glucose_title: "📊 Glucose Trend",
         insight_glucose_message: "Your average glucose changed",
+
+        // Onboarding
+        welcome_title: "Welcome to Dosis Vital",
+        welcome_subtitle: "Your intelligent health assistant. Let's set up your profile to start.",
+        step_basic_info: "Basic Info",
+        birthdate: "Date of Birth",
+        start_using: "START NOW",
+        setup_complete: "Setup complete!",
         insight_this_week: "this week",
         view_details: "View details",
         dismiss: "Dismiss",

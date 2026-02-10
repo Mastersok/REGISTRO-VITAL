@@ -49,8 +49,18 @@ class App {
 
         let view;
         const Pages = window.Pages;
+        const activeProfile = window.DosisStore.state.activeProfileId;
+
+        // If no profile and not already on onboarding, redirect
+        if (!activeProfile && hash !== '#onboarding') {
+            this.navigateTo('onboarding');
+            return;
+        }
 
         switch (hash) {
+            case '#onboarding':
+                view = Pages.OnboardingView(this);
+                break;
             case '#dashboard':
                 view = Pages.Dashboard(this);
                 break;

@@ -64,15 +64,26 @@ window.PDFGenerator = {
         const accentLine = [226, 232, 240];  // Slate 200
 
         // --- HEADER ---
-        // Brand
+        // Brand Logo
+        try {
+            const logoUrl = 'assets/logo.png';
+            const img = new Image();
+            img.src = logoUrl;
+            // Note: jsPDF can handle Image objects or Base64. 
+            // For file:// and GitHub Pages, we draw it at 15, 12, size 15x15
+            doc.addImage(img, 'PNG', 15, 10, 15, 15);
+        } catch (e) {
+            console.warn("Logo not found for PDF", e);
+        }
+
         doc.setFont("helvetica", "bold");
         doc.setFontSize(24);
         doc.setTextColor(...primaryColor);
-        doc.text("Dosis Vital", 15, 20);
+        doc.text("Dosis Vital", 35, 20);
 
         doc.setFontSize(8);
         doc.setTextColor(...lightText);
-        doc.text("REGISTRO DE SALUD PERSONAL", 15, 25);
+        doc.text("REGISTRO DE SALUD PERSONAL", 35, 25);
 
         // Date Right Aligned
         const dateStr = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
